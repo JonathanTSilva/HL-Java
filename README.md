@@ -1,9 +1,7 @@
-<!-- NOTA: AO INICIAR O PROJETO, SUBSTITUTIR TODOS <REPO> PELO NOME DO SEU REPOSITÓRIO ATUAL -->
-
 <!-- LOGO DO PROJETO -->
 <h1 align="center">
   <br>
-  <a href="https://github.com/JonathanTSilva/<REPO>"><img src="./Images/<LOGO-REPO>.png" alt="Logo" width="200"></a>
+  <a href="https://github.com/JonathanTSilva/<REPO>"><img src="./Images/logo-HL-Java.png" alt="Logo" width="300"></a>
   <br>
   HomeLab - Java
   <br>
@@ -11,7 +9,7 @@
 
 <h4 align="center">
   
-[EMOJI] Descrição.
+☕ Passo a passo que adotei no meu estudo sobre a linguegem orientada a objetos: Java.
   
 </h4>
 
