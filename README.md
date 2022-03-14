@@ -63,11 +63,19 @@
   - [Introdução à linguagem Java][]
   - [Estrutura sequencial, condicional e de repetição][]
   - [Introdução à Programação Orientada a Objetos][]
-- **Básico**
+- **Fundamentos de programação adicionais**
   - [Conceitos e termos][]
   - [Tópicos especiais em Java][]
   - [Enumeração, composição][]
   - [Herança e tratamento de exceções][]
+- **Programação orientada a objetos e projeto orientado a objetos**
+  - [][]
+- **Interfaces gráficas Swing e gráficos Java 2D**
+  - [][]
+- **Estruturas de dados, coleções, lambdas e fluxos**
+- **Concorrência; rede**
+- **Interfaces gráficas do usuário, imagens gráficas e multimídia JavaFX**
+- **Área de trabalho voltada a banco de dados e desenvolvimento WEB**
 - **Intermediário**
   - [][]
   - [][]
