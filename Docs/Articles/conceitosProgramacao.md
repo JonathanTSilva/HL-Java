@@ -12,6 +12,19 @@
 🔎 Entenda quais são os conceitos por trás das linguagens de programação.
 
 <!-- SUMÁRIO -->
+- [Conceitos de programação](#conceitos-de-programação)
+  - [1. Conceitos básicos](#1-conceitos-básicos)
+    - [1.1. Algoritmo](#11-algoritmo)
+    - [1.2. Automação](#12-automação)
+    - [1.3. Computador](#13-computador)
+  - [2. Componentes do desenvolvimento de um programa](#2-componentes-do-desenvolvimento-de-um-programa)
+    - [2.1. Linguagem de programação](#21-linguagem-de-programação)
+      - [2.1.1. C](#211-c)
+      - [2.1.2. C++](#212-c)
+      - [2.1.3. C](#213-c)
+      - [2.1.4. Java](#214-java)
+    - [2.2. IDE](#22-ide)
+    - [2.3. Compilador, Interpretador e Máquina Virtual](#23-compilador-interpretador-e-máquina-virtual)
 
 <!-- VOLTAR AO ÍNICIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -173,41 +186,52 @@ Uma IDE possui as seguintes funcionalidades:
 - Auxiliar em várias tarefas do seu projeto;
 - Entre outras.
 
-### 2.3. Compilador
+### 2.3. Compilador, Interpretador e Máquina Virtual
 
-Software para transformar o código fonte em código objeto. A figura abaixo mostra as etapas de uma compilação de código.
+O compilador é um software para transformar o código fonte em código objeto. A figura abaixo mostra as etapas de uma compilação de código.
 
-![compiler][compiler]
+![compiler][compiler01]
 
 Vale ressaltar que compilar é diferente de interpretar o código. A interpretação ocorre quando o uso (comumente a execução) do código se dá junto à análise do mesmo. Diferentemente da compilação, como verificado acima, que é o processo de análise e possivelmente transformação do código fonte em código alvo, ou seja, o uso (execução, por exemplo) se dá em processo separado posterior, ainda que não tão posterior assim. A próxima figura, mostra as etapas da interpretação do código.
 
-![interpretation][interpretation]
+![interpretation][interpretation01]
 
-#### 2.3.1. Vantagens
+Já o gerador de código ou máquina virtal é o software que permite que o programa seja executado. Une as melhores características da compilação e interpretação (anteriormente abordadas). A figura abaixo mostra um diagrama que resume essa abordagem híbrida.
 
-- **Compilação:**
-  - velocidade do programa;
-  - auxílio do compilador antes da execução.
-- **Interpretação:**
-  - flexibilidade de manutenção do aplicativo em produção;
-  - expressividade da linguagem;
-  - código fonte não precisa ser recompilado para rodar em plataformas diferentes
-
-### 2.4. Gerador de código ou máquina virtual
-
-Software que permite que o programa seja executado. Une as melhores características da compilação e interpretação (anteriormente abordadas). A figura abaixo mostra um diagrama que resume essa abordagem híbrida.
-
-![hybrid][hybrid]
+![hybrid][hybrid01]
 
 Segue uma imagem representativa da arquitetura básica para cada linguagem.
 
 ![diagramProgramming][diagramProgramming]
 
+As principais linguagens de cada tipo e suas características:
+
+- **Linguagens compiladas:** C, C++
+  - velocidade do programa;
+  - auxílio do compilador antes da execução;
+  - sem portabilidade.
+- **Linguagens interpretadas:** PHP, JavaScript;
+  - flexibilidade de manutenção do aplicativo em produção;
+  - expressividade da linguagem;
+  - código fonte não precisa ser recompilado para rodar em plataformas diferentes;
+  - programa mais lento, mas com muita portabilidade.
+- **Linguagens pré-compiladas + máquina virtual:** Java, C#.
+
+![compiler][compiler02]
+
+![interpretation][interpretation02]
+
+![hybrid][hybrid02]
+
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
 
 <!-- IMAGES -->
-[compiler]: ../../Images/compiler01.png
-[interpretation]: ../../Images/interpretation01.png
-[hybrid]: ../../Images/hybrid01.png
+[compiler01]: ../../Images/compiler01.png
+[interpretation01]: ../../Images/interpretation01.png
+[hybrid01]: ../../Images/hybrid01.png
 [diagramProgramming]: ../../Images/diagramProgramming.png
+[compiler02]: ../../Images/compiler02.png
+[interpretation02]: ../../Images/interpretation02.png
+[hybrid02]: ../../Images/hybrid02.png
+[execution]: ../../Images/execution.png
