@@ -23,7 +23,7 @@
   - [6. Instalação](#6-instalação)
   - [7. Primeiro projeto no Eclipse](#7-primeiro-projeto-no-eclipse)
 
-<!-- VOLTAR AO ÍNICIO -->
+<!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
 ## 1. O que é o Java
@@ -40,6 +40,9 @@ Além disso, é linguagem de programação orientada a objetos baseada em classe
 - Domina o mercado corporativo desde o fim do século 20;
 - Padrão Android por muitos anos.
 
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
 ## 2. História
 
 Em suma, surgiu com o propósito de resolver os seguintes problemas apresentados por outras linguagens de programação:
@@ -53,6 +56,9 @@ Assim, **James Gosling**, Mike Sheridan e Patrick Naughton, uma equipe de engenh
 Os princípios para a criação de Java eram simples, robustos, seguros, de alto desempenho, portáteis, multi-threaded, interpretados, dinâmicos, etc. Atualmente, o Java é usado em dispositivos móveis, programação de internet, jogos, e-business, etc.
 
 > **Curiosidade:** Java é o nome de uma ilha na Indonésia onde o primeiro café (chamado de café java) foi produzido. E este nome foi escolhido por James Gosling enquanto tomava café perto de seu escritório. Observe que Java é apenas um nome, não um acrônimo.
+
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
 ## 3. Terminologia Java
 
@@ -82,6 +88,9 @@ Cada sistema operacional tem uma JVM diferente, mas a saída que eles produzem a
 - [Java EE - Java Enterprise Edition][4] - aplicações corporativas
 
 > **Nota:** para mais informações das versões Java, verifique a [página no site oficial da Oracle][2]. A versão **LTS** significa **Long Term Support**.
+
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
 ## 4. Recursos primários/principais do Java
 
@@ -117,6 +126,9 @@ Cada sistema operacional tem uma JVM diferente, mas a saída que eles produzem a
 
 > Tudo em java é representado em Class como um objeto, incluindo a função principal.
 
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
 ## 5. Estrutura
 
 Os tópicos a seguir mostram a principal estrutura de uma aplicação Java:
@@ -130,6 +142,9 @@ Os tópicos a seguir mostram a principal estrutura de uma aplicação Java:
 ![structure][A]
 
 > **Nota:** agrupamento lógico se trata do nível conceitual e código.
+
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
 ## 6. Instalação
 
@@ -145,6 +160,9 @@ Para realizar a instalação de um ambiente de programação Java, realizar as s
    - [NetBeans][6]
    - [Eclipse][7] - Eclipse IDE for Enterprise Java and Web Developers
    - ou até mesmo no VSCode, com algumas extensões
+
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
 ## 7. Primeiro projeto no Eclipse
 

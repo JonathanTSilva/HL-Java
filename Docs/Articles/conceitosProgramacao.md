@@ -26,7 +26,7 @@
     - [2.2. IDE](#22-ide)
     - [2.3. Compilador, Interpretador e Máquina Virtual](#23-compilador-interpretador-e-máquina-virtual)
 
-<!-- VOLTAR AO ÍNICIO -->
+<!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
 ## 1. Conceitos básicos
@@ -62,7 +62,7 @@ Consiste em utilizar máquina(s) para executar o procedimento desejado de forma 
 
 > **Nota:** Similaridade entre programa e algoritmo: programas de computador são algoritmos executados pelo computador (em linhas gerais). Como conclusão, o computador é uma máquina que automatiza a execução de algoritmos, mas apenas de algoritmos computacionais, nos quais incluem processamento de dados e cálculos.
 
-<!-- VOLTAR AO ÍNICIO -->
+<!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
 ## 2. Componentes do desenvolvimento de um programa
