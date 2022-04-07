@@ -22,6 +22,7 @@
   - [5. Estrutura](#5-estrutura)
   - [6. Instalação](#6-instalação)
   - [7. Primeiro projeto no Eclipse](#7-primeiro-projeto-no-eclipse)
+    - [7.1. Como utilizar o debug](#71-como-utilizar-o-debug)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -180,6 +181,17 @@ Para realizar a instalação de um ambiente de programação Java, realizar as s
 - Mudar o tamanho da fonte:
   - CTRL +
   - CTRL -
+
+### 7.1. Como utilizar o debug
+
+- Para marcar uma linha de breakpoint:
+  - Run > Toggle Breakpoint
+- Para iniciar o debug:
+  - Botão direito na classe > Debug as > Java Application;
+- Para executar uma linha:
+  - F6;
+- Para interromper o debug:
+  - Botão Parar na barra de ferramentas.
 
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->

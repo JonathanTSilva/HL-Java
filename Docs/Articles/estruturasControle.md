@@ -29,6 +29,9 @@
     - [2.5. Expressão condicional ternária](#25-expressão-condicional-ternária)
     - [2.6. Escopo e inicialização em nível de estrutura de controle](#26-escopo-e-inicialização-em-nível-de-estrutura-de-controle)
   - [3. Estrutura Repetitiva](#3-estrutura-repetitiva)
+    - [3.1. While](#31-while)
+    - [3.2. For](#32-for)
+  - [Referências](#referências)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -87,7 +90,7 @@ Dois comandos básicos para saída de dados em Java: `System.out.print("Texto!")
 - Para variáveis com valores inteiros e decimais: `System.out.println(x);`;
 - Para variáveis com ponto flutuante, controlando a quantidade de casas decimais: `System.out.printf("%.2f%n", x);`. O print**F** significa print FORMATADO;
 
-> **Nota:** o `printf `pega o formato de números utilizado no computador por padrão, podendo aparecer, como separador. Assim, é necessário adicionar o seguinte comando no código: `Locale.setDefault(Locale.US)` e realizar a importação do pacote `import java.util.Locale`.
+> **Nota:** o `printf`pega o formato de números utilizado no computador por padrão, podendo aparecer, como separador. Assim, é necessário adicionar o seguinte comando no código: `Locale.setDefault(Locale.US)` e realizar a importação do pacote `import java.util.Locale`.
 
 Os principais marcadores de variáveis no Java são:
 
@@ -365,6 +368,54 @@ System.out.println(desconto);
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
 ## 3. Estrutura Repetitiva
+
+As estruturas de repetição também são conhecidas como laços (loops) e são utilizados para executar, repetidamente, uma instrução ou bloco de instrução enquanto determinada condição estiver sendo satisfeita.
+
+Qualquer que seja a estrutura de repetição, ela contém quatro elementos fundamentais: inicialização, condição, corpo e iteração. A inicialização compõe-se de todo código que determina a condição inicial da repetição. A condição é uma expressão **booleana** avaliada após cada leitura do corpo e determina se uma nova leitura deve ser feita ou se a estrutura de repetição deve ser encerrada. O corpo compõe-se de todas as instruções que são executadas repetidamente. A iteração é a instrução que deve ser executada depois do corpo e antes de uma nova repetição.
+
+### 3.1. While
+
+É uma estrutura de controle que repete um bloco de comandos enquanto uma condição for verdadeira.
+
+Quando utilizar: quando não se sabe previamente a quantidade de repetições que será realizada.
+
+```java
+while (condicao) {
+  comando1
+  comando2
+}
+```
+
+**Exemplo**: fazer um programa que lê números inteiros até que um zero seja lido. Ao final mostra a soma dos números lidos
+
+```java
+import java.util.Locale;
+import java.util.Scanner;
+
+public class EX02 {
+  public static void main (String[] args) {
+    
+    Locale.setDefault(Locale.US);
+    Scanner sc = new Scanner(System.in);
+    
+    int x = sc.nextInt();
+    int soma = 0;
+    
+    while (x != 0) {
+      soma += x;
+      x = sc.nextInt();
+    }
+    
+    System.out.println(soma);
+    
+    sc.close();
+  }
+}
+```
+
+### 3.2. For
+
+## Referências
 
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
