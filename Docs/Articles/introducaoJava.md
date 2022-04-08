@@ -23,6 +23,12 @@
   - [6. Instalação](#6-instalação)
   - [7. Primeiro projeto no Eclipse](#7-primeiro-projeto-no-eclipse)
     - [7.1. Como utilizar o debug](#71-como-utilizar-o-debug)
+  - [8. Outros tópicos básicos no Java](#8-outros-tópicos-básicos-no-java)
+    - [8.1. Restrições e convenções para nomes](#81-restrições-e-convenções-para-nomes)
+    - [8.2. Operadores bitwise](#82-operadores-bitwise)
+    - [8.3. Funções interessantes para String](#83-funções-interessantes-para-string)
+    - [8.4. Comentários em Java](#84-comentários-em-java)
+    - [8.5. Funções (sintaxe)](#85-funções-sintaxe)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -192,6 +198,162 @@ Para realizar a instalação de um ambiente de programação Java, realizar as s
   - F6;
 - Para interromper o debug:
   - Botão Parar na barra de ferramentas.
+
+## 8. Outros tópicos básicos no Java
+
+### 8.1. Restrições e convenções para nomes
+
+- Não pode começar com um dígito: usar uma letra ou _;
+- Não pode ter espaço em branco;
+- Não usar acentos ou til;
+- Iniciar com letra minúscula;
+- Sugestão: use o padrão "camel case" e "pascal case"; nome que tenham um significado:
+  - CamelCase: lastName
+    - pacotes;
+    - atributos;
+    - métodos;
+    - variáveis e parâmetros.
+  - PascalCase: ProductService
+    - classes.
+
+### 8.2. Operadores bitwise
+
+Operadores bitwise são utilizados quando precisamos realizar operações em nível de bits com números inteiros, ou seja, trabalhar com sua representação binária.
+
+Caso ambos os operandos sejam strings, esses operadores irão trabalhar com os valores ASCII de seus caracteres.
+
+| Operador Bitwise | Significado              |
+| :--------------- | :----------------------- |
+| `&`              | Operação "AND" bit a bit |
+| `|`              | Operação "OR" bit a bit  |
+| `^`              | Operação "XOR" bit a bit |
+| `~`              | Operação "NOT" bit a bit |
+
+| Operador Bit Shift | Significado         |
+| :----------------- | :------------------ |
+| `>>`               | Bitwise right shift |
+| `<<`               | Bitwise left shift  |
+
+> **Nota:** não confunda os operadores bitwise com operadores lógicos, algumas representações são parecidas, mas suas funcionalidades são diferentes.
+
+**Aplicação comum:** verificar um bit.
+
+```java
+Scanner sc = new Scanner(System.in);
+
+int mask = 0b100000;
+int n = sc.nextInt();
+
+if ((n & mask) != 0) {
+  System.out.println("6th bit is true!");
+} 
+else {
+  System.out.println("6th bit is false!");
+}
+```
+
+### 8.3. Funções interessantes para String
+
+- Formatar:
+  - toLowerCase();
+  - toUpperCase();
+  - trim();
+- Recortar:
+  - substring(inicio);
+  - substring(inicio, fim);
+- Substituir:
+  - Replace(char, char);
+  - Replace(string, string);
+- Buscar:
+  - IndexOf;
+  - LastIndexOf;
+- str.Split("");
+
+```java
+String str = "asdb ÇKLAbcJj AJSKD abc asdf IOAJ SbcKJ snd        ";
+
+String s01 = str.toLowerCase();
+String s02 = str.toUpperCase();
+String s03 = str.trim();
+String s04 = str.substring(2);
+String s05 = str.substring(2, 9);
+String s06 = str.replace('a', 'x');
+String s07 = str.replace("asdf", "xy");
+int i = str.indexOf("bc");
+int j = str.lastIndexOf("bc");
+
+String[] vect = str.split(" ");
+String s08 = vect[4];
+
+System.out.printf("String original: -%s-%n", str);
+System.out.printf("toLowerCase(): -%s-%n", s01);
+System.out.printf("toUpperCase(): -%s-%n", s02);
+System.out.printf("trim(): -%s-%n", s03);
+System.out.printf("substring(2): -%s-%n", s04);
+System.out.printf("substring(2, 9): -%s-%n", s05);
+System.out.printf("replace('a', 'x'): -%s-%n", s06);
+System.out.printf("replace(\"asdf\", \"xy\"): -%s-%n", s07);
+System.out.printf("indexOf(\"bc\"): %s%n", i);
+System.out.printf("lastIndexOf(\"bc\"): %s%n", j);
+System.out.printf("split (5th word): %s%n", s08);
+```
+
+### 8.4. Comentários em Java
+
+Comentário em bloco:
+
+```java
+/*
+* Linha 1 do comentário em bloco
+* Linha 2 do comentário em bloco
+* Linha 3 do comentário em bloco
+*/
+```
+
+Comentário em linha:
+
+```java
+// Comentário em única linha
+```
+
+> **Nota:** constitui-se uma boa prática de programação evitar o excesso de comentário, devendo ser utilizados com parcimônia.
+
+### 8.5. Funções (sintaxe)
+
+- Representam um processamento que possui um significado:
+  - `Math.sqrt(double)`;
+  - `System.out.println(string)`.
+- Principais vantagens da utilização de funções;
+  - modularização;
+  - delegação;
+  - aproveitamento.
+- Dados de entrada e saída:
+  - Funções podem receber dados de entrada (parâmetros ou argumentos);
+  - Funções podem ou não retornar uma saída.
+- Em orientação a objetos, funções em classes recebem o nome de "métodos".
+
+**Problema exemplo:** fazer uma função para ler três números inteiros e mostrar na tela o maior deles.
+
+```java
+public static int max(int x, int y, int z) {
+  int aux;
+
+  if (x > y && y > z) {
+    aux = x;
+  }
+  else if (y > z) {
+    aux = y;
+  }
+  else {
+    aux = z
+  }
+  return aux;
+}
+
+public static void showResult(int value) {
+  System.ou.println("Higher = " + value);
+}
+```
 
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->

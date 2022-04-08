@@ -31,6 +31,7 @@
   - [3. Estrutura Repetitiva](#3-estrutura-repetitiva)
     - [3.1. While](#31-while)
     - [3.2. For](#32-for)
+    - [3.3. Do while](#33-do-while)
   - [Referências](#referências)
 
 <!-- VOLTAR AO INÍCIO -->
@@ -73,7 +74,14 @@ Os nomes das variáveis devem respeitar as seguintes regras:
 - Não pode ter espaço em branco;
 - Não usar acentos ou til;
 - Iniciar com letra minúscula;
-- Sugestão: use o padrão "camel case".
+- Sugestão: use o padrão "camel case" e "pascal case"; nome que tenham um significado:
+  - CamelCase: lastName
+    - pacotes;
+    - atributos;
+    - métodos;
+    - variáveis e parâmetros.
+  - PascalCase: ProductService
+    - classes.
 
 ### 1.3. Operações básicas de programação
 
@@ -116,15 +124,13 @@ A etapa de processamento de dados é muito simples, se resumindo à um único co
 Outro caso muito frequente em que é necessário utilizar o *casting*, é quando o compilador acha que você vai perder informação. Por exemplo:
 
 ```java
-public static void main(String[] args) {
-  double a;
-  int b;
-  
-  a = 5.0
-  b = (int) a;
+double a;
+int b;
 
-  System.out.println(b);
-}
+a = 5.0
+b = (int) a;
+
+System.out.println(b);
 ```
 
 #### 1.3.3. Entrada de dados
@@ -386,7 +392,7 @@ while (condicao) {
 }
 ```
 
-**Exemplo**: fazer um programa que lê números inteiros até que um zero seja lido. Ao final mostra a soma dos números lidos
+**Exemplo**: fazer um programa que lê números inteiros até que um zero seja lido. Ao final mostra a soma dos números lidos.
 
 ```java
 import java.util.Locale;
@@ -413,7 +419,97 @@ public class EX02 {
 }
 ```
 
+> **Nota:** perceba que a estrutura "para" é ótima para se fazer uma repetição baseada em uma contagem.
+
+```java
+for (int i=4; i>=0; i--) {
+  System.out.println("Valor de i: " + i);
+}
+```
+
 ### 3.2. For
+
+É uma estrutura de controle que repete um bloco de comandos para um certo intervalo de valores.
+
+Quando utilizar: quando se sabe previamente a quantidade de repetições, ou intervalos de valores.
+
+```java
+for ( inicio ; condicao ; incremento ) {
+  comando1
+  comando2
+}
+```
+
+**Exemplo**: fazer um programa que lê um valor inteiro N e depois N números inteiros. Ao final, mostra a soma dos N números lidos.
+
+```java
+import java.util.Locale;
+import java.util.Scanner;
+
+public class EX03 {
+  public static void main(String[] args) {
+    
+    Locale.setDefault(Locale.US);
+    Scanner sc = new Scanner(System.in);
+    
+    int N = sc.nextInt();
+    int soma = 0;
+    
+    for (int i = 0; i<N; i++) {
+      int x = sc.nextInt();
+      soma += x;
+    }
+    
+    System.out.println(soma);
+    
+    sc.close();
+  }
+}
+```
+
+### 3.3. Do while
+
+Estrutura menos utilizada, mas que em alguns casos se encaixa melhor ao problema.
+
+O bloco de comandos executa pelo menos uma vez, pois a condição é verificada no final.
+
+```java
+do {
+  comando1
+  comando2
+} while (condicao);
+```
+
+**Exemplo:** programa para ler uma temperatura em Celsius e mostrar o equivalente em Fahrenheit. Perguntar se o usuário deseja repetir (s/n). Caso o usuário digite "s", repetir o programa.
+
+Fórmula: F = (9*C/5) + 32.
+
+```java
+import java.util.Locale;
+import java.util.Scanner;
+
+public class Tests {
+  public static void main(String[] args) {
+    
+    Locale.setDefault(Locale.US);
+    Scanner sc = new Scanner(System.in);
+    
+    char resposta;
+    
+    do {
+      System.out.print("Digite uma temperatura em Celsius: ");
+      double Celsius = sc.nextDouble();
+      double Fahrenheit = (9.0 * Celsius/5.0) + 32.0;
+      System.out.printf("Equivalente em Fahrenheit: %.1f%n", Fahrenheit);
+      System.out.print("Deseja repetir (s/n)? ");
+      resposta = sc.next().charAt(0);
+    } while (resposta != 'n');
+    
+    sc.close();
+  }
+}
+
+```
 
 ## Referências
 
