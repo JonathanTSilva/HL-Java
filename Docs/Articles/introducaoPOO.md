@@ -13,7 +13,6 @@
 
 <!-- SUMÁRIO -->
 
-
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
@@ -54,6 +53,13 @@ Esse novo paradigma se baseia principalmente em dois conceitos chave: **classes*
   - Utilitários: Calculadora, Compactador;
   - Outros (views, repositórios, gerenciadores, etc.)
 
+Toda a classe em Java é uma subclasse da classe `Object`; que por sua vez, possui os seguintes métodos:
+
+- `getClass` - retorna o tipo de objeto;
+- `equal` - compara se o objeto é igual a outro;
+- `hashCode` - retorna um código hash do objeto;
+- `toString` - converto o objeto para string.
+
 ### 2.2. Instanciação
 
 A instanciação é um processo por meio do qual se realiza a cópia de um objeto (classe) existente. Uma classe, a qual tem a função de determinar um tipo de dado, deve ser instanciada para que possamos utilizá-la.
@@ -61,6 +67,8 @@ A instanciação é um processo por meio do qual se realiza a cópia de um objet
 ![instanciacao][B]
 
 ## 3. Exemplos práticos
+
+### 3.1. Área triângulo
 
 Abaixo, será resolvido o mesmo exercício de exemplo adicionando gradualmente as características da Programação Orientada a Objetos.
 
@@ -86,7 +94,7 @@ A fórmula para calcular a área de um triângulo a partir das medidas de seus l
 > Triangle Y area: 7.5638
 > Larger area: Y
 
-## 3.1. Sem POO
+#### 3.1.1. Sem POO
 
 ```java
 package application;
@@ -132,7 +140,7 @@ public class Program {
 }
 ```
 
-## 3.2. Com classe
+#### 3.1.2. Com classe
 
 - Triângulo é uma entidade com três atributos: a, b, c;
 - Estamos utilizando três variáveis distintas para representar cada triângulo:
@@ -182,7 +190,7 @@ public class Program {
 
 > **Nota:** é necessário importar na aplicação principal toda classe que será instanciada. Neste caso, `import entities.Triangle;`.
 
-## 3.3. Com método
+#### 3.1.3. Com método
 
 Com o uso de classe, agora nós temos uma variável composta do tipo "Triangle" para representar cada triângulo:
 
@@ -235,6 +243,115 @@ public class Program {
 1. Reaproveitamento de código: elimina-se o código repetido no programa principal;
 2. Delegação de responsabilidades.
 
+### 3.2. Produto no estoque
+
+Fazer um programa para ler os dados de um produto em estoque (nome, preço e quantidade no estoque). Em seguida:
+
+- Mostrar os dados do produto (nome, preço, quantidade no estoque, valor total no
+estoque);
+- Realizar uma entrada no estoque e mostrar novamente os dados do produto;
+- Realizar uma saída no estoque e mostrar novamente os dados do produto.
+
+Para resolver este problema, você deve criar uma CLASSE conforme projeto UML abaixo:
+
+<img width="200px" src="../../Images/uml1.png" align="center">
+
+**Estrutura do projeto**
+
+```plaintext
+|- Java Project
+||- JRE System Library
+||- src
+|||- application
+||||- Program.java
+|||- entities
+||||- Product.java
+```
+
+**Program.java**
+
+```java
+package application;
+
+import java.util.Locale;
+import java.util.Scanner;
+
+import entities.Product;
+
+public class Program {
+ public static void main(String[] args) {
+  
+  Locale.setDefault(Locale.US);
+  Scanner sc = new Scanner(System.in);
+  
+  Product product = new Product();
+  
+  System.out.println("Enter product data:");
+  System.out.println("Name:");
+  product.name = sc.nextLine();
+  System.out.println("Price:");
+  product.price = sc.nextDouble();
+  System.out.println("Quantity in stock:");
+  product.quantity = sc.nextInt();
+  
+  System.out.println();
+  System.out.println("Product data: " + product);
+  
+  System.out.println();
+  System.out.println("Enter the number of products to be added in stock: ");
+  int quantity = sc.nextInt();
+  product.addProducts(quantity);
+  
+  System.out.println();
+  System.out.println("Updated data: " + product);
+  
+  System.out.println();
+  System.out.println("Enter the number of products to be removed from stock: ");
+  quantity = sc.nextInt();
+  product.removeProducts(quantity);
+  
+  System.out.println();
+  System.out.println("Updated data: " + product);
+  
+  sc.close();
+ }
+}
+```
+
+**Product.java**
+
+```java
+package entities;
+
+public class Product {
+ public String name;
+ public double price;
+ public int quantity;
+ 
+ public double totalValueInStock() {
+  return price * quantity;
+ }
+ 
+ public void addProducts( int quantity ) {
+  this.quantity += quantity;
+ }
+ 
+ public void removeProducts( int quantity ) {
+  this.quantity -= quantity;
+ }
+ 
+ // Sobrepõe o método toString padrão do Object
+ public String toString() {
+  return name
+   + ", $ "
+   + String.format("%.2f", price) // Para deixar formatado como no printf
+   + ", "
+   + quantity
+   + " units, Total: $ "
+   + String.format("%.2f", totalValueInStock());
+ }
+}
+```
 
 ## 4. Diagrama UML
 
