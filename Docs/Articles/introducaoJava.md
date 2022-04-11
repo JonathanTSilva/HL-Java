@@ -28,7 +28,7 @@
     - [8.2. Operadores bitwise](#82-operadores-bitwise)
     - [8.3. Funções interessantes para String](#83-funções-interessantes-para-string)
     - [8.4. Comentários em Java](#84-comentários-em-java)
-    - [8.5. Funções (sintaxe)](#85-funções-sintaxe)
+    - [8.5. A sintaxe das funções](#85-a-sintaxe-das-funções)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -318,7 +318,7 @@ Comentário em linha:
 
 > **Nota:** constitui-se uma boa prática de programação evitar o excesso de comentário, devendo ser utilizados com parcimônia.
 
-### 8.5. Funções (sintaxe)
+### 8.5. A sintaxe das funções
 
 - Representam um processamento que possui um significado:
   - `Math.sqrt(double)`;
