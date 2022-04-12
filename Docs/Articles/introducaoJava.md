@@ -225,7 +225,7 @@ Caso ambos os operandos sejam strings, esses operadores irão trabalhar com os v
 | Operador Bitwise | Significado              |
 | :--------------- | :----------------------- |
 | `&`              | Operação "AND" bit a bit |
-| `&#124`          | Operação "OR" bit a bit  |
+|&#124             | Operação "OR" bit a bit  |
 | `^`              | Operação "XOR" bit a bit |
 | `~`              | Operação "NOT" bit a bit |
 
