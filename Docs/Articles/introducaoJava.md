@@ -207,7 +207,7 @@ Para realizar a instalação de um ambiente de programação Java, realizar as s
 - Não pode ter espaço em branco;
 - Não usar acentos ou til;
 - Iniciar com letra minúscula;
-- Sugestão: use o padrão "camel case" e "pascal case"; nome que tenham um significado:
+- Sugestão: use o padrão "camel case" e "pascal case"; nomes que tenham um significado:
   - CamelCase: lastName
     - pacotes;
     - atributos;
@@ -225,7 +225,7 @@ Caso ambos os operandos sejam strings, esses operadores irão trabalhar com os v
 | Operador Bitwise | Significado              |
 | :--------------- | :----------------------- |
 | `&`              | Operação "AND" bit a bit |
-| `|`              | Operação "OR" bit a bit  |
+| `&#124`          | Operação "OR" bit a bit  |
 | `^`              | Operação "XOR" bit a bit |
 | `~`              | Operação "NOT" bit a bit |
 
