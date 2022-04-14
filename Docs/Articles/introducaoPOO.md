@@ -12,6 +12,22 @@
 🏛 Uma introdução à Programação Orientada a Objetos (POO).
 
 <!-- SUMÁRIO -->
+- [Introdução à Programação Orientada a Objetos](#introdução-à-programação-orientada-a-objetos)
+  - [1. O que é a POO?](#1-o-que-é-a-poo)
+  - [2. Recursos da POO](#2-recursos-da-poo)
+    - [2.1. Classe](#21-classe)
+    - [2.2. Instanciação](#22-instanciação)
+  - [3. Membros estáticos](#3-membros-estáticos)
+    - [3.1. Métodos na própria classe do programa](#31-métodos-na-própria-classe-do-programa)
+    - [3.2. Métodos em outra classe com membros de instância](#32-métodos-em-outra-classe-com-membros-de-instância)
+    - [3.3. Métodos em outra classe com membros estáticos](#33-métodos-em-outra-classe-com-membros-estáticos)
+  - [4. Exemplos práticos](#4-exemplos-práticos)
+    - [4.1. Área triângulo](#41-área-triângulo)
+      - [4.1.1. Sem POO](#411-sem-poo)
+      - [4.1.2. Com classe](#412-com-classe)
+      - [4.1.3. Com método](#413-com-método)
+    - [4.2. Produto no estoque](#42-produto-no-estoque)
+  - [5. Diagrama UML](#5-diagrama-uml)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -66,9 +82,183 @@ A instanciação é um processo por meio do qual se realiza a cópia de um objet
 
 ![instanciacao][B]
 
-## 3. Exemplos práticos
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
-### 3.1. Área triângulo
+## 3. Membros estáticos
+
+Os membros são atributos e métodos dentro de uma classe.
+
+- Membros estáticos são chamados de membros de classe, em oposição a membros de instância;
+- São membros que fazem sentido independentemente de objetos. Não precisam de objeto para serem chamados. São chamados a partir do próprio nome da classe.
+- Aplicações comuns:
+  - Classes utilitárias (e.g. `Math.sqrt(double)`);
+  - Declaração de constantes.
+- Uma classe que possui somente membros estáticos, pode ser uma classe estática também. Esta classe não poderá ser instanciada.
+
+**Problema exemplo:** programa para ler um valor numérico qualquer, e daí mostrar quanto seria o valor de uma circunferência e do volume de uma esfera para um raio daquele valor. Informar também o valor de PI com duas casas decimais.
+
+### 3.1. Métodos na própria classe do programa
+
+> **Nota:** dentro de um método estático você não pode chamar membros de instância da mesma classe.
+
+**application > Program.java**
+
+```java
+package application;
+
+import java.util.Locale;
+import java.util.Scanner;
+
+public class Program {
+
+  public static final double PI = 3.14159; 
+  // final para dizer que o valor não pode ser alterado (constante)
+  // TUDO EM MAIÚSCULO é o padrão do java para constantes
+
+  public static void main(String[] args) {
+    Locale.setDefault(Locale.US);
+    Scanner sc = new Scanner(System.in);
+
+    System.out.print("Enter radius: ");
+    double radius = sc.nextDouble();
+
+    double c = circumference(radius);
+    double v = volume(radius);
+
+    System.out.printf("Circumference: %.2f%n", c);
+    System.out.printf("Volume: %.2f%n", v);
+    System.out.printf("PI value: %.2f%n", PI);
+
+    sc.close();
+  }
+
+  public static double circumference(double radius) {
+    return 2.0 * PI * radius;
+  }
+
+  public static double volume(double radius) {
+    return 4.0 * PI * radius * radius * radius / 3.0;
+  }
+}
+```
+
+> **Nota:** os métodos devem ser estáticos, pois não é possível chamar um método que não é estático da mesma classe, dentro de um outro método que seja estático.
+
+### 3.2. Métodos em outra classe com membros de instância
+
+Aplicar o princípio de delegação para a classe Calculator:
+
+**util > Calculator.java**
+
+```java
+package util;
+
+public class Calculator {
+  public final double PI = 3.14159;
+
+  public double circumference(double radius) {
+    return 2.0 * PI * radius;
+  }
+
+  public double volume(double radius) {
+    return 4.0 * PI * radius * radius * radius / 3.0;
+  }
+}
+```
+
+**application > Program.java**
+
+```java
+package application;
+
+import java.util.Locale;
+import java.util.Scanner;
+
+public class Program {
+  public static void main(String[] args) {
+    Locale.setDefault(Locale.US);
+    Scanner sc = new Scanner(System.in);
+
+    // Calculator calc = new Calculator();
+    // Não é preciso mais instanciar pois eles são estáticos agora
+
+    System.out.print("Enter radius: ");
+    double radius = sc.nextDouble();
+
+    double c = Calculator.circumference(radius);
+    double v = Calculator.volume(radius);
+    
+    System.out.printf("Circumference: %.2f%n", c);
+    System.out.printf("Volume: %.2f%n", v);
+    System.out.printf("PI value: %.2f%n", Calculator.PI);
+
+    sc.close();
+  }
+}
+```
+
+### 3.3. Métodos em outra classe com membros estáticos
+
+![discussao][D]
+
+**util > Calculator.java**
+
+```java
+package util;
+
+public class Calculator {
+  public static final double PI = 3.14159;
+
+  public static double circumference(double radius) {
+    return 2.0 * PI * radius;
+  }
+
+  public static double volume(double radius) {
+    return 4.0 * PI * radius * radius * radius / 3.0;
+  }
+}
+```
+
+**application > Program.java**
+
+```java
+package application;
+
+import java.util.Locale;
+import java.util.Scanner;
+
+public class Program {
+
+  public static final double PI = 3.14159; 
+  // final para dizer que o valor não pode ser alterado (constante)
+  // TUDO EM MAIÚSCULO é o padrão do java para constantes
+
+  public static void main(String[] args) {
+    Locale.setDefault(Locale.US);
+    Scanner sc = new Scanner(System.in);
+
+    Calculator calc = new Calculator();
+
+    System.out.print("Enter radius: ");
+    double radius = sc.nextDouble();
+
+    double c = circumference(radius);
+    double v = volume(radius);
+
+    System.out.printf("Circumference: %.2f%n", c);
+    System.out.printf("Volume: %.2f%n", v);
+    System.out.printf("PI value: %.2f%n", PI);
+
+    sc.close();
+  }
+}
+```
+
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 4. Exemplos práticos
+
+### 4.1. Área triângulo
 
 Abaixo, será resolvido o mesmo exercício de exemplo adicionando gradualmente as características da Programação Orientada a Objetos.
 
@@ -94,7 +284,7 @@ A fórmula para calcular a área de um triângulo a partir das medidas de seus l
 > Triangle Y area: 7.5638
 > Larger area: Y
 
-#### 3.1.1. Sem POO
+#### 4.1.1. Sem POO
 
 ```java
 package application;
@@ -140,7 +330,7 @@ public class Program {
 }
 ```
 
-#### 3.1.2. Com classe
+#### 4.1.2. Com classe
 
 - Triângulo é uma entidade com três atributos: a, b, c;
 - Estamos utilizando três variáveis distintas para representar cada triângulo:
@@ -190,7 +380,7 @@ public class Program {
 
 > **Nota:** é necessário importar na aplicação principal toda classe que será instanciada. Neste caso, `import entities.Triangle;`.
 
-#### 3.1.3. Com método
+#### 4.1.3. Com método
 
 Com o uso de classe, agora nós temos uma variável composta do tipo "Triangle" para representar cada triângulo:
 
@@ -243,7 +433,7 @@ public class Program {
 1. Reaproveitamento de código: elimina-se o código repetido no programa principal;
 2. Delegação de responsabilidades.
 
-### 3.2. Produto no estoque
+### 4.2. Produto no estoque
 
 Fazer um programa para ler os dados de um produto em estoque (nome, preço e quantidade no estoque). Em seguida:
 
@@ -353,12 +543,13 @@ public class Product {
 }
 ```
 
-## 4. Diagrama UML
+## 5. Diagrama UML
 
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
 
 <!-- IMAGES -->
 [A]: https://latex.codecogs.com/svg.image?area&space;=&space;\sqrt{p(p-a)(p-b)(p-c)},&space;\text{&space;onde:&space;}&space;p&space;=&space;\frac{a&plus;b&plus;c}{2}
-[B]: ../../Images/instaciacao.png
+[B]: ../../Images/instanciacao.png
 [C]: ../../Images/estrutura.png
+[D]: ../../Images/metodoEstatico.png
