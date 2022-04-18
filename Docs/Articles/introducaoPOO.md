@@ -32,7 +32,8 @@
   - [7. Sobrecarga](#7-sobrecarga)
   - [8. Encapsulamento](#8-encapsulamento)
     - [8.1. Como gerar os métodos `set` e `get` automaticamente?](#81-como-gerar-os-métodos-set-e-get-automaticamente)
-  - [9. Diagrama UML](#9-diagrama-uml)
+  - [9. Modificadores de acesso](#9-modificadores-de-acesso)
+  - [10. Diagrama UML](#10-diagrama-uml)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -698,16 +699,49 @@ public int getQuantity() {
 
 ### 8.1. Como gerar os métodos `set` e `get` automaticamente?
 
+**Eclipse**
 
+<kbd>Botão direito do mouse</kbd> $\to$ <kbd>Source</kbd> $\to$ <kbd>Generate Constructor using Fields</kbd>
+
+<kbd>Botão direito do mouse</kbd> $\to$ <kbd>Source</kbd> $\to$ <kbd>Generate Getters and Setters</kbd>
+
+**NetBeans**
+
+<kbd>Botão direito do mouse</kbd> $\to$ <kbd>Insert Code...</kbd> $\to$ <kbd>Constructor...</kbd>/<kbd>Getter...</kbd>/<kbd>Setter...</kbd>/<kbd>Getter and Setter...</kbd>
+
+**VSCode:**
+
+- Com extensão `Java Code Generators` (sohibe.java-generate-setters-getters);
+- Com pacote de extensões `Extension Pack for Java` (vscjava.vscode-java-pack).
+
+> **Nota:** perceba que no construtor gerado automaticamente é realizada uma chamada do `super()`, que será abordado mais automaticamente no capítulo de Herança. Mas, em suma, se sua classe for subclasse de alguma outra que executa alguma outra coisa importante no construtor, é necessário chamar o `super()`;
 
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
-## 9. Diagrama UML
+## 9. Modificadores de acesso
+
+São 4 os modificadores de acesso básicos da linguagem Java: private, padrão, protected e public. Eles servem para tornar componentes da sua aplicação mais ou menos acessíveis por outras partes do seu programa.
+
+As classes também podem fazer uso dos outros modificadores de acesso, mas neste primeiro momento veremos apenas como os seus membros funcionam com cada um deles.
+
+- `private`: o membro só pode ser acessado dentro da **própria classe**;
+- (nada): o membro só pode ser acessado nas classes do **mesmo pacote**;
+- `protected`: o membro só pode ser acessado no **mesmo pacote**, bem como em **subclasses de pacotes diferentes**;
+- `public`: o membro é acessado por **todas classes** (ao menos que ele resida em um módulo diferente que não exporte o pacote onde ele está).
+
+> **Nota:** para mais informações, verifique a documentação oficial no [site da Oracle][3].
+
+![accessControl][F]
+
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 10. Diagrama UML
 
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
 [1]: https://en.wikipedia.org/wiki/JavaBeans
 [2]: https://www.devmedia.com.br/introducao-aos-javabeans/8621
+[3]: https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html
 
 <!-- IMAGES -->
 [A]: https://latex.codecogs.com/svg.image?area&space;=&space;\sqrt{p(p-a)(p-b)(p-c)},&space;\text{&space;onde:&space;}&space;p&space;=&space;\frac{a&plus;b&plus;c}{2}
@@ -715,3 +749,4 @@ public int getQuantity() {
 [C]: ../../Images/estrutura.png
 [D]: ../../Images/metodoEstatico.png
 [E]: ../../Images/this.png
+[F]: ../../Images/modificadoresAcesso.png
