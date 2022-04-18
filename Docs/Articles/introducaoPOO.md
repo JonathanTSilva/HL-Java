@@ -27,7 +27,12 @@
       - [4.1.2. Com classe](#412-com-classe)
       - [4.1.3. Com método](#413-com-método)
     - [4.2. Produto no estoque](#42-produto-no-estoque)
-  - [5. Diagrama UML](#5-diagrama-uml)
+  - [5. Construtores](#5-construtores)
+  - [6. Palavra *this*](#6-palavra-this)
+  - [7. Sobrecarga](#7-sobrecarga)
+  - [8. Encapsulamento](#8-encapsulamento)
+    - [8.1. Como gerar os métodos `set` e `get` automaticamente?](#81-como-gerar-os-métodos-set-e-get-automaticamente)
+  - [9. Diagrama UML](#9-diagrama-uml)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -187,7 +192,7 @@ public class Program {
 
     double c = Calculator.circumference(radius);
     double v = Calculator.volume(radius);
-    
+
     System.out.printf("Circumference: %.2f%n", c);
     System.out.printf("Volume: %.2f%n", v);
     System.out.printf("PI value: %.2f%n", Calculator.PI);
@@ -543,13 +548,170 @@ public class Product {
 }
 ```
 
-## 5. Diagrama UML
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 5. Construtores
+
+- É uma operação especial da classe, que executa no momento da instanciação do objeto;
+- Usos comuns:
+  - Iniciar valores dos atributos;
+  - Permitir ou obrigar que o objeto receba dados / dependências no momento de sua instanciação (injeção de dependência).
+- Se um construtor customizado não for especificado, a classe disponibiliza o construtor padrão:
+
+```java
+Product p = new Product();
+```
+
+- É possível especificar mais de um construtor na mesma classe (sobrecarga).
+
+Para entender melhor, vamos utilizar o programa exemplo apresentado na [seção 4.2](#42-produto-no-estoque) deste documento. Assim, os construtores apresentam a seguinte proposta de melhoria:
+
+Quando executamos o comando acima (`Product p = new Product();`), instanciamos um produto "product" com seus atributos “vazios”:
+
+```java
+Product p = new Product();
+
+System.out.println(product.name); // null
+System.out.println(product.price); // 0.0
+System.out.println(product.quantity); // 0
+```
+
+Entretanto, faz sentido um produto que não tem nome? Faz sentido um produto que não tem preço?
+
+Com o intuito de evitar a existência de produtos sem nome e sem preço, é possível fazer com que seja “obrigatória” a iniciação desses valores?
+
+A resposta para a pergunta acima é SIM, com o auxílio dos construtores. Eles são, por boas práticas, alocados depois dos atributos.
+
+```java
+public Product(String name, double price, int quantity) {
+  this.name = name;
+  this.price = price;
+  this.quantity = quantity;
+}
+```
+
+Ao definir estes construtores, é necessário alterar o programa principal obrigando o programador a informar os dados antes de instanciar a classe:
+
+```java
+System.out.println("Enter product data: ");
+System.out.print("Name: ");
+String name = sc.nextLine();
+System.out.print("Price: ");
+double price = sc.nextDouble();
+System.out.print("Quantity in stock: ");
+int quantity = sc.nextInt();
+Product product = new Product(name, price, quantity);
+```
+
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 6. Palavra *this*
+
+No capítulo acima, foi mencionada a palavra *this* na melhoria do código com o construtor. Esta palavra é uma referência para o próprio objeto.
+
+- Usos comuns:
+  - Diferenciar atributos de variáveis locais;
+  - Passar o próprio objeto como argumento na chamada de um método ou construtor.
+
+![this][E]
+
+Um exemplo que será abordado em um próximo artigo:
+
+```java
+public class ChessMatch {
+  (...)
+  placeNewPiece('e', 1, new King(board, Color.WHITE, this));
+  (...)
+```
+
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 7. Sobrecarga
+
+É um recurso que uma classe possui de oferecer mais de uma operação com o mesmo nome, porém com diferentes listas de parâmetros.
+
+Para um melhor entendimento do assunto, uma segunda proposta de melhoria para o programa da [seção 4.2](#42-produto-no-estoque) é realizada: criar um construtor opcional, o qual recebe apenas nome e preço do produto. A quantidade em estoque deste novo produto, por padrão, deverá então ser iniciada com o valor zero.
+
+```java
+package entities;
+
+public class Product {
+
+  public String name;
+  public double price;
+  public int quantity;
+
+  public Product() {
+  }
+  
+  public Product(String name, double price, int quantity) {
+    this.name = name;
+    this.price = price;
+    this.quantity = quantity;
+  }
+
+  public Product(String name, double price) {
+    this.name = name;
+    this.price = price;
+  }
+
+  (...)
+```
+
+> **Nota:** é possível também incluir um construtor padrão (`Product p = new Product();`)
+
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 8. Encapsulamento
+
+É um princípio que consiste em esconder detalhes de implementação de uma classe, expondo apenas operações seguras e que mantenham os objetos em um estado consistente.
+
+**Regra de ouro:** o objeto deve sempre estar em um estado consistente, e a própria classe deve garantir isso.
+
+Um objeto NÃO deve expor nenhum atributo (modificador de acesso `private`)
+
+- Os atributos devem ser acessados por meio de métodos `get` e `set`;
+- Padrão JavaBeans: [ARTIGO 1][1] e [ARTIGO 2][2] - padrão que estabelecem algumas regras para o Java;
+
+```java
+public String getName() {
+  return name;
+}
+
+public void setName(String name) {
+  this.name = name;
+}
+
+public double getPrice() {
+  return price;
+}
+
+public void setPrice(double price) {
+  this.price = price;
+}
+
+// A quantidade tem somente o getQuantity para proteger o produto com uma quantidade consistente
+public int getQuantity() {
+  return quantity;
+}
+```
+
+### 8.1. Como gerar os métodos `set` e `get` automaticamente?
+
+
+
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 9. Diagrama UML
 
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
+[1]: https://en.wikipedia.org/wiki/JavaBeans
+[2]: https://www.devmedia.com.br/introducao-aos-javabeans/8621
 
 <!-- IMAGES -->
 [A]: https://latex.codecogs.com/svg.image?area&space;=&space;\sqrt{p(p-a)(p-b)(p-c)},&space;\text{&space;onde:&space;}&space;p&space;=&space;\frac{a&plus;b&plus;c}{2}
 [B]: ../../Images/instanciacao.png
 [C]: ../../Images/estrutura.png
 [D]: ../../Images/metodoEstatico.png
+[E]: ../../Images/this.png

@@ -222,12 +222,12 @@ Operadores bitwise são utilizados quando precisamos realizar operações em ní
 
 Caso ambos os operandos sejam strings, esses operadores irão trabalhar com os valores ASCII de seus caracteres.
 
-| Operador Bitwise | Significado              |
-| :--------------- | :----------------------- |
-| `&`              | Operação "AND" bit a bit |
-|&#124             | Operação "OR" bit a bit  |
-| `^`              | Operação "XOR" bit a bit |
-| `~`              | Operação "NOT" bit a bit |
+| Operador Bitwise    | Significado              |
+| :------------------ | :----------------------- |
+| `&`                 | Operação "AND" bit a bit |
+| <code>&#124;</code> | Operação "OR" bit a bit  |
+| `^`                 | Operação "XOR" bit a bit |
+| `~`                 | Operação "NOT" bit a bit |
 
 | Operador Bit Shift | Significado         |
 | :----------------- | :------------------ |
