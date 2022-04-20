@@ -905,11 +905,39 @@ public class Account {
 
 ## 10. Diagrama UML
 
+UML é uma maneira de visualizar um programa de software usando uma coleção de diagramas. Significa Linguagem de Modelagem Unificada. A UML 2.0 ajudou a estender a especificação original da UML para cobrir uma porção mais ampla dos esforços de desenvolvimento de software, incluindo práticas ágeis.
+
+Os padrões atuais da UML exigem 13 tipos diferentes de diagramas: classe, atividade, objeto, caso de uso, sequência, pacote, estado, componente, comunicação, estrutura composta, visão geral da interação, tempo e implantação.
+
+Esses diagramas estão organizados em dois grupos distintos: diagramas estruturais e diagramas comportamentais ou de interação.
+
+Diagramas UML estruturais
+
+- Diagrama de classes
+- Diagrama de pacote
+- Diagrama de objeto
+- Diagrama de componentes
+- Diagrama de estrutura composta
+- Diagrama de implantação
+
+Diagramas UML comportamentais
+
+- Diagrama de atividades
+- Diagrama de sequência
+- Diagrama de casos de uso
+- Diagrama de estado
+- Diagrama de comunicação
+- Diagrama de visão geral da interação
+- Diagrama de tempo
+
+Para mais informações sobre estes diagramas, acesse a publicação do site [SmartDraw][4].
+
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
 [1]: https://en.wikipedia.org/wiki/JavaBeans
 [2]: https://www.devmedia.com.br/introducao-aos-javabeans/8621
 [3]: https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html
+[4]: https://www.smartdraw.com/uml-diagram/
 
 <!-- IMAGES -->
 [A]: https://latex.codecogs.com/svg.image?area&space;=&space;\sqrt{p(p-a)(p-b)(p-c)},&space;\text{&space;onde:&space;}&space;p&space;=&space;\frac{a&plus;b&plus;c}{2}
