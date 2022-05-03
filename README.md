@@ -56,6 +56,12 @@
 
 ### 🧱 Construído com
 
+Eclipse + JDK
+
+## 🛣️ Roadmap
+
+![java_roadmap][java_roadmap]
+
 ## 🔎 Índice
 
 - **Introdução**
@@ -115,3 +121,4 @@ Distribuída por **MIT License**. Veja [LICENSE][B] para mais informações.
 [D]: https://github.com/JonathanTSilva/HL-Java
 
 <!-- IMAGENS -->
+[java_roadmap]: Images/java_roadmap.jpeg
