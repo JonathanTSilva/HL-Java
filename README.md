@@ -56,7 +56,15 @@
 
 ### 🧱 Construído com
 
-Eclipse + JDK
+<p float="left">
+  <a href="https://www.eclipse.org/">
+    <img height="35" src="Images/eclipse-logo.png" alt="Eclipse">
+  </a>
+  <img height="40" src="https://s3.amazonaws.com/static.graphemica.com/glyphs/i300s/000/001/283/original/002B-300x300.png?1275289856" alt="plusSymbol">
+  <a href="https://pt.overleaf.com/">
+    <img height="45" src="Images/java-logo.png" alt="Java">
+  </a>
+</p>
 
 ## 🛣️ Roadmap
 
