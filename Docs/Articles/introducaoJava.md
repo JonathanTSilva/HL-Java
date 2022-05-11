@@ -188,6 +188,17 @@ Para realizar a instalação de um ambiente de programação Java, realizar as s
   - CTRL +
   - CTRL -
 
+> **Dica:** é possível criar algumas templates para melhor utilização indo em **Windows** > **Preferences** > **Java** > **Editor** > **Templates** > **New**.
+> Exemplos:
+> ```
+> Scanner sc = new Scanner(System.in);
+>
+> sc.close();
+> ```
+> ```
+> Locale.setDefault(Locale.US);
+> ```
+
 ### 7.1. Como utilizar o debug
 
 - Para marcar uma linha de breakpoint:

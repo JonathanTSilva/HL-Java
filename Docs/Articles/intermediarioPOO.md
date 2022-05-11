@@ -27,7 +27,7 @@
   - [4. Boxing, unboxing e wrapper classes](#4-boxing-unboxing-e-wrapper-classes)
   - [5. Laço "for each"](#5-laço-for-each)
   - [6. Listas](#6-listas)
-  - [. Arrays](#-arrays)
+  - [7. Matrizes](#7-matrizes)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -542,10 +542,295 @@ public class Program {
 }
 ```
 
+**Exercício resolvido:** fazer um programa para ler um número inteiro N e depois os dados (id, nome e salario) de N funcionários. Não deve haver repetição de id. Em seguida, efetuar o aumento de X por cento no salário de um determinado funcionário. Para isso, o programa deve ler um id e o valor X. Se o id informado não existir, mostrar uma mensagem e abortar a operação. Ao final, mostrar a listagem atualizada dos funcionários,conforme exemplos.
+
+Lembre-se de aplicar a técnica de encapsulamento para não permitir que o salário possa ser mudado livremente. Um salário só pode ser aumentado com base em uma operação de aumento por porcentagem dada.
+
+**Exemplo**
+
+```plaintext
+How many employees will be registered? 3
+
+Emplyoee #1:
+Id: 333
+Name: Maria Brown
+Salary: 4000.00
+
+Emplyoee #2:
+Id: 536
+Name: Alex Grey
+Salary: 3000.00
+
+Emplyoee #3:
+Id: 772
+Name: Bob Green
+Salary: 5000.00
+
+Enter the employee id that will have salary increase : 536
+Enter the percentage: 10.0
+
+List of employees:
+333, Maria Brown, 4000.00
+536, Alex Grey, 3300.00
+772, Bob Green, 5000.00
+```
+
+**src > application > Program.java**
+
+```java
+package application;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Scanner;
+
+import entities.Employee;
+
+public class Program {
+  public static void main(String[] args) {
+    Locale.setDefault(Locale.US);
+    Scanner sc = new Scanner(System.in);
+    
+    List<Employee> list = new ArrayList<>();
+    
+    // PART 1 - READING DATA:
+    
+    System.out.print("How many employees will be registered? ");
+    int n = sc.nextInt();
+    
+    for (int i = 1; i <= n; i++) {
+      System.out.println();
+      System.out.println("Employee #" + i + ":");
+      
+      System.out.print("ID: ");
+      int id = sc.nextInt();
+      while (hasId(list, id)) {
+        System.out.print("Id already taken. Try again: ");
+        id = sc.nextInt();
+      }
+      
+      System.out.print("Name: ");
+      sc.nextLine();
+      String name = sc.nextLine();
+      
+      System.out.print("Salary: ");
+      double salary = sc.nextDouble();
+      
+      list.add(new Employee(id, name, salary));
+    }
+    
+    // PART 2 - UPDATING SALARY OF GIVEN EMPLOYEE:
+
+    System.out.println();
+    System.out.print("Enter the employee ID that will have slaray increase: ");
+    int id = sc.nextInt();
+    Employee emp = list.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
+    if (emp == null) {
+      System.out.println("This id does not exist!");
+    }
+    else {
+      System.out.print("Enter the percentage: ");
+      double percentage = sc.nextDouble();
+      emp.increaseSalary(percentage);
+    }
+    
+    // PART 3 - LISTING EMPLOYEES:
+    System.out.println();
+    System.out.println("List of employees:");
+    for (Employee obj : list) {
+      System.out.println(obj);
+    }
+    
+    sc.close();
+  }
+
+  public static boolean hasId(List<Employee> list, int id) {
+    Employee emp = list.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
+    return emp != null;
+  }
+}
+```
+
+**src > entities > Employee.java**
+
+```java
+package entities;
+
+public class Employee {
+  private Integer id;
+  private String name;
+  private Double salary;
+
+  public Employee() {
+  }
+
+  public Employee(Integer id, String name, Double salary) {
+    this.id = id;
+    this.name = name;
+    this.salary = salary;
+  }
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public Double getSalary() {
+    return salary;
+  }
+
+  public void setSalary(Double salary) {
+    this.salary = salary;
+  }
+
+  public void increaseSalary(double percentage) {
+    salary += salary * percentage / 100.0;
+  }
+
+  public String toString() {
+    return id + ", " + name + ", " + String.format("%.2f", salary);
+  }
+
+}
+```
+
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
-## . Arrays
+## 7. Matrizes
+
+Em programação, "matriz" é o nome dado a arranjos bidimensionais. "Vetor de Vetores"
+
+Arranjo (array) é uma estrutura de dados:
+
+- Homogênea (dados do mesmo tipo);
+- Ordenada (elementos acessados por meio de posições);
+- Alocada de uma vez só, em um bloco contíguo de memória;
+
+Por ser um vetor de vetores, ela possui as mesmas vantagens e desvantagens deles: vantagem de acesso imediato aos elementos pela sua posição e desvantagens do tamanho fixo e da dificuldade para se realizar inserções e deleções.
+
+**Exercício resolvido:** fazer um programa para ler um número inteiro N e uma matriz de ordem N contendo números inteiros. Em seguida, mostrar a diagonal principal e a quantidade de valores negativos da matriz.
+
+**Exemplo:**
+
+| Input   | Output               |
+| :------ | :------------------- |
+| 3       | Main diagonal:       |
+| 5 -3 10 | 5 8 -4               |
+| 15 8 2  | Negative numbers = 2 |
+| 7 9 -4  |                      |
+
+**src > application > Program.java**
+
+```java
+Locale.setDefault(Locale.US);
+Scanner sc = new Scanner(System.in);
+
+int n = sc.nextInt();
+
+// Create the Matrix - two-dimensional arrangement
+int[][] mat = new int[n][n];
+
+for (int i = 0; i < mat.length; i++) {
+  for (int j = 0; j < mat[i].length; j++) {
+    mat[i][j] = sc.nextInt();
+  }
+}
+
+System.out.println("Main diagonal:");
+for (int i = 0; i < mat.length; i++) {
+  System.out.println(mat[i][i] + " ");
+}
+System.out.println();
+
+int count = 0;
+for (int i = 0; i < mat.length; i++) {
+  for (int j = 0; j < mat[i].length; j++) {
+    if (mat[i][j] < 0) {
+      count++;
+    }
+  }
+}
+
+System.out.println("Negative number = " + count);
+
+sc.close();
+```
+
+**Exercício proposto:** fazer um programa para ler dois números inteiros M e N, e depois ler uma matriz de M linhas por N colunas contendo números inteiros, podendo haver repetições. Em seguida, ler um número inteiro X que pertence à matriz. Para cada ocorrência de X, mostrar os valores à esquerda, acima, à direita e abaixo de X, quando houver, conforme exemplo.
+
+**Exemplo:**
+
+```plaintext
+3 4
+10 8 15 12
+21 11 23 8
+14 5 13 19
+8
+
+Position 0,1:
+Left: 10
+Right: 15
+Down: 11
+Position 1,3:
+Left: 23
+Up: 12
+Down: 19
+```
+
+**src > application > Program2.java**
+
+```java
+Locale.setDefault(Locale.US);
+Scanner sc = new Scanner(System.in);
+
+int m = sc.nextInt();
+int n = sc.nextInt();
+
+int[][] mat = new int[m][n];
+
+for (int i = 0; i < mat.length; i++) {
+  for (int j = 0; j < mat[i].length; j++) {
+    mat[i][j] = sc.nextInt();
+  }
+}
+
+int x = sc.nextInt();
+
+for (int i = 0; i < mat.length; i++) {
+  for (int j = 0; j < mat[i].length; j++) {
+    if (mat[i][j] == x) {
+      System.out.println("Position " + i + "," + j + ":");
+      if (j > 0) {
+        System.out.println("Left: " + mat[i][j-1]);
+      }
+      if (i > 0) {
+        System.out.println("Up: " + mat[i-1][j]);
+      }
+      if (j < mat[i].length-1) {
+        System.out.println("Right: " + mat[i][j+1]);
+      }
+      if (i < mat.length-1) {
+        System.out.println("Down: " + mat[i+1][j]);
+      }
+    }
+  }
+}
+
+sc.close();
+```
 
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
