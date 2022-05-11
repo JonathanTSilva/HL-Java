@@ -465,31 +465,87 @@ for (String obj : vect) {
 
 ## 6. Listas
 
-- Lista é uma estrutura de dados:
-  - Homogênea (dados do mesmo tipo);
-  - Ordenada (elementos acessados por meio de posições);
-  - Inicia vazia, e seus elementos são alocados sob demanda;
-  - Cada elemento ocupa um "nó" (ou nodo) da lista.
-- Tipo (interface): List
-- Classes que implementam: ArrayList, LinkedList, etc.
+Lista é uma estrutura de dados:
 
-Diferentemente dos vetores, as listas possui o tamanho variável e a facilidade para se realizar inserções e deleções como vantagens. Já o acesso sequencial aos seus elementos é a sua desvantagem.
-- Vantagens:
-• Tamanho variável
-• Facilidade para se realizar inserções e deleções
-• Desvantagens:
-• Acesso sequencial aos elementos*
+- Homogênea (dados do mesmo tipo);
+- Ordenada (elementos acessados por meio de posições);
+- Inicia vazia, e seus elementos são alocados sob demanda;
+- Cada elemento ocupa um "nó" (ou nodo) da lista.
+
+> Tipo (interface): List
+>
+> Classes que implementam: ArrayList, LinkedList, etc.
+
+Diferentemente dos vetores, as vantagens da utilização das listas se dão pelo tamanho variável e facilidade para se realizar inserções e deleções. Já como desvantagem, apresenta acesso sequencial aos elementos.
+
+> **Nota:** as listas, diferente dos vetores, não aceitam tipos primitivos. Caso queira uma lista de números inteiros, por exemplo, é necessário utilizar a *wrapper class* para o int: `Integer`.
+
+Alguns exemplos de manuseio de listas:
+
+1. Tamanho da lista: `size()`;
+2. Obter o elemento de uma posição: `get(position)`;
+3. Inserir elemento na lista: `add(obj)`, `add(int, obj)`;
+4. Remover elementos da lista: `remove(obj)`, `remove(int)`, `removeIf(Predicate)`;
+5. Encontrar posição de elemento: `indexOf(obj)`, `lastIndexOf(obj)`;
+6. Filtrar lista com base em predicado: `List<Integer> result = list.stream().filter(x -> x > 4).collect(Collectors.toList())`;
+7. Encontrar primeira ocorrência com base em predicado: `Integer result = list.stream().filter(x -> x > 4).findFirst().orElse(null)`;
+
+> **Nota:** assuntos pendentes: interfaces, generics e predicados (lambda).
+
+```java
+package application;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Program {
+  public static void main(String[] args) {
+
+    List<String> list = new ArrayList<>();
+
+    list.add("Maria");
+    list.add("Alex");
+    list.add("Bob");
+    list.add("Anna");
+    list.add(2, "Marco"); // Adicionar um elemento na posição 2 da lista
+
+    System.out.println(list.size()); // Imprime o tamanho da lista
+
+    for (String x : list) { // Imprime todos os elementos da lista
+      System.out.println(x);
+    }
+
+    System.out.println("---------------------");
+    list.remove("Anna");
+    list remove(1) // Remover elemento da posição 1
+      list.removeIf(x -> x.charAt(0) == 'M'); // Remover o Predicado que pega o valor x e retorna se esse x.charAt(0) é igual 'M'
+    for (String x : list) {
+      System.out.println(x);
+    }
+
+    System.out.println("---------------------");
+    System.out.println("Index of Bob: " + list.indexOf("Bob")); // Retorna o index do Bob na lista
+    System.out.println("Index of Marco: " + list.indexOf("Marco")); // Quando o indexOf não encontra o elemento, ele retorna -1
+
+    System.out.println("---------------------");
+    List<String> result = list.stream().filter(x -> x.charAt(0) == 'A').collect(Collectors.toList()); // Filtra a lista list e retorna em result todos os elementos que começão com o predicado
+    for (String x : result) {
+      System.out.println(x);
+    }
+
+    System.out.println("---------------------");
+    String name = list.stream().filter(x -> x.charAt(0) == 'J').findFirst().orElse(null); // Pega o primeiro elemento que atenda o predicado
+    System.out.println(name);
+
+  }
+}
+```
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
 ## . Arrays
-
-
-
-
-
-
 
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
