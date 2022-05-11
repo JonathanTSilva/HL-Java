@@ -26,8 +26,8 @@
   - [3. Vetores](#3-vetores)
   - [4. Boxing, unboxing e wrapper classes](#4-boxing-unboxing-e-wrapper-classes)
   - [5. Laço "for each"](#5-laço-for-each)
+  - [6. Listas](#6-listas)
   - [. Arrays](#-arrays)
-  - [. Listas](#-listas)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -463,14 +463,31 @@ for (String obj : vect) {
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
-## . Arrays
+## 6. Listas
 
+- Lista é uma estrutura de dados:
+  - Homogênea (dados do mesmo tipo);
+  - Ordenada (elementos acessados por meio de posições);
+  - Inicia vazia, e seus elementos são alocados sob demanda;
+  - Cada elemento ocupa um "nó" (ou nodo) da lista.
+- Tipo (interface): List
+- Classes que implementam: ArrayList, LinkedList, etc.
 
+Diferentemente dos vetores, as listas possui o tamanho variável e a facilidade para se realizar inserções e deleções como vantagens. Já o acesso sequencial aos seus elementos é a sua desvantagem.
+- Vantagens:
+• Tamanho variável
+• Facilidade para se realizar inserções e deleções
+• Desvantagens:
+• Acesso sequencial aos elementos*
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
-## . Listas
+## . Arrays
+
+
+
+
 
 
 
