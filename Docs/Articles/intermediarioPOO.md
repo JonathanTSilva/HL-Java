@@ -28,6 +28,11 @@
   - [5. Laço "for each"](#5-laço-for-each)
   - [6. Listas](#6-listas)
   - [7. Matrizes](#7-matrizes)
+  - [8. Tópicos especiais em Java](#8-tópicos-especiais-em-java)
+    - [8.1. Trabalhando com datas](#81-trabalhando-com-datas)
+    - [8.2. Manipulando datas com Calendar](#82-manipulando-datas-com-calendar)
+      - [8.2.1. Somando uma unidade de tempo](#821-somando-uma-unidade-de-tempo)
+      - [8.2.2. Obtendo uma unidade de tempo](#822-obtendo-uma-unidade-de-tempo)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -830,6 +835,103 @@ for (int i = 0; i < mat.length; i++) {
 }
 
 sc.close();
+```
+
+## 8. Tópicos especiais em Java
+
+### 8.1. Trabalhando com datas
+
+A data representa um INSTANTE. O tipo mais utilizado para este armazenamento de data é o tipo `Date`, que pertence ao pacote `java.util`.
+
+Um objeto Date internamente armazena o número de milissegundos desde a meia noite do dia 1 de janeiro de 1970 GMT (UTC) (onde, GMT: *Greenwich Mean Time - time zone* e UTC: *Coordinated Universal Time - time standard*).
+
+**SimpleDateFormat** - classe que define formatos para conversão entre Date e String.
+
+- dd/MM/yyyy - 23/07/2034;
+- dd/MM/yyyy HH:mm:ss - 23/07/2034 10:34:03;
+
+**Padrão ISO 8601 e classe Instant**
+
+- Formato: yyyy-MM-ddTHH:mm:ssZ;
+  - Exemplo: "2034-07-23T10:34:03Z".
+- `Date y3 = Date.from(Instant.parse("2034-07-23T10:34:03Z"));`.
+
+**Exemplos:**
+
+```java
+SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+SimpleDateFormat sdf3 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+sdf3.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+Date x1 = new Date(); // Cria uma data com o horário atual
+Date x2 = new Date(System.currentTimeMillis()); // Outra forma de obter data atual
+Date x3 = new Date(0L); // Da mesma forma que foi passado os millis de agora, é possível passar qualquer
+// Em 0 millisegundos, significa o primeiro horário de armazenamento do Date (01/01/1970 GMT), mas como estamos
+// três horas atrasados, esse horário será diferente.
+// O sufixo L indica que é Long
+Date x4 = new Date(1000L * 60L * 60L * 5); // 5 horas da manhã do primeiro dia
+
+Date y1 = sdf1.parse("10/04/2050"); // Faz um parse da data passada para o tipo Date
+Date y2 = sdf2.parse("10/04/2050 04:55:07");
+Date y3 = Date.from(Instant.parse("2034-07-23T10:34:03Z")); // Data no formato ISO 8601. O Z diz que o time zone é o padrão
+// Para converter problema, criar um novo formato setando o TimeZone - sdf3
+
+System.out.println(x1); // Imprime a data no padrão local
+System.out.println(y1);
+System.out.println("----------------------");
+System.out.println("x1: " + sdf2.format(x1)); // Para imprimir no padrão sdf2, utilizar o parametro format
+System.out.println("x2: " + sdf2.format(x2));
+System.out.println("x3: " + sdf2.format(x3));
+System.out.println("x4: " + sdf2.format(x4));
+System.out.println("y1: " + sdf2.format(y1));
+System.out.println("y2: " + sdf2.format(y2));
+System.out.println("y2: " + sdf2.format(y3)); // Note que será impresso com diferença de -3 GTM
+System.out.println("----------------------");
+System.out.println("x1: " + sdf3.format(x1)); // Todos agora no formato UTC
+System.out.println("x2: " + sdf3.format(x2));
+System.out.println("x3: " + sdf3.format(x3));
+System.out.println("x4: " + sdf3.format(x4));
+System.out.println("y1: " + sdf3.format(y1));
+System.out.println("y2: " + sdf3.format(y2));
+System.out.println("y2: " + sdf3.format(y3));
+```
+
+### 8.2. Manipulando datas com Calendar
+
+#### 8.2.1. Somando uma unidade de tempo
+
+```java
+SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+Date d = Date.from(Instant.parse("2050-06-25T15:42:07Z"));
+
+System.out.println(sdf.format(d)); // 25/06/2050 12:42:07
+
+Calendar cal = Calendar.getInstance();
+cal.setTime(d);
+cal.add(Calendar.HOUR_OF_DAY, 4); 
+d = cal.getTime();
+
+System.out.println(sdf.format(d)); // 25/06/2050 16:42:07
+```
+
+#### 8.2.2. Obtendo uma unidade de tempo
+
+```java
+SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+Date d = Date.from(Instant.parse("2018-06-25T15:42:07Z"));
+
+System.out.println(sdf.format(d)); // 25/06/2050 12:42:07
+
+Calendar cal = Calendar.getInstance();
+cal.setTime(d);
+int minutes = cal.get(Calendar.MINUTE);
+int month = 1 + cal.get(Calendar.MONTH); // Soma 1 pois o Calendar começa o mês em 0
+
+System.out.println("Minutes: " + minutes); // Minutes: 42
+System.out.println("Month: " + month); // Minutes: 06
 ```
 
 <!-- MARKDOWN LINKS -->
