@@ -106,6 +106,330 @@ Por questões de design tais como organização, flexibilidade, reutilização, 
 
 ## 2. Composição
 
+Composição é um tipo de associação que permite que um objeto contenha outro. Possui um relação de "tem-um" ou "tem-vários".
+
+Apresenta as principais vantagens:
+
+- Organização: divisão de responsabilidades;
+- Coesão: cada objeto é responsável por uma única coisa; simples e bem definida;
+- Flexibilidade: trabalhar com uma coisa que está divida em parte é mais flexível;
+- Reuso: o mesmo objeto pode ser utilizado em vários lugares.
+
+> **Nota:** embora o símbolo UML para composição (todo-parte) seja o **diamante preto**, neste contexto estamos chamando de composição qualquer associação tipo "tem-um" e "tem-vários".
+
+Como exemplo, ver exemplo de UML de Entities na subseção [Categoria de classes](#categoria-de-classes), na qual diz que um pedido tem vários itens. A seta partindo de **Order** e chegando em **OrderItem** indica composição: uma ordem contêm vários itens (símbolo de composição é o diamante preto, sendo que o lado do diamante é o lado do todo e o outro, o lado das partes). Se observar a de baixo, mesmo que não tenha o diamante preto sinalizando a relação todo parte (um pedido tem um cliente), chama-se de composição de objetos, pois quando for criado o objeto pedido, haverá um atributo do tipo cliente.
+
+A composição de objeto pode ocorrer não apenas com entidades, mas também como serviços (vide segunda imagem de Services da subseção [Categoria de classes](#categoria-de-classes)).
+
+**Exercício resolvido:** ler os dados de um trabalhador com N contratos (N fornecido pelo usuário). Depois, solicitar do usuário um mês e mostrar qual foi o salário do funcionário nesse mês, conforme exemplo.
+
+<details close="close" align="left">
+  <summary><b>Diagrama UML</b></summary>
+  <p float="left">
+    <img src="../../Images/umlEx1.png"/>
+  </p>
+</details>
+
+<details close="close" align="left">
+  <summary><b>Exemplo</b></summary>
+  <pre>
+    <code>
+Enter department's name: Design
+Enter worker data:
+Name: Alex
+Level: MID_LEVEL
+Base salary: 1200.00
+How many contracts to this worker? 3
+Enter contract #1 data:
+Date (DD/MM/YYYY): 20/08/2018
+Value per hour: 50.00
+Duration (hours): 20
+Enter contract #2 data:
+Date (DD/MM/YYYY): 13/06/2018
+Value per hour: 30.00
+Duration (hours): 18
+Enter contract #3 data:
+Date (DD/MM/YYYY): 25/08/2018
+Value per hour: 80.00
+Duration (hours): 10
+<br>
+Enter month and year to calculate income (MM/YYYY): 08/2018
+Name: Alex
+Department: Design
+Income for 08/2018: 3000.00
+    </code>
+  </pre>
+</details>
+
+<details close="close" align="left">
+  <summary><b>Diagrama de objetos: objetos em memória</b></summary>
+  <p float="left">
+    <img src="../../Images/objMemoryEx1.png"/>
+  </p>
+</details>
+
+**src > application > Program.java**
+
+```java
+package application;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Scanner;
+
+import entities.Department;
+import entities.HourContract;
+import entities.Worker;
+import entities.enums.WorkerLevel;
+
+
+public class Program {
+
+  public static void main(String[] args) throws ParseException {
+    
+    Locale.setDefault(Locale.US);
+    Scanner sc = new Scanner(System.in);
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    
+    System.out.print("Enter department's name: ");
+    String departmentName = sc.nextLine();
+    System.out.println("Enter worker data:");
+    System.out.print("Name: ");
+    String workerName = sc.nextLine();
+    System.out.print("Level: ");
+    String workerLevel = sc.nextLine();
+    System.out.print("Base salary: ");
+    double baseSalary = sc.nextDouble();
+    Worker worker = new Worker(workerName, WorkerLevel.valueOf(workerLevel), baseSalary, new Department(departmentName));
+    
+    System.out.print("How many contracts to this worker? ");
+    int n = sc.nextInt();
+    
+    for (int i = 1; i <= n; i++) {
+      System.out.println("Enter contract #" + i + " data:");
+      System.out.print("Date (DD/MM/YYYY): ");
+      Date contractDate = sdf.parse(sc.next());
+      System.out.print("Value per hour: ");
+      double valuePerHour = sc.nextDouble();
+      System.out.print("Duration (hours): ");
+      int hours = sc.nextInt();
+      HourContract contract = new HourContract(contractDate, valuePerHour, hours);
+      worker.addContract(contract);
+    }
+    
+    System.out.println();
+    System.out.print("Enter month and year to calculate income (MM/YYYY): ");
+    String monthAndYear = sc.next();
+    int month = Integer.parseInt(monthAndYear.substring(0, 2)); // Recorta a posição 0 e 1
+    int year = Integer.parseInt(monthAndYear.substring(3)); // Recorta da posição 3 em diante
+    System.out.println("Name: " + worker.getName());
+    System.out.println("Department: " + worker.getDepartment().getName()); // Composição de objetos
+    System.out.println("Income for " + monthAndYear + ": " + String.format("%.2f", worker.income(year, month)));
+    
+    sc.close();
+
+  }
+
+}
+```
+
+**src > entities > Department.java**
+
+```java
+package entities;
+
+public class Department {
+  
+  private String name;
+
+  public Department() {
+  }
+
+  public Department(String name) {
+    this.name = name;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+}
+```
+
+**src > entities > HourContract.java**
+
+```java
+package entities;
+
+import java.util.Date;
+
+public class HourContract {
+
+  private Date date;
+  private Double valuePerHour;
+  private Integer hours;
+  
+  public HourContract() {
+  }
+
+  public HourContract(Date date, Double valuePerHour, Integer hours) {
+    this.date = date;
+    this.valuePerHour = valuePerHour;
+    this.hours = hours;
+  }
+
+  public Date getDate() {
+    return date;
+  }
+
+  public void setDate(Date date) {
+    this.date = date;
+  }
+
+  public Double getValuePerHour() {
+    return valuePerHour;
+  }
+
+  public void setValuePerHour(Double valuePerHour) {
+    this.valuePerHour = valuePerHour;
+  }
+
+  public Integer getHours() {
+    return hours;
+  }
+
+  public void setHours(Integer hours) {
+    this.hours = hours;
+  }
+  
+  public double totalValue() {
+    return valuePerHour * hours;
+  }
+  
+}
+```
+
+**src > entities > Worker.java**
+
+```java
+package entities;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import entities.enums.WorkerLevel;
+
+public class Worker {
+
+  private String name;
+  private WorkerLevel level;
+  private Double baseSalary;
+  
+  // Associações
+  private Department department;
+  private List<HourContract> contracts = new ArrayList<>(); // Como um Worker tem vários contratos (1,*), é representado com uma lista
+  // IMPORTANTE! Quando se tem uma composição tem muitos, a lista não é incluída no construtor, mas simplesmente iniciada vazia aqui.
+  
+  public Worker() {
+  }
+
+  public Worker(String name, WorkerLevel level, Double baseSalary, Department department) {
+    this.name = name;
+    this.level = level;
+    this.baseSalary = baseSalary;
+    this.department = department;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public WorkerLevel getLevel() {
+    return level;
+  }
+
+  public void setLevel(WorkerLevel level) {
+    this.level = level;
+  }
+
+  public Double getBaseSalary() {
+    return baseSalary;
+  }
+
+  public void setBaseSalary(Double baseSalary) {
+    this.baseSalary = baseSalary;
+  }
+
+  public Department getDepartment() {
+    return department;
+  }
+
+  public void setDepartment(Department department) {
+    this.department = department;
+  }
+
+  public List<HourContract> getContracts() {
+    return contracts;
+  }
+  
+  // Têm-se estes dois métodos para fazer ou desfazer a associação entre um trabalhador e um contrato. Add ou remove da lista.
+  // Assim, é preciso remover o setContracts do Setters, pois de maneira alguma, eu posso trocar essa lista de contratos por outra nova.
+  public void addContract(HourContract contract) {
+    contracts.add(contract);
+  }
+  
+  public void removeContract(HourContract contract) {
+    contracts.remove(contract);
+  }
+  
+  public double income(int year, int month) {
+    double sum = baseSalary;
+    
+    Calendar cal = Calendar.getInstance();
+    
+    // Percorre por todos os contratos da lista, testando se o contrato é desse mês e ano passado.
+    // Se sim, ele entra na soma do salário.
+    for (HourContract c : contracts) {
+      // Se fosse a soma de todos os contratos, seria sum += c.totalValue();
+      // Entretanto, queremos a soma desse mes e ano
+      cal.setTime(c.getDate()); // Pega a data do contrato e define ela como sendo a data do calendário
+      int c_year = cal.get(Calendar.YEAR);
+      int c_month = 1 + cal.get(Calendar.MONTH);
+      if (year == c_year && month == c_month) {
+        sum += c.totalValue();
+      }
+    }
+    return sum;
+  }
+  
+}
+```
+
+**src > entities.enums > WorkerLevel.java**
+
+```java
+package entities.enums;
+
+public enum WorkerLevel {
+  
+  JUNIOR,
+  MID_LEVEL,
+  SENIOR;
+  
+}
+```
+
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
