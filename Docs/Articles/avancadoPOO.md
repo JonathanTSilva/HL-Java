@@ -18,6 +18,7 @@
     - [1.2. Notação UML](#12-notação-uml)
   - [Bônus: Design do código](#bônus-design-do-código)
     - [Categoria de classes](#categoria-de-classes)
+    - [Classe `StringBuilder`](#classe-stringbuilder)
   - [2. Composição](#2-composição)
   - [3. Herança](#3-herança)
   - [4. Polimorfismo](#4-polimorfismo)
@@ -100,6 +101,38 @@ Por questões de design tais como organização, flexibilidade, reutilização, 
 **Exemplo de *Services***
 
 ![servicesEx][D]
+
+### Classe `StringBuilder`
+
+A classe `StringBuilder` faz parte do pacote `java.lang`. Essa classe permite criar e manipular dados de Strings dinamicamente, ou seja, podem criar variáveis de String modificáveis.
+
+**Características da classe:**
+
+- Armazena caracteres especificados pela sua capacidade, caso ela seja excedida, é aumentada para acomodar os caracteres adicionais;
+- Não precisa alocar novos objetos quando realiza uma concatenação;
+- Não são sincronizadas;
+- Não são seguras para threads.
+
+Uma vantagem sobre a classe String é a concatenação de strings. Pois quando concatena strings com StringBuilder é invocado o método append. Esse método aloca novas strings concatenadas para o mesmo objeto, ou seja, cada vez que concatena strings não são criadas cópias dos objetos como é realizado pelo método `concat` da classe String, contribuindo para um melhor desempenho do sistema.
+
+```java
+// Aqui que entra a importância da classe StringBuilder.
+// Se for montar o toString com vários comentários e informações 
+// apenas com concatenações, será utilizada muita memória
+public String toString() {
+  StringBuilder sb = new StringBuilder();
+  sb.append(title + "\n");
+  sb.append(likes);
+  sb.append(" Likes - ");
+  sb.append(sdf.format(moment) + "\n");
+  sb.append(content + "\n");
+  sb.append("Comments:\n");
+  for (Comment c : comments) {
+    sb.append(c.getText() + "\n");
+  }
+  return sb.toString();
+}
+```
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
