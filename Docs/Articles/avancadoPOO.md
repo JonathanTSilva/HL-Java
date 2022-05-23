@@ -468,6 +468,112 @@ public enum WorkerLevel {
 
 ## 3. Herança
 
+Herança é um tipo de associação que permite que uma classe herde todos dados e comportamentos de outra.
+
+Apresenta como principais vantagens o **reuso** e o **polimorfismo** e tem a sintaxe: `class A extends B`;
+
+**Exemplo:** suponha um negócio de banco que possui uma conta comum e uma conta para empresas, sendo que a conta para empresa possui todos membros da conta comum, mais um limite de empréstimo e uma operação de realizar empréstimo.
+
+![heranca][E]
+
+Neste caso, a herança permite a reutilização das variáveis e métodos de uma classe na outra:
+
+![heranca2][F]
+
+**src > entities > Account**
+
+```java
+package entities;
+
+public class Account {
+
+  private Integer number;
+  private String holder;
+  protected Double balance;
+
+  public Account() {
+  }
+
+  public Account(Integer number, String holder, Double balance) {
+    this.number = number;
+    this.holder = holder;
+    this.balance = balance;
+  }
+
+  public Integer getNumber() {
+    return number;
+  }
+
+  public void setNumber(Integer number) {
+    this.number = number;
+  }
+
+  public String getHolder() {
+    return holder;
+  }
+
+  public void setHolder(String holder) {
+    this.holder = holder;
+  }
+
+  public Double getBalance() {
+    return balance;
+  }
+
+  public void withdraw(double amount) {
+    balance -= amount;
+  }
+
+  public void deposit(double amount) {
+    balance += amount;
+  }
+}
+```
+
+**src > entities > BusinessAccount**
+
+```java
+package entities;
+
+public class BusinessAccount extends Account {
+
+  private Double loanLimit; // limite de empréstimo
+
+  public BusinessAccount() {
+    super();
+  }
+
+  public BusinessAccount(Integer number, String holder, Double balance, Double loanlimit) {
+    super(number, holder, balance); // Construtor da super classe (Account);
+    this.loanLimit = loanlimit;
+  }
+
+  public Double getLoanlimit() {
+    return loanLimit;
+  }
+
+  public void setLoanlimit(Double loanlimit) {
+    this.lloanLimit = loanlimit;
+  }
+
+  public void loan(double amount) {
+    if (amount <= loanLimit) {
+      balance += amount - 10.0; // Neste caso, se o atributo balance estivesse como private, não conseguiria enxergá-lo
+    }
+  }
+}
+```
+
+Percebe-se a utilização do modificador de acesso `Protected`. Verificar capítulo 9 do artigo [Introdução à Programação Orientada a Objetos][3].
+
+Alguns pontos são importantes enfatizar para herança:
+
+- Relação "é-um": a conta empresarial é uma conta, com algumas coisas a mais;
+- Generalização / especialização: a classe Account é chamada de generalização e a BusinessAccount, especialização;
+- Superclasse (classe base) / subclasse (classe derivada);
+- Herança / extensão;
+- Herança é uma associação entre classes (e não entre objetos);
+
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
@@ -482,9 +588,12 @@ public enum WorkerLevel {
 <!-- SITES -->
 [1]: https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html
 [2]: https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Enum.html
+[3]: introducaoPOO.md
 
 <!-- IMAGES -->
 [A]: ../../Images/cicloPedido.png
 [B]: ../../Images/umlEnum.png
 [C]: ../../Images/entitiesEx.png
 [D]: ../../Images/servicesEx.png
+[E]: ../../Images/herancaEx.png
+[F]: ../../Images/herancaEx2.png
