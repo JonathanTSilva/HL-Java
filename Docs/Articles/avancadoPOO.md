@@ -553,7 +553,7 @@ public class BusinessAccount extends Account {
   }
 
   public void setLoanlimit(Double loanlimit) {
-    this.lloanLimit = loanlimit;
+    this.loanLimit = loanlimit;
   }
 
   public void loan(double amount) {
