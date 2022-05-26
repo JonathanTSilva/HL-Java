@@ -21,8 +21,9 @@
     - [Classe `StringBuilder`](#classe-stringbuilder)
   - [2. Composição](#2-composição)
   - [3. Herança](#3-herança)
-  - [4. Polimorfismo](#4-polimorfismo)
-  - [5. Tratamento de exceções](#5-tratamento-de-exceções)
+  - [3.1. Upcasting e Downcasting](#31-upcasting-e-downcasting)
+  - [5. Polimorfismo](#5-polimorfismo)
+  - [6. Tratamento de exceções](#6-tratamento-de-exceções)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -480,7 +481,7 @@ Neste caso, a herança permite a reutilização das variáveis e métodos de uma
 
 ![heranca2][F]
 
-**src > entities > Account**
+**src > entities > Account.java**
 
 ```java
 package entities;
@@ -503,7 +504,7 @@ public class Account {
   public Integer getNumber() {
     return number;
   }
-
+[F]: ../../Images/herancaEx2.png
   public void setNumber(Integer number) {
     this.number = number;
   }
@@ -530,7 +531,7 @@ public class Account {
 }
 ```
 
-**src > entities > BusinessAccount**
+**src > entities > BusinessAccount.java**
 
 ```java
 package entities;
@@ -577,12 +578,107 @@ Alguns pontos são importantes enfatizar para herança:
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
-## 4. Polimorfismo
+## 3.1. Upcasting e Downcasting
+
+- Upcasting:
+  - Casting da subclasse para superclasse
+  - Uso comum: `polimorfismo`
+- Downcasting:
+  - Casting da superclasse para subclasse
+  - Palavra `instanceof`
+  - Uso comum: métodos que recebem parâmetros genéricos (ex: `Equals`)
+
+Exemplo:
+
+![casting][G]
+
+```java
+package application;
+
+import entities.Account;
+import entities.BusinessAccount;
+import entities.SavingsAccount;
+
+public class Program {
+
+  public static void main(String[] args) {
+    
+    Account acc = new Account(1001, "Alex", 0.0);
+    BusinessAccount bacc = new BusinessAccount(1002, "Maria", 0.0, 500.0);
+    
+    // UPCASTING - pegar um objeto do tipo bacc e atribuí-lo para uma variável do tipo acc
+    Account acc1 = bacc; // A herança é uma relação "É um". bacc é um acc;
+    Account acc2 = new BusinessAccount(1003, "Bob", 0.0, 200.0);
+    Account acc3 = new SavingsAccount(1004, "Anna", 0.0, 0.01); // Pegar objeto de subclasse e atribui-lo para var da super
+        
+    // DOWNCASTING - 
+    //BusinessAccount bacc2 = acc2; // Erro = incompatibilidade de tipos
+    // Mesmo tendo instanciado ela como BusinessAccount, essa variável acc2 é do tipo Account. A conversão não é natural.
+    // Para contornar esse problema, fazer um casting manual
+    BusinessAccount bacc3 = (BusinessAccount)acc2;
+    bacc3.loan(100.0);
+    
+    // Erro em tempo de execução:
+    // BusinessAccount bacc4 = (BusinessAccount)acc3; // acc3 foi instanciada como SavingsAccount = é Account mas não BusinessAccount
+    // Na hora de fazer o downcasting, nem sempre dá certo e o computador não sabe disso. Vai do programador
+    
+    // INSTANCEOF
+    if (acc3 instanceof BusinessAccount) {
+      BusinessAccount bacc5 = (BusinessAccount)acc3;
+      bacc5.loan(200.0);
+      System.out.println("Loan!");
+    }
+    
+    if (acc3 instanceof SavingsAccount) {
+      SavingsAccount bacc5 = (SavingsAccount)acc3;
+      bacc5.updateBalance();
+      System.out.println("Update!");
+    }
+  }
+}
+```
+
+**src > entities > SavingsAccount.java**
+
+```java
+package entities;
+
+public class SavingsAccount extends Account {
+
+  private Double interestRate;
+
+  public SavingsAccount() {
+    super();
+  }
+
+  public SavingsAccount(Integer number, String holder, Double balance, Double interestRate) {
+    super(number, holder, balance);
+    this.interestRate = interestRate;
+  }
+
+  public Double getInterestRate() {
+    return interestRate;
+  }
+
+  public void setInterestRate(Double interestRate) {
+    this.interestRate = interestRate;
+  }
+
+  public void updateBalance() {
+    balance += balance * interestRate;
+  }
+}
+```
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
-## 5. Tratamento de exceções
+## 5. Polimorfismo
+
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 6. Tratamento de exceções
 
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
@@ -597,3 +693,4 @@ Alguns pontos são importantes enfatizar para herança:
 [D]: ../../Images/servicesEx.png
 [E]: ../../Images/herancaEx.png
 [F]: ../../Images/herancaEx2.png
+[g]: ../../Images/casting.png
