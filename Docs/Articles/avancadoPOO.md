@@ -21,7 +21,10 @@
     - [Classe `StringBuilder`](#classe-stringbuilder)
   - [2. Composição](#2-composição)
   - [3. Herança](#3-herança)
-  - [3.1. Upcasting e Downcasting](#31-upcasting-e-downcasting)
+    - [3.1. *Upcasting* e *Downcasting*](#31-upcasting-e-downcasting)
+    - [3.2. Sobreposição ou sobrescrita](#32-sobreposição-ou-sobrescrita)
+    - [3.3. Palavra `super`](#33-palavra-super)
+    - [3.4. Palavra `final`](#34-palavra-final)
   - [5. Polimorfismo](#5-polimorfismo)
   - [6. Tratamento de exceções](#6-tratamento-de-exceções)
 
@@ -578,7 +581,7 @@ Alguns pontos são importantes enfatizar para herança:
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
-## 3.1. Upcasting e Downcasting
+### 3.1. *Upcasting* e *Downcasting*
 
 - Upcasting:
   - Casting da subclasse para superclasse
@@ -670,6 +673,88 @@ public class SavingsAccount extends Account {
 }
 ```
 
+### 3.2. Sobreposição ou sobrescrita
+
+É a implementação de um método de uma super classe na subclasse.
+
+É fortemente recomendado utilizar a anotação `@Override` em um método sobrescrito, pois isso facilita a leitura e compreensão do código, e também é avisado ao compilador (boa prática).
+
+**Exemplo:** suponha que a operação de saque possui uma taxa no valo de 5.0. Entretanto, se a conta for do tipo poupança, esta taxa não deve ser cobrada. Como resolver isso?
+
+![override][H]
+
+Resposta: sobrescrevendo o método withdraw na subclasse SavingsAccount
+
+**src > entities > Account.java**
+
+```java
+public void withdraw(double amount) {
+  balance -= amount + 5.0
+}
+```
+
+**src > entities > SavingsAccount.java**
+
+```java
+@Override
+public void withdraw(double amount) {
+  balance -= amount
+}
+```
+
+O `@Override` pode ser apagado e o código debuggado sem problema. Entretanto, caso seja digitado o nome do método errado, por exemplo, seria executado como um método único da SavingsAccount. Assim, o `@Override` evita tais erros, pois busca em superclasses os métodos ou atributos que serão sobrepostos.
+
+**src > application > Program.java**
+```java
+Account acc1 = new Account(1001, "Alex", 1000.0);
+acc1.withdraw(200.0);
+System.out.println(acc1.getBalance());
+
+Account acc2 = new SavingsAccount(1002, "Maria", 1000.0, 0.01);
+acc2.withdraw(200.0);
+System.out.println(acc3.getBalance());
+```
+
+### 3.3. Palavra `super`
+
+É possível chamar a implementação da superclasse usando a palavra `super`.
+
+**Exemplo:** suponha que, na classe BusinessAccount, a regra para saque seja realizar o saque normalmente da superclasse, e descontar mais 2.0.
+
+```java
+@Override
+public void withdraw(double amount) {
+  super.withdraw(amount);
+  balance -= 2.0;
+}
+```
+
+> **Nota:** o `super` também é utilizado em construtores:
+
+### 3.4. Palavra `final`
+
+A palavra chave final, quando utilizado em **classes**, evita que a mesma seja herdada:
+
+```java
+public final class SavingsAccount {}
+```
+
+Já quando utilizada em **métodos**, evita que o método seja sobreposto.
+
+```java
+@Override
+public final void withdraw(double amount) {...}
+```
+
+![final][I]
+
+**Pra quê utilizar a palavra `final`?**
+
+- Segurança: dependendo das regras do negócio, às vezes é desejável garantir que uma classe não seja herdada, ou que um método não seja sobreposto.
+  - Geralmente convém acrescentar `final` em métodos sobrepostos, pois sobreposições múltiplas podem ser uma porta de entrada para **inconsistências**.
+- Performance: atributos de tipo de uma classe `final` são analisados de forma mais rápida em tempo de execução.
+  - Exemplo clássico: `String`.
+
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
@@ -693,4 +778,6 @@ public class SavingsAccount extends Account {
 [D]: ../../Images/servicesEx.png
 [E]: ../../Images/herancaEx.png
 [F]: ../../Images/herancaEx2.png
-[g]: ../../Images/casting.png
+[G]: ../../Images/casting.png
+[H]: ../../Images/sobreposicao.png
+[I]: ../../Images/final.png
