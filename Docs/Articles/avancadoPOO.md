@@ -26,7 +26,7 @@
     - [3.3. Palavra `super`](#33-palavra-super)
     - [3.4. Palavra `final`](#34-palavra-final)
   - [5. Polimorfismo](#5-polimorfismo)
-  - [6. Tratamento de exceções](#6-tratamento-de-exceções)
+  - [6. Classes e métodos abstratos](#6-classes-e-métodos-abstratos)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -974,7 +974,248 @@ public class OutsourcedEmployee extends Employee {
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
-## 6. Tratamento de exceções
+## 6. Classes e métodos abstratos
+
+São classes abstratas aquelas que não podem ser instanciadas. É uma forma de garantir herança total: somente subclasses não abstratas podem ser instanciadas, mas nunca a superclasse abstrata.
+
+**Exemplo:** Suponha que em um negócio relacionado a banco, apenas contas poupança e contas para empresas são permitidas. Não existe conta comum. Para garantir que contas comuns não possam ser instanciadas, basta acrescentarmos a palavra "abstract" na declaração da classe.
+
+```java
+public abstract class Account {
+  ...
+}
+```
+
+A notação UML para classes abstratas é o nome da classe em *itálico*.
+
+Para o Program.java do exemplo acima, não se pode instanciar uma classe `Account` com o tipo `Account`, pois ela é uma classe abstrata.
+
+```java
+public class Program {
+  public static void main(String[] args) {
+    Account acc1 = new Account(1001, "Alex", 1000.0); // Erro
+    Account acc2 = new SavingsAccount(1002, "Maria", 1000.0, 0.01);
+    Account acc3 = new BusinessAccount(1003, "Bob", 1000.0, 500.0);
+  }
+}
+```
+
+**Questionamento:** se a classe Account não pode ser instanciada, por que simplesmente não criar somente SavingsAccount e BusinessAccount?
+
+R.: Por conta da *reutilização* e do *polimorfismo*: a superclasse genérica nos permite tratar de forma fácil e uniforme todos os tipos de conta, inclusive com polimorfismo se for o caso (como foi feito nos últimos exercícios). Por exemplo, é possível colocar todos os tipos de contas em uma mesma coleção.
+
+Assim, suponha que seja preciso totalizar o saldo de todas as contas ou depositar R$ 10.00 em todas as contas:
+
+```java
+public class Program {
+  public static void main(String[] args) {
+    
+    Locale.setDefault(Locale.US);
+    List<Account> list = new ArrayList<>();
+
+    list.add(new SavingsAccount(1001, "Alex", 500.0, 0.01));
+    list.add(new BusinessAccount(1002, "Maria", 1000.0, 400.0));
+    list.add(new SavingsAccount(1003, "Bob", 300.0, 0.01));
+    list.add(new BusinessAccount(1004, "Ana", 400.0, 500.0));
+
+    double sum = 0.0;
+    for (Account acc : list) {
+      sum += acc.getBalance();
+    }
+
+    System.out.printf("Total balance: %.2f%n", sum);
+
+    for (Account acc : list) {
+      acc.deposit(10.0);
+    }
+
+    for (Account acc : list) {
+      System.out.printf("Updated balance for account %d: %.2f%n", acc.getNumber(), acc.getBalance());
+    }
+  }
+}
+```
+
+Métodos abstratos são métodos que não possuem implementação. Eles precisam ser abstratos quando a classe é genérica demais para conter sua implementação.
+
+Se um classe possuir pelo menos um método abstrato, então esta classe também é abstrata.
+
+A notação UML para os métodos abstratos também é o *itálico*.
+
+![exMetAbs][K]
+
+**Questionamento:** par ao exemplo acima, quanto vale a *`+area()`* de uma *Shape*, sem especificar qual forma é?
+
+R.: Não tem como, pois a classe genérica é demais; por isso deve-se deixar o método abstrato para implementá-lo apenas pelas subclasses.
+
+> **Nota:** a classe Shape também é abstrata, uma vez que ela possui um método abstrato.
+
+**Exercício resolvido:** fazer um programa para ler os dados de N figuras (N fornecido pelo usuário), e depois mostrar as áreas destas figuras na mesma ordem em que foram digitadas.
+
+<details close="close" align="left">
+  <summary><b>Exemplo</b></summary>
+  <pre>
+    <code>
+Enter the number of shapes: 2
+Shape #1 data:
+Rectangle or Circle (r/c)? r
+Color (BLACK/BLUE/RED): BLACK
+Width: 4.0
+Height: 5.0
+Shape #2 data:
+Rectangle or Circle (r/c)? c
+Color (BLACK/BLUE/RED): RED
+Radius: 3.0
+<br>
+SHAPE AREAS:
+20.00
+28.27
+    </code>
+  </pre>
+</details>
+
+**src > application > Program.java**
+
+```java
+package application;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Scanner;
+
+import entities.Circle;
+import entities.Rectangle;
+import entities.Shape;
+import entities.enums.Color;
+
+public class Program {
+
+  public static void main(String[] args) {
+      
+    Locale.setDefault(Locale.US);
+    Scanner sc = new Scanner(System.in);
+    
+    // Sempre utilize a lista do tipo genérico, pois está querendo polimorfismo. Dessa forma, ela aceita dados de todos os tipos de subclasses
+    List<Shape> list = new ArrayList<>();
+
+    System.out.print("Enter the number of shapes: ");
+    int n = sc.nextInt();
+    
+    for (int i = 1; i<=n; i++) {
+      System.out.println("Shape #" + i + " data:");
+      System.out.print("Rectangle or Circle (r/c)? ");
+      char ch = sc.next().charAt(0);
+      System.out.print("Color (BLACK/BLUE/RED): ");
+      Color color = Color.valueOf(sc.next());
+      
+      if (ch == 'r') {
+        System.out.print("Width: ");
+        double width = sc.nextDouble();
+        System.out.print("Height: ");
+        double height = sc.nextDouble();
+        list.add(new Rectangle(color, width, height));
+      } else {
+        System.out.print("Radius: ");
+        double radius = sc.nextDouble();
+        list.add(new Circle(color, radius));
+      }
+    }
+    
+    System.out.println();
+    System.out.println("SHAPE AREAS:");
+    
+    for (Shape shape : list) {
+      System.out.println(String.format("%.2f", shape.area()));
+    }
+    
+    sc.close();
+      
+  }
+
+}
+
+```
+
+**src > entities > Shape.java**
+
+```java
+package entities;
+
+import entities.enums.Color;
+
+public abstract class Shape {
+    
+  private Color color;
+  
+  ...
+
+  public void setColor(Color color) {
+    this.color = color;
+  }
+  
+  public abstract double area();
+
+}
+```
+
+**src > entities > Rectangle.java**
+
+```java
+package entities;
+
+import entities.enums.Color;
+
+public class Rectangle extends Shape {
+
+  private Double width;
+  private Double height;
+  
+  ...
+
+  @Override
+  public double area() {
+    return width * height;
+  }
+
+}
+
+```
+
+**src > entities > Circle.java**
+
+```java
+package entities;
+
+import entities.enums.Color;
+
+public class Circle extends Shape {
+
+  private Double radius;
+  
+  ...
+
+  @Override
+  public double area() {
+    return Math.PI * radius * radius;
+  }
+}
+```
+
+**src > entities.enums > Color.java**
+
+```java
+package entities.enums;
+
+public enum Color {
+
+  BLACK,
+  BLUE,
+  RED;
+    
+}
+```
 
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
@@ -993,3 +1234,4 @@ public class OutsourcedEmployee extends Employee {
 [H]: ../../Images/sobreposicao.png
 [I]: ../../Images/final.png
 [J]: ../../Images/polimorf.png
+[K]: ../../Images/exMetAbs.png
