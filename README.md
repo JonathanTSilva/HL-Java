@@ -80,8 +80,9 @@
 - **Fundamentos de programação adicionais**
   - [Conceitos e termos][5]
   - [Tópicos especiais em Java][5]
-  - [Enumeração, composição][6]
-  - [Herança e tratamento de exceções][6]
+  - [Enumeração e composição][6]
+  - [Herança, polimorfismo e abstração][6]
+  - [Tratamento de exceções][7]
 - **Programação orientada a objetos e projeto orientado a objetos**
   - [][]
 - **Interfaces gráficas Swing e gráficos Java 2D**
@@ -90,19 +91,23 @@
 - **Concorrência; rede**
 - **Interfaces gráficas do usuário, imagens gráficas e multimídia JavaFX**
 - **Área de trabalho voltada a banco de dados e desenvolvimento WEB**
-- **Intermediário**
-  - [][]
-  - [][]
-  - [][]
-- **Avançado**
-  - [][]
-  - [][]
-  - [][]
+- **Ferramentas e Frameworks**
+  - [JDBC][]
+  - [JavaFX][]
+  - [Spring Boot][]
+  - [JPA / Hibernate][]
+  - [Maven][]
+  - [Spring Data JPA][]
+  - [Spring Data MongoDB][]
 - **Projetos**
   - [Sistema de jogo de xadrez][]
   - [Aplicação desktop com JavaFX e banco de dados MySQL com JDBC][]
   - [Web services com Spring Boot e JPA/Hibernate][]
   - [Web services com Spring Boot e NoSQL (MongoDB)][]
+
+## 📚 Bibliografia
+
+Alves, N. **Java COMPLETO - Programação Orientada a Objetos + Projetos**. Curso da Udemy. Disponível em: https://www.udemy.com/course/java-curso-completo/. Acesso em: 20 fevereiro 2022.
 
 ## 🤝 Contribuindo
 
