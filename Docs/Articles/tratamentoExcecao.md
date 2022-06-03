@@ -50,6 +50,9 @@ Segue abaixo, uma amostra da hierarquia de exceções do Java. Para maiores info
 
 Tem-se uma superclass `Throwable` (classe genérica de todas as exceções e erros) e subclasses: `Error` (agrupa todos os erros que não espera-se tratamento pelo programador) e `Exception`, cujo o programa tem a possibilidade do programa tratar (sendo que na `RuntimeException`, o compilador não obriga a tratar os erros)
 
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
 ## 2. Estrutura try-catch
 
 Como visto na introdução deste artigo, para tratar as exceções em Java são utilizados os comandos `try` e `catch`. Esses comandos apresentam a sintaxe abaixo:
