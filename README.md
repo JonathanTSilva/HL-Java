@@ -138,6 +138,7 @@ Distribuída por **MIT License**. Veja [LICENSE][B] para mais informações.
 [4]: Docs/Articles/introducaoPOO.md
 [5]: Docs/Articles/intermediarioPOO.md
 [6]: Docs/Articles/avancadoPOO.md
+[7]: Docs/Articles/tratamentoExcecao.md
 
 <!-- IMAGENS -->
 [java_roadmap]: Images/java_roadmap.jpeg
