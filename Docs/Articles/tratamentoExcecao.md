@@ -12,7 +12,12 @@
 🔕 Uma abordagem prática para entender o tratamento de exceções no Java.
 
 <!-- SUMÁRIO -->
-
+- [Tratamento de exceções](#tratamento-de-exceções)
+  - [1. Introdução](#1-introdução)
+    - [1.1. Hierarquia de exceções do Java](#11-hierarquia-de-exceções-do-java)
+  - [2. Estrutura try-catch](#2-estrutura-try-catch)
+  - [3. Pilha de chamadas de métodos](#3-pilha-de-chamadas-de-métodos)
+  - [4. Bloco `finally`](#4-bloco-finally)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -60,14 +65,11 @@ Como visto na introdução deste artigo, para tratar as exceções em Java são 
 ```java
 try {
  // Bloco de prova - inclui qualquer código que pode chamar uma exceção (throw)
-}
-catch (ExceptionType arg) {
+} catch (ExceptionType arg) {
  // Executa algumas ações
-}
-catch (ExceptionType arg) {
+} catch (ExceptionType arg) {
  // Executa algumas ações
-}
-catch (ExceptionType arg) {
+} catch (ExceptionType arg) {
  // Executa algumas ações
 }
 ```
@@ -95,6 +97,105 @@ catch (InputMismatchException e) {
 System.out.println("End of program");
 
 sc.close();
+```
+
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 3. Pilha de chamadas de métodos
+
+A pilha de chamadas (call stack) é um mecanismo do interpretador de uma linguagem que organiza o funcionamento do script quando são chamadas muitas funções, qual função está sendo executada no momento, e quais serão chamadas dentro de alguma função, etc.
+
+- Quando o script chama a função, ela é adicionada à pilha de chamadas, e então é iniciado o carregamento da função.
+- Qualquer função chamada por essa função será adicionada à pilha de chamadas uma acima da outra.
+- Quando a função termina a execução, o interpretador retira a função da pilha e continua a execução do programa de onde parou.
+- Caso a pilha ocupar mais espaço do que foi separado a ela, será exibido um erro "stack overflow" (estouro de pilha).
+
+**Exemplo:**
+
+```java
+public class Program {
+  public static void main(String[] args) {
+    method1();
+    System.out.println("End of program");
+  }
+  
+  public static void method1() {
+    System.out.println("*** METHOD1 START ***");
+    method2();
+    System.out.println("*** METHOD1 END ***");
+  }
+
+  public static void method2() {
+    System.out.println("*** METHOD2 START ***");
+    Scanner sc = new Scanner(System.in);
+    try {
+        String[] vect = sc.nextLine().split(" ");
+        int position = sc.nextInt(); // Uma das exceções é digitar uma letra ao invés de um número
+        // ou, digitar uma posição que não está dentro do limite do vetor
+        System.out.println(vect[position]);
+    }
+    catch (ArrayIndexOutOfBoundsException e) {
+        System.out.println("Invalid position");
+        e.printStackTrace(); // Imprime o tipo da exceção, mensagem e a sequencia de chamadas que gerou a exeção
+        sc.next();
+    }
+    catch (InputMismatchException e) {
+        System.out.println("Input error");
+        e.printStackTrace();
+    }
+    sc.close();
+    System.out.println("*** METHOD2 END ***");
+  }  
+}
+```
+
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 4. Bloco `finally`
+
+É um bloco que contém código a ser executado independentemente de ter ocorrido ou não uma exceção.
+
+Um exemplo clássico para ilustrar a aplicação deste bloco é: fechar um arquivo, conexão com o banco de dados, ou outro recurso específico ao final do processamento.
+
+```java
+try{
+
+} catch(ExceptionType e) {
+
+} finally {
+
+}
+```
+
+**Exemplo:**
+
+```java
+package application;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Program1 {
+  public static void main(String[] args) {
+    File file = new File("C:\\temp\\in.txt");
+    Scanner sc = null;
+    try {
+      sc = new Scanner(file);
+      while (sc.hasNextLine()) {
+        System.out.println(sc.nextLine());
+      }
+    } catch (IOException e) {
+      System.out.println("Error opening file: " + e.getMessage());
+    } finally { // É executado independentemente do sucesso ou não do try
+      if (sc != null) {
+        sc.close();
+      }
+    }
+  }
+}
 ```
 
 <!-- MARKDOWN LINKS -->
