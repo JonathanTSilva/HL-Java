@@ -1,5 +1,5 @@
 <!-- LOGO DIREITO -->
-<a href="#"><img width="200px" src="http://www.universidadejava.com.br/images/2020-05-14-java-excecoes.png" align="right" /></a>
+<a href="#"><img width="300px" src="http://www.universidadejava.com.br/images/2020-05-14-java-excecoes.png" align="right" /></a>
 
 # Tratamento de exceções
 
