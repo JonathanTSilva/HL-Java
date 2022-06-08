@@ -18,6 +18,8 @@
   - [2. Estrutura try-catch](#2-estrutura-try-catch)
   - [3. Pilha de chamadas de métodos](#3-pilha-de-chamadas-de-métodos)
   - [4. Bloco `finally`](#4-bloco-finally)
+  - [5. Criando exceções personalizadas](#5-criando-exceções-personalizadas)
+    - [Solução 1](#solução-1)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -198,9 +200,214 @@ public class Program1 {
 }
 ```
 
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 5. Criando exceções personalizadas
+
+Quando vamos fazer uma aplicação, ela terá a interface com o usuário, responsável pelas telas e seus controladores, e também o model, que é o sistema em si.
+
+O model representa os dados do sistema e as transformações desses dados conforme as regras de negócio.
+
+Uma sugestão de pacotes model é dada abaixo:
+
+![model][B]
+
+**Exercício resolvido:** ler os dados de uma reserva de hotel (número do quarto, data de entrada e data de saída) e mostrar os dados da reserva, inclusive sua duração em dias. Em seguida, ler novas datas de entrada e saída, atualizar a reserva, e mostrar novamente a reserva com os dados atualizados. O programa não deve aceitar dados inválidos para a reserva, conforme as seguintes regras:
+
+- Alterações de reserva só podem ocorrer para datas futuras
+- A data de saída deve ser maior que a data de entrada
+
+<details close="close" align="left">
+  <summary><b>Diagrama UML</b></summary>
+  <p float="left">
+    <img src="../../Images/umlException.png"/>
+  </p>
+</details>
+
+<details close="close" align="left">
+  <summary><b>Exemplo 1</b></summary>
+  <pre>
+    <code>
+Room number: 8021
+Check-in date (dd/MM/yyyy): 23/09/2019
+Check-out date (dd/MM/yyyy): 26/09/2019
+Reservation: Room 8021, check-in: 23/09/2019, check-out: 26/09/2019, 3 nights
+Enter data to update the reservation:
+Check-in date (dd/MM/yyyy): 24/09/2019
+Check-out date (dd/MM/yyyy): 29/09/2019
+Reservation: Room 8021, check-in: 24/09/2019, check-out: 29/09/2019, 5 nights
+<br>
+Room number: 8021
+Check-in date (dd/MM/yyyy): 23/09/2019
+Check-out date (dd/MM/yyyy): 21/09/2019
+Error in reservation: Check-out date must be after check-in date
+    </code>
+  </pre>
+</details>
+
+<details close="close" align="left">
+  <summary><b>Exemplo 2</b></summary>
+  <pre>
+    <code>
+Room number: 8021
+Check-in date (dd/MM/yyyy): 23/09/2019
+Check-out date (dd/MM/yyyy): 26/09/2019
+Reservation: Room 8021, check-in: 23/09/2019, check-out: 26/09/2019, 3 nights
+Enter data to update the reservation:
+Check-in date (dd/MM/yyyy): 24/09/2015
+Check-out date (dd/MM/yyyy): 29/09/2015
+Error in reservation: Reservation dates for update must be future dates
+<br>
+Room number: 8021
+Check-in date (dd/MM/yyyy): 23/09/2019
+Check-out date (dd/MM/yyyy): 26/09/2019
+Reservation: Room 8021, check-in: 23/09/2019, check-out: 26/09/2019, 3 nights
+Enter data to update the reservation:
+Check-in date (dd/MM/yyyy): 24/09/2020
+Check-out date (dd/MM/yyyy): 22/09/2020
+Error in reservation: Check-out date must be after check-in date
+    </code>
+  </pre>
+</details>
+
+Para facilitar o entendimento da aplicação de um tratamento de exceções adequado, a solução será dividida em três partes:
+
+1. Solução muito ruim: lógica de validação no programa principal
+2. Solução ruim: método retornando string
+3. Solução boa: tratamento de exceções
+
+Para qualquer uma das soluções, a classe `Reservation` será a mesma:
+
+```java
+package model.entities;
+
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.concurrent.TimeUnit;
+
+public class Reservation {
+
+  private Integer roomNumber;
+  private Date checkIn;
+  private Date checkOut;
+  
+  // O estático é utilizado para que não seja instanciado um sdf para cada aplicação Reservation
+  private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+  
+  public Reservation(Integer roomNumber, Date checkIn, Date checkOut) {
+    this.roomNumber = roomNumber;
+    this.checkIn = checkIn;
+    this.checkOut = checkOut;
+  }
+
+  public Integer getRoomNumber() {
+    return roomNumber;
+  }
+
+  public void setRoomNumber(Integer roomNumber) {
+    this.roomNumber = roomNumber;
+  }
+
+  public Date getCheckIn() {
+    return checkIn;
+  }
+
+  public Date getCheckOut() {
+    return checkOut;
+  }
+
+  public long duration() {
+    long diff = checkOut.getTime() - checkIn.getTime();
+    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+  }
+  
+  public void updateDates(Date checkIn, Date checkOut) {
+    this.checkIn = checkIn;
+    this.checkOut = checkOut;
+  }
+
+  @Override
+  public String toString() {
+    return "Room "
+      + roomNumber
+      + ", checkIn: "
+      + sdf.format(checkIn)
+      + ", checkOut: "
+      + sdf.format(checkOut)
+      + ", "
+      + duration()
+      + " nights";
+  }
+
+}
+```
+
+### Solução 1
+
+**src > application > Program.java**
+
+```java
+package application;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+import model.entities.Reservation;
+
+public class Program {
+
+  public static void main(String[] args) throws ParseException {
+
+    Scanner sc = new Scanner(System.in);
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+    System.out.print("Room number: ");
+    int number = sc.nextInt();
+    System.out.print("Check-in date (dd/MM/yyyy): ");
+    Date checkIn = sdf.parse(sc.next());
+    System.out.print("Check-out date (dd/MM/yyyy): ");
+    Date checkOut = sdf.parse(sc.next());
+
+    if (!checkOut.after(checkIn)) {
+      System.out.println("Error in reservation: Check-out date must be after check-in date");
+    }
+    else {
+      Reservation reservation = new Reservation(number, checkIn, checkOut);
+      System.out.println("Reservation: " + reservation);
+
+      System.out.println();
+      System.out.println("Enter data to update the reservation:");
+      System.out.print("Check-in date (dd/MM/yyyy): ");
+      checkIn = sdf.parse(sc.next());
+      System.out.print("Check-out date (dd/MM/yyyy): ");
+      checkOut = sdf.parse(sc.next());
+
+      Date now = new Date();
+      if (checkIn.before(now) || checkOut.before(now)) {
+        System.out.println("Error in reservation: Reservation dates for update must be future dates");
+      }
+      else if (!checkOut.after(checkIn)) {
+        System.out.println("Error in reservation: Check-out date must be after check-in date");
+      }
+      else {
+        reservation.updateDates(checkIn, checkOut);
+        System.out.println("Reservation: " + reservation);
+      }
+    }
+
+    sc.close();
+  }
+
+}
+```
+
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
 [1]: https://docs.oracle.com/javase/8/docs/api/java/lang/package-tree.html
 
 <!-- IMAGES -->
 [A]: ../../Images/exceptionHie.png
+[B]: ../../Images/model.png
