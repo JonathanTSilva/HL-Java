@@ -20,6 +20,9 @@
   - [4. Bloco `finally`](#4-bloco-finally)
   - [5. Criando exceções personalizadas](#5-criando-exceções-personalizadas)
     - [Solução 1](#solução-1)
+    - [Solução 2](#solução-2)
+    - [Solução 3](#solução-3)
+  - [6. Resumo](#6-resumo)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -274,10 +277,17 @@ Error in reservation: Check-out date must be after check-in date
 Para facilitar o entendimento da aplicação de um tratamento de exceções adequado, a solução será dividida em três partes:
 
 1. Solução muito ruim: lógica de validação no programa principal
+   - Lógica de validação não delegada à reserva
 2. Solução ruim: método retornando string
+   - A semântica da operação é prejudicada
+     - Retornar string não tem nada a ver com atualização de reserva
+     - E se a operação tivesse que retornar um string?
+   - Ainda não é possível tratar exceções em construtores
+   - Ainda não há auxílio do compilador: o programador deve "lembrar" de verificar se houve erro
+   - A lógica fica estruturada em condicionais aninhadas
 3. Solução boa: tratamento de exceções
 
-Para qualquer uma das soluções, a classe `Reservation` será a mesma:
+Para qualquer uma das soluções, a classe `Reservation` terá a base:
 
 ```java
 package model.entities;
@@ -403,6 +413,221 @@ public class Program {
 
 }
 ```
+
+### Solução 2
+
+**src > application > Program.java**
+
+```java
+if (!checkOut.after(checkIn)) {
+  System.out.println("Error in reservation: Check-out date must be after check-in date");
+} else {
+  Reservation reservation = new Reservation(number, checkIn, checkOut);
+  System.out.println("Reservation: " + reservation);
+
+  System.out.println();
+  System.out.println("Enter data to update the reservation:");
+  System.out.print("Check-in date (dd/MM/yyyy): ");
+  checkIn = sdf.parse(sc.next());
+  System.out.print("Check-out date (dd/MM/yyyy): ");
+  checkOut = sdf.parse(sc.next());
+
+  String error = reservation.updateDates(checkIn, checkOut);
+  if (error != null) {
+    System.out.println("Error in reservation:" + reservation);
+  } else {
+    System.out.println("Reservation: " + reservation);
+  }
+    
+}
+```
+
+**src > model.entities > Reservation.java**
+
+```java
+public String updateDates(Date checkIn, Date checkOut) {
+  Date now = new Date();
+  if (checkIn.before(now) || checkOut.before(now)) {
+    return "Reservation dates for update must be future dates";
+  }
+  if (!checkOut.after(checkIn)) {
+    return "Check-out date must be after check-in date";
+  }
+  
+  this.checkIn = checkIn;
+  this.checkOut = checkOut;
+  
+  return null; // Para indicar que não teve nenhum problema
+}
+```
+
+### Solução 3
+
+Para criar uma exceção personalizada, deve-se criar um pacote `model.exceptions`. A exceção pode ser uma extensão dos seguintes tipos:
+
+- Exception - o compilador reclama que tem que tratar a exceção (**Para esse tipo, é necessário lançar o throw no método pai**);
+- RuntimeException - o compilador não obriga você a tratar. Caso não exista o try catch, o compilador não reclama.
+
+**src > application > Program.java**
+
+```java
+package application;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+import model.entities.Reservation;
+import model.exceptions.DomainException;
+
+public class Program {
+
+  public static void main(String[] args) {
+
+    Scanner sc = new Scanner(System.in);
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    
+    try {
+      System.out.print("Room number: ");
+      int number = sc.nextInt();
+      System.out.print("Check-in date (dd/MM/yyyy): ");
+      Date checkIn = sdf.parse(sc.next());
+      System.out.print("Check-out date (dd/MM/yyyy): ");
+      Date checkOut = sdf.parse(sc.next());
+      
+      Reservation reservation = new Reservation(number, checkIn, checkOut);
+      System.out.println("Reservation: " + reservation);
+      
+      System.out.println();
+      System.out.println("Enter data to update the reservation:");
+      System.out.print("Check-in date (dd/MM/yyyy): ");
+      checkIn = sdf.parse(sc.next());
+      System.out.print("Check-out date (dd/MM/yyyy): ");
+      checkOut = sdf.parse(sc.next());
+      
+      reservation.updateDates(checkIn, checkOut);
+      System.out.println("Reservation: " + reservation);
+    }
+    catch (ParseException e) {
+      System.out.println("Invalid date format");
+    }
+    catch (DomainException e) {
+      System.out.println("Error in reservation: " + e.getMessage());
+    }
+    catch (RuntimeException e) {
+      System.out.println("Unexpected error");
+    }
+
+    sc.close();
+  }
+}
+```
+
+**src > model.entities > Reservation.java**
+
+```java
+package model.entities;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import model.exceptions.DomainException;
+
+public class Reservation {
+
+  private Integer roomNumber;
+  private Date checkIn;
+  private Date checkOut;
+  
+  private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+  
+  public Reservation(Integer roomNumber, Date checkIn, Date checkOut) throws DomainException {
+    if (!checkOut.after(checkIn)) {
+      throw new DomainException("Check-out date must be after check-in date");
+    }
+    this.roomNumber = roomNumber;
+    this.checkIn = checkIn;
+    this.checkOut = checkOut;
+  }
+
+  public Integer getRoomNumber() {
+    return roomNumber;
+  }
+
+  public void setRoomNumber(Integer roomNumber) {
+    this.roomNumber = roomNumber;
+  }
+
+  public Date getCheckIn() {
+    return checkIn;
+  }
+
+  public Date getCheckOut() {
+    return checkOut;
+  }
+
+  public long duration() {
+    long diff = checkOut.getTime() - checkIn.getTime();
+    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+  }
+  
+  public void updateDates(Date checkIn, Date checkOut) throws DomainException {
+    Date now = new Date();
+    if (checkIn.before(now) || checkOut.before(now)) {
+      throw new DomainException("Reservation dates for update must be future dates");
+    }
+    if (!checkOut.after(checkIn)) {
+      throw new DomainException("Check-out date must be after check-in date");
+    }
+    this.checkIn = checkIn;
+    this.checkOut = checkOut;
+  }
+  
+  @Override
+  public String toString() {
+    return "Room "
+      + roomNumber
+      + ", check-in: "
+      + sdf.format(checkIn)
+      + ", check-out: "
+      + sdf.format(checkOut)
+      + ", "
+      + duration()
+      + " nights";
+  }
+}
+```
+
+**src > model.exceptions > DomainException.java**
+
+```java
+package model.exceptions;
+
+public class DomainException extends Exception {
+  private static final long serialVersionUID = 1L;
+  
+  public DomainException(String msg) {
+    super(msg);
+  }
+}
+```
+
+## 6. Resumo
+
+- Cláusula `throws`:
+  - propaga a exceção ao invés de trata-la
+  - lança a exceção / "corta" o método
+- Exception: compilador obriga a tratar ou propagar
+- RuntimeException: compilador não obriga
+- O modelo de tratamento de exceções permite que erros sejam tratados de forma consistente e flexível, usando boas práticas:
+- Vantagens:
+  - Lógica delegada
+  - Construtores podem ter tratamento de exceções
+  - Possibilidade de auxílio do compilador (Exception)
+  - Código mais simples. Não há aninhamento de condicionais: a qualquer momento que uma exceção for disparada, a execução é interrompida e cai no bloco catch correspondente
+  - É possível capturar inclusive outras exceções de sistema
 
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
