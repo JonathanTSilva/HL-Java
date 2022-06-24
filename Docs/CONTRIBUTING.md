@@ -65,8 +65,8 @@ indent_style = tab
 Nós temos dois estilos de documentação em Markdown: a de **respositórios** e a de **artigos**. Para melhor entender os estilos e estrutura de cada uma, observe as imagens abaixo:
 
 <p float="left">
-  <img src="../Images/main.png" width="450" />
-  <img src="../Images/second.png" width="450" /> 
+  <img src="https://github.com/JonathanTSilva/JonathanTSilva/tree/main/Images/main.png" width="450" />
+  <img src="https://github.com/JonathanTSilva/JonathanTSilva/tree/main/Images/second.png" width="450" /> 
 </p>
 
 1. Sempre agrupe os links das páginas no final do seu código `.md` (seguindo padrão abaixo), facilitando a manutenção de links defeituosos:
