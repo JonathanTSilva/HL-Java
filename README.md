@@ -107,7 +107,7 @@
 
 ## 📚 Bibliografia
 
-Alves, N. **Java COMPLETO - Programação Orientada a Objetos + Projetos**. Curso da Udemy. Disponível em: https://www.udemy.com/course/java-curso-completo/. Acesso em: 20 fevereiro 2022.
+ALVES, N. **Java COMPLETO - Programação Orientada a Objetos + Projetos**. Curso da Udemy. Disponível em: https://www.udemy.com/course/java-curso-completo/. Acesso em: 20 fevereiro 2022.
 
 ## 🤝 Contribuindo
 
