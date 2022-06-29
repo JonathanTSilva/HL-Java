@@ -83,6 +83,7 @@
   - [Enumeração e composição][6]
   - [Herança, polimorfismo e abstração][6]
   - [Tratamento de exceções][7]
+<!--
 - **Programação orientada a objetos e projeto orientado a objetos**
   - [][]
 - **Interfaces gráficas Swing e gráficos Java 2D**
@@ -91,6 +92,7 @@
 - **Concorrência; rede**
 - **Interfaces gráficas do usuário, imagens gráficas e multimídia JavaFX**
 - **Área de trabalho voltada a banco de dados e desenvolvimento WEB**
+-->
 - **Ferramentas e Frameworks**
   - [JDBC][]
   - [JavaFX][]
@@ -126,7 +128,7 @@ Distribuída por **MIT License**. Veja [LICENSE][B] para mais informações.
 :email: jonathantobias2009@hotmail.com <br>
 :package: [JonathanTSilva/HL-Java][D]
 
-<!-- MARKDOWN LINKS>
+<!-- MARKDOWN LINKS -->
 <!-- SITES -->
 [A]: https://github.com/JonathanTSilva/HL-Java/blob/main/Docs/CONTRIBUTING.md
 [B]: https://github.com/JonathanTSilva/HL-Java/blob/main/LICENSE
