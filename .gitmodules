@@ -1,0 +1,3 @@
+[submodule "Build/Course-JCPOO/Project01-ChessSystem"]
+	path = Build/Course-JCPOO/Project01-ChessSystem
+	url = https://github.com/JonathanTSilva/HL-Java
