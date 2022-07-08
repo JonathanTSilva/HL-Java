@@ -1,0 +1,32 @@
+package application;
+
+import java.util.Locale;
+import java.util.Scanner;
+
+public class Program {
+
+    public static void main(String[] args) {
+        
+        Locale.setDefault(Locale.US);
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.println("------------------------------------------------------------------------------------------");
+        System.out.println("Exercício 1 - While");
+        System.out.println("Ler números inteiros até que um zero seja lido. Ao final mostrar a soma dos números lidos.");
+        System.out.println();
+        
+        int x = sc.nextInt();
+        int soma = 0;
+        
+        while (x != 0) {
+          soma += x;
+          x = sc.nextInt();
+        }
+        
+        System.out.println(soma);
+        
+        sc.close();
+        
+    }
+
+}
