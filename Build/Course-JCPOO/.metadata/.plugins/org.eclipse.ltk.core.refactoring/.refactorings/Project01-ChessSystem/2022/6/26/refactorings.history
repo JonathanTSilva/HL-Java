@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename compilation unit &apos;chess.ChessMate.java&apos; to &apos;ChessMatch.java&apos;&#x0A;- Original project: &apos;Project01-ChessSystem&apos;&#x0A;- Original element: &apos;chess.ChessMate.java&apos;&#x0A;- Renamed element: &apos;chess.ChessMatch.java&apos;" description="Rename compilation unit &apos;ChessMate.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src&lt;chess{ChessMate.java" name="ChessMatch.java" references="false" stamp="1655721222944" version="1.0"/>
-</session>
