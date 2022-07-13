@@ -2,9 +2,11 @@ package application;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Program {
     public static void main(String[] args) {
@@ -44,6 +46,37 @@ public class Program {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+        System.out.println("------------------------------------------------------------------------------------------");
+        System.out.println("Atividade de manipulação de pastas");
+        System.out.println();
+        
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Enter a folder path: ");
+        String strPath = sc.nextLine();
+        
+        File path3 = new File(strPath);
+        
+        // Ler as pastas do path3
+        File[] folders = path3.listFiles(File::isDirectory);
+        System.out.println("Folders:");
+        for (File folder : folders) {
+            System.out.println(folder);
+        }
+        
+        // Ler os arquivos do path3
+        File[] files = path3.listFiles(File::isFile);
+        System.out.println("Files:");
+        for (File file : files) {
+            System.out.println(file);
+        }
+        
+        // Criar uma subpasta a partir da pasta path3
+        boolean success = new File(strPath + "/subdir").mkdir();
+        System.out.println("Directory created successfully: " + success);
+        
+        sc.close();
 
     }
 }

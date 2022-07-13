@@ -15,6 +15,9 @@
 - [Trabalhando com arquivos](#trabalhando-com-arquivos)
   - [1. Lendo arquivo de texto com classes File e Scanner](#1-lendo-arquivo-de-texto-com-classes-file-e-scanner)
   - [2. Lendo arquivo de texto com classes FileReader e BufferedReader](#2-lendo-arquivo-de-texto-com-classes-filereader-e-bufferedreader)
+  - [3. Bloco `try-with-resources`](#3-bloco-try-with-resources)
+  - [4. Escrevendo em arquivos com o FileWriter e BufferedWriter](#4-escrevendo-em-arquivos-com-o-filewriter-e-bufferedwriter)
+  - [5. Manipulando pastas com File](#5-manipulando-pastas-com-file)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -119,6 +122,119 @@ public class Program {
 }
 ```
 
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 3. Bloco `try-with-resources`
+
+É um bloco try que declara um ou mais recursos, e garante que esses recursos serão fechados ao final do bloco. Disponível no [Java 7 em diante][7].
+
+Ainda no código desenvolvido na seção acima, note a simplicidade que ficará ler um arquivo agora:
+
+```java
+package application;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class Program {
+    public static void main(String[] args) {
+        String path = "/tmp/testfile.AW5Hga";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            String line = br.readLine();
+            while (line != null) {
+                System.out.println(line);
+                line = br.readLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+```
+
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 4. Escrevendo em arquivos com o FileWriter e BufferedWriter
+
+- [FileWriter][8] (stream de escrita de caracteres em de arquivos)
+  - Cria/recria o arquivo: `new FileWriter(path)`
+  - Acrescenta ao arquivo existente: `new FileWriter(path, true)`
+- [BufferedWriter][9] (mais rápido)
+
+```java
+package application;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Program {
+    public static void main(String[] args) {
+        
+        String[] lines = new String[] {"Good morning", "Good afternoon", "Good night"};
+        
+        String path = "/tmp/out.txt";
+        
+        // O parâmetro true indica que não quer que recrie o arquivo. Semelhante ao >> do bash
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, true))) {
+            for (String line : lines) {
+                bw.write(line);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+}
+```
+
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 5. Manipulando pastas com File
+
+```java
+package application;
+
+import java.io.File;
+import java.util.Scanner;
+
+public class Program {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.println("Enter a folder path: ");
+        String strPath = sc.nextLine();
+        
+        File path = new File(strPath);
+        
+        // Ler as pastas do strPath
+        File[] folders = path.listFiles(File::isDirectory);
+        System.out.println("FOLDERS:");
+        for (File folder : folders) {
+            System.out.println(folder);
+        }
+        
+        // Ler os arquivos do strPath
+        File[] files = path.listFiles(File::isFile);
+        System.out.println("FILES:");
+        for (File file : files) {
+            System.out.println(file);
+        }
+        
+        // Criar uma subpasta a partir da pasta strPath
+        boolean success = new File(strPath + "\\subdir").mkdir();
+        System.out.println("Directory created successfully: " + success);
+        sc.close();
+    }
+}
+```
+
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
 [1]: https://docs.oracle.com/javase/10/docs/api/java/io/File.html
@@ -127,5 +243,8 @@ public class Program {
 [4]: https://docs.oracle.com/javase/10/docs/api/java/io/FileReader.html
 [5]: https://docs.oracle.com/javase/10/docs/api/java/io/BufferedReader.html
 [6]: https://stackoverflow.com/questions/9648811/specific-difference-between-bufferedreader-and-filereader
+[7]: https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html
+[8]: https://docs.oracle.com/javase/10/docs/api/java/io/FileWriter.html
+[9]: https://docs.oracle.com/javase/10/docs/api/java/io/BufferedWriter.html
 
 <!-- IMAGES -->
