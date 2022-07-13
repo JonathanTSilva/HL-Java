@@ -1,17 +1,21 @@
 package application;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class Program {
     public static void main(String[] args) {
-        String path = "/tmp/testfile.f4XIUQ";
-        BufferedReader br = null;
-        FileReader fr = null;
-        try {
-            fr = new FileReader(path);
-            br = new BufferedReader(fr);
+        
+        System.out.println("------------------------------------------------------------------------------------------");
+        System.out.println("Atividade de leitura de arquivo");
+        System.out.println();
+
+        String path1 = "/tmp/testfile.AW5Hga";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(path1))) {
             String line = br.readLine();
             while (line != null) {
                 System.out.println(line);
@@ -19,15 +23,27 @@ public class Program {
             }
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
-        } finally {
-            try {
-                if (br != null)
-                    br.close();
-                if (fr != null)
-                    fr.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
+
+        
+        System.out.println("------------------------------------------------------------------------------------------");
+        System.out.println("Atividade de escrita em arquivo");
+        System.out.println();
+        
+        
+        String[] lines = new String[] {"Good morning", "Good afternoon", "Good night"};
+        
+        String path2 = "/tmp/out.txt";
+        
+        // O parâmetro true indica que não quer que recrie o arquivo. Semelhante ao >> do bash
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path2, true))) {
+            for (String line : lines) {
+                bw.write(line);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
