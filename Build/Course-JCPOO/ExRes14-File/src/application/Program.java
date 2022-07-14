@@ -54,9 +54,9 @@ public class Program {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Enter a folder path: ");
-        String strPath = sc.nextLine();
+        String strPath1 = sc.nextLine();
         
-        File path3 = new File(strPath);
+        File path3 = new File(strPath1);
         
         // Ler as pastas do path3
         File[] folders = path3.listFiles(File::isDirectory);
@@ -73,10 +73,21 @@ public class Program {
         }
         
         // Criar uma subpasta a partir da pasta path3
-        boolean success = new File(strPath + "/subdir").mkdir();
+        boolean success = new File(strPath1 + "/subdir").mkdir();
         System.out.println("Directory created successfully: " + success);
         
+        System.out.println("------------------------------------------------------------------------------------------");
+        System.out.println("Obter informações do caminho de um arquivo");
+        System.out.println();
+        
+        System.out.println("Enter a file path: ");
+        String strPath2 = sc.nextLine();
+        
+        File path4 = new File(strPath2);
+        
+        System.out.println("getName: " + path4.getName());
+        System.out.println("getParent: " + path4.getParent());
+        
         sc.close();
-
     }
 }

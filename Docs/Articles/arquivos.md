@@ -18,6 +18,7 @@
   - [3. Bloco `try-with-resources`](#3-bloco-try-with-resources)
   - [4. Escrevendo em arquivos com o FileWriter e BufferedWriter](#4-escrevendo-em-arquivos-com-o-filewriter-e-bufferedwriter)
   - [5. Manipulando pastas com File](#5-manipulando-pastas-com-file)
+  - [6. Obter informações do caminho de um arquivo](#6-obter-informações-do-caminho-de-um-arquivo)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -234,6 +235,37 @@ public class Program {
     }
 }
 ```
+
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 6. Obter informações do caminho de um arquivo
+
+```java
+package application;
+
+import java.io.File;
+import java.util.Scanner;
+
+public class Program {
+    public static void main(String[] args) {
+        
+        Scanner sc = new Scanner(System.in);
+        
+        System.out.println("Enter a folder path: ");
+        String strPath = sc.nextLine();
+        
+        File path = new File(strPath);
+        
+        System.out.println("getPath: " + path.getPath());
+        System.out.println("getParent: " + path.getParent());
+        System.out.println("getName: " + path.getName());
+        
+        sc.close();
+    }
+}
+```
+
 
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
