@@ -266,7 +266,6 @@ public class Program {
 }
 ```
 
-
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
 [1]: https://docs.oracle.com/javase/10/docs/api/java/io/File.html
