@@ -84,7 +84,7 @@
   - [Herança, polimorfismo e abstração][6]
   - [Tratamento de exceções][7]
 - **Intermediário**
-  - [Trabalhando com arquivos][]
+  - [Trabalhando com arquivos][8]
 <!--
 - **Programação orientada a objetos e projeto orientado a objetos**
   - [][]
