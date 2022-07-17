@@ -85,6 +85,9 @@
   - [Tratamento de exceções][7]
 - **Intermediário**
   - [Trabalhando com arquivos][8]
+- **Avançado**
+  - Redes Neurais Artificiais
+  - Reconhecimento facial
 <!--
 - **Programação orientada a objetos e projeto orientado a objetos**
   - [][]
