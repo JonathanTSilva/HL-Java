@@ -110,11 +110,28 @@ Tax = 390 * 15% = 390 * 0.15 = 58.50
   </pre>
 </details>
 
-**src > application > Program.java**
+<details close="close" align="left">
+  <summary><b>Diagrama UML - Design da camada de domínio</b></summary>
+  <p float="left">
+    <img src="../../Images/interfaces01.png"/>
+  </p>
+</details>
 
-```java
+<details close="close" align="left">
+  <summary><b>Diagrama UML - Design da camada de serviço (sem interface)</b></summary>
+  <p float="left">
+    <img src="../../Images/interfaces02.png"/>
+  </p>
+</details>
 
-```
+<details close="close" align="left">
+  <summary><b>Diagrama UML - Design da camada de serviço (com interface)</b></summary>
+  <p float="left">
+    <img src="../../Images/interfaces03.png"/>
+  </p>
+</details>
+
+Os códigos de resolução para essa atividade podem ser encontrados na subpasta do projeto `Build/Course-JCPOO/ExRes15-Interface`.
 
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
