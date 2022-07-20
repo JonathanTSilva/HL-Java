@@ -20,7 +20,7 @@ public class Program {
      * acrescido no preço o valor do imposto conforme regras do país que, no caso do
      * Brasil, é 20% para valores até 100.00, ou 15% para valores acima de 100.00.
      * Fazer um programa que lê os dados da locação (modelo do carro, instante
-     * inicial e final da locação), bem como o valor por hora e o valor diário de
+     * inicial e final da locação), be como o valor por hora e o valor diário de
      * locação. O programa deve então gerar a nota de pagamento (contendo valor da
      * locação, valor do imposto e valor total do pagamento) e informar os dados na
      * tela.
