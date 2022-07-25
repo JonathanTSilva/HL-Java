@@ -85,7 +85,6 @@ Tax = 50 * 20% = 50 * 0,2 = 10
   </pre>
 </details>
 
-
 <details close="close" align="left">
   <summary><b>Exemplo 2</b></summary>
   <pre>
