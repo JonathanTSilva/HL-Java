@@ -23,7 +23,7 @@
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
 
-## 1. Lendo arquivo de texto com classes File e Scanner
+## 1. Lendo arquivo de texto com classes `File` e `Scanner`
 
 Para este tópico, serão utilizadas as seguintes classes:
 
