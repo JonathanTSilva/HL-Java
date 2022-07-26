@@ -20,6 +20,15 @@
     - [1.2. Solução com Generics](#12-solução-com-generics)
   - [2. Genéricos delimitados](#2-genéricos-delimitados)
     - [2.1. Solução não genérica simples](#21-solução-não-genérica-simples)
+  - [3. Tipos curinga (*wildcard types*)](#3-tipos-curinga-wildcard-types)
+  - [4. Curingas delimitadas (*bounded wildcards*)](#4-curingas-delimitadas-bounded-wildcards)
+    - [4.1. Problemas motivadores](#41-problemas-motivadores)
+      - [4.1.1. Tipos curinga](#411-tipos-curinga)
+      - [4.1.2. Princípio *get/put*](#412-princípio-getput)
+  - [5. `hashCode` e `equals`](#5-hashcode-e-equals)
+    - [5.1. `equals`](#51-equals)
+    - [5.2. `hashCode`](#52-hashcode)
+    - [5.3. Personalizados](#53-personalizados)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -458,7 +467,345 @@ public static <T extends Comparable<? super T>> T max(List<T> list) {
 }
 ```
 
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 3. Tipos curinga (*wildcard types*)
+
+`List<Object>` não é o super-tipo de qualquer tipo de lista:
+
+```java
+List<Object> myObjs = new ArrayList<Object>();
+List<Integer> myNumbers = new ArrayList<Integer>();
+myObjs = myNumbers; // erro de compilação
+```
+
+O super-tipo de qualquer tipo de lista é `List<?>`. Este é um tipo curinga:
+
+```java
+List<?> myObjs = new ArrayList<Object>();
+List<Integer> myNumbers = new ArrayList<Integer>();
+myObjs = myNumbers;
+```
+
+Com tipos curinga podemos fazer métodos que recebem um genérico de "qualquer tipo":
+
+```java
+package application;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class Program {
+
+    public static void main(String[] args) {
+        List<Integer> myInts = Arrays.asList(5, 2, 10);
+        printList(myInts);
+    }
+
+    public static void printList(List<?> list) {
+        for (Object obj : list) {
+            System.out.println(obj);
+        }
+    }
+}
+```
+
+Porém não é possível adicionar dados a uma coleção de tipo curinga:
+
+```java
+package application;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Program {
+    public static void main(String[] args) {
+        List<?> list = new ArrayList<Integer>();
+        list.add(3); // erro de compilação
+    }
+}
+```
+
+O compilador não sabe qual é o tipo específico do qual a lista foi instanciada.
+
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 4. Curingas delimitadas (*bounded wildcards*)
+
+### 4.1. Problemas motivadores
+
+#### 4.1.1. Tipos curinga
+
+Vamos fazer um método para retornar a soma das áreas de uma lista de figuras.
+
+> **Nota 1:** soluções impróprias:
+> `public double totalArea(List<Shape> list)`
+> `public double totalArea(List<?> list)`
+>
+> **Nota 2:** não conseguiremos adicionar elementos na lista do método
+
+**src > application > Program.java**
+
+```java
+package application;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import entities.Circle;
+import entities.Rectangle;
+import entities.Shape;
+
+public class Program {
+
+    public static void main(String[] args) {
+        
+        List<Shape> myShapes = new ArrayList<>();
+        myShapes.add(new Rectangle(3.0, 2.0));
+        myShapes.add(new Circle(2.0));
+        
+        List<Circle> myCircles = new ArrayList<>();
+        myCircles.add(new Circle(2.0));
+        myCircles.add(new Circle(3.0));
+        
+        System.out.println("Total area: " + totalArea(myCircles));
+    }
+
+    public static double totalArea(List<? extends Shape> list) {
+        double sum = 0.0;
+        for (Shape s : list) {
+            sum += s.area();
+        }
+        return sum;
+    }
+
+}
+```
+
+**src > entities > Shape.java**
+
+```java
+package entities;
+
+public interface Shape {
+
+    double area();
+
+}
+```
+
+**src > entities > Circle.java**
+
+```java
+package entities;
+
+public class Circle implements Shape {
+
+    private double radius;
+
+    public Circle(double radius) {
+        super();
+        this.radius = radius;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    @Override
+    public double area() {
+        return Math.PI * radius * radius;
+    }
+    
+}
+```
+
+**src > entities > Rectangle.java**
+
+```java
+package entities;
+
+public class Rectangle implements Shape {
+
+    private double width;
+    private double height;
+
+    public Rectangle(double width, double height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    @Override
+    public double area() {
+        return width * height;
+    }
+
+}
+```
+
+#### 4.1.2. Princípio *get/put*
+
+Vamos fazer um método que copia os elementos de uma lista para uma outra lista que pode ser mais genérica que a primeira.
+
+```java
+List<Integer> myInts = Arrays.asList(1, 2, 3, 4);
+List<Double> myDoubles = Arrays.asList(3.14, 6.28);
+List<Object> myObjs = new ArrayList<Object>();
+
+copy(myInts, myObjs);
+copy(myDoubles, myObjs);
+```
+
+![wrapperTypes][A]
+
+> **Nota:** os tipos numéricos possuem uma superclasse intermediária `Number`
+
+**Covariância**
+
+- *get* - **OK**
+- *put* - **FAIL**, pois o compilador não sabe se o número inteiro adicionado será compatível com algum outro possível tipo `Number` que possa ser a lista.
+
+```java
+List<Integer> intList = new ArrayList<Integer>();
+intList.add(10);
+intList.add(5);
+List<? extends Number> list = intList;
+Number x = list.get(0);
+list.add(20); // erro de compilacao
+```
+
+**Contra-variância**
+
+- *get* - **FAIL**, a atribuição não pode ser realizada pois o tipo da lista pode ser um tipo que seja um super tipo de `Number`.
+- *put* - **OK**
+
+```java
+List<Object> myObjs = new ArrayList<Object>();
+myObjs.add("Maria");
+myObjs.add("Alex");
+List<? super Number> myNums = myObjs;
+myNums.add(10);
+myNums.add(3.14);
+Number x = myNums.get(0); // erro de compilacao
+```
+
+**Solução**
+
+```java
+package application;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class Program {
+
+    public static void main(String[] args) {
+        List<Integer> myInts = Arrays.asList(1, 2, 3, 4);
+        List<Double> myDoubles = Arrays.asList(3.14, 6.28);
+        List<Object> myObjs = new ArrayList<Object>();
+
+        copy(myInts, myObjs);
+        printList(myObjs);
+        copy(myDoubles, myObjs);
+        printList(myObjs);
+    }
+
+    public static void copy(List<? extends Number> source, List<? super Number> destiny) {
+        for(Number number : source) {
+            destiny.add(number);
+        }
+    }
+
+    public static void printList(List<?> list) {
+        for (Object obj : list) {
+            System.out.print(obj + " ");
+        }
+        System.out.println();
+    }
+
+}
+```
+
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 5. `hashCode` e `equals`
+
+São operações da classe Object utilizadas para comparar se um objeto é igual a outro
+
+- equals: lento, resposta 100%
+- hashCode: rápido, porém resposta positiva não é 100% - pequena probabilidade de dar um falso positivo
+
+Tipos comuns (`String`, `Date`, `Integer`, `Double`, etc.) já possuem implementação para essas operações. Classes personalizadas precisam sobrepô-las.
+
+### 5.1. `equals`
+
+Método que compara se o objeto é igual a outro, retornando true ou false.
+
+```java
+String a = "Maria";
+String b = "Alex";
+System.out.println(a.equals(b));
+```
+
+### 5.2. `hashCode`
+
+Método que retorna um número inteiro representando um código gerado a partir das informações do objeto
+
+```java
+String a = "Maria";
+String b = "Alex";
+System.out.println(a.hashCode());
+System.out.println(b.hashCode());
+```
+
+Se o hashCode de dois objetos for diferente, então os dois objetos são diferentes
+
+![hashCode][B]
+
+Se o código de dois objetos for igual, muito provavelmente os objetos são iguais (pode haver colisão)
+
+### 5.3. Personalizados
+
+```java
+public class Client {
+    private String name;
+    private String email;
+
+    [Generate Constructor using Fields...]
+
+    [Generate Getters and Setters...]
+
+    [Generate hashCode() and equals()...]
+}
+```
+
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
 
 <!-- IMAGES -->
+[A]: ../../Images/javaWrapperTypes.png
+[B]: ../../Images/hashCode.png
