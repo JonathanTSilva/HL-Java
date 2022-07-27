@@ -29,6 +29,10 @@
     - [5.1. `equals`](#51-equals)
     - [5.2. `hashCode`](#52-hashcode)
     - [5.3. Personalizados](#53-personalizados)
+  - [6. `Set`](#6-set)
+    - [6.1. Alguns métodos importantes](#61-alguns-métodos-importantes)
+    - [6.2. Como o Set testa igualdade?](#62-como-o-set-testa-igualdade)
+    - [6.3. Como TreeSet compara os elementos?](#63-como-treeset-compara-os-elementos)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -800,6 +804,219 @@ public class Client {
     [Generate Getters and Setters...]
 
     [Generate hashCode() and equals()...]
+}
+```
+
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 6. `Set`
+
+`Set<T>` também é um tipo genérico (igual a lista), que representa um conjunto de elementos (similar ao da Álgebra)
+
+- Não admite repetições
+- Elementos não possuem posição
+- Acesso, inserção e remoção de elementos são rápidos
+- Oferece operações eficientes de conjunto: interseção, união, diferença.
+- Principais implementações:
+  - `HashSet` - mais rápido (operações O(1) - ordem de 1 = 1 passo - em tabela hash) e não ordenado
+  - `TreeSet` - mais lento (operações O(log(n)) em árvore rubro-negra) e ordenado pelo compareTo do objeto (ou Comparator)
+  - `LinkedHashSet` - velocidade intermediária e elementos na ordem em que são adicionados
+
+### 6.1. Alguns métodos importantes
+
+- `add(obj)`, `remove(obj)`, `contains(obj)`
+  - Baseado em equals e hashCode
+  - Se equals e hashCode não existir, é usada comparação de ponteiros
+- `clear()`
+- `size()`
+- `removeIf(predicate)`
+- `addAll(other)` - **união**: adiciona no conjunto os elementos do outro conjunto, sem repetição
+- `retainAll(other)` - **interseção**: remove do conjunto os elementos não contidos em other
+- `removeAll(other)` - **diferença**: remove do conjunto os elementos contidos em other
+
+**Demonstração 1**
+
+```java
+package application;
+
+import java.util.HashSet;
+import java.util.Set;
+import Entities.Product;
+
+public class Program {
+    public static void main(String[] args) {
+        Set<String> set = new HashSet<>();
+
+        set.add("TV");
+        set.add("Notebook");
+        set.add("Tablet");
+
+        System.out.println(set.contains("Notebook"));
+
+        for (String p : set) {
+            System.out.println(p);
+        }
+    }
+}
+```
+
+Algumas outras funções utilizadas para testes:
+
+`set.remove("Tablet");`
+
+`set.removeIf(x -> x.length >= 3);`
+
+`set.removeIf(x -> x.charAt(0) == 'T')`
+
+Entretanto, essa questão de predicados será aprofundada no capítulo de programação funcional e expressões lambda.
+
+**Demonstração 2**
+
+```java
+package application;
+
+import java.util.Arrays;
+import java.util.Set;
+import java.util.TreeSet;
+
+public class Program {
+    public static void main(String[] args) {
+        Set<Integer> a = new TreeSet<>(Arrays.asList(0,2,4,5,6,8,10));
+        Set<Integer> b = new TreeSet<>(Arrays.asList(5,6,7,8,9,10));
+
+        //union
+        Set<Integer> c = new TreeSet<>(a);
+        c.addAll(b);
+        System.out.println(c);
+
+        //intersection
+        Set<Integer> d = new TreeSet<>(a);
+        d.retainAll(b);
+        System.out.println(d);
+
+        //difference
+        Set<Integer> e = new TreeSet<>(a);
+        e.removeAll(b);
+        System.out.println(e);
+    }
+}
+```
+
+### 6.2. Como o Set testa igualdade?
+
+Como as coleções Hash testam igualdade?
+
+- Se hashCode e equals estiverem implementados:
+  - Primeiro hashCode. Se der igual, usa equals para confirmar.
+  - Lembre-se: String, Integer, Double, etc. já possuem equals e hashCode
+- Se hashCode e equals NÃO estiverem implementados:
+  - Compara as referências (ponteiros) dos objetos.
+
+**Demonstração**
+
+```java
+package application;
+
+import java.util.HashSet;
+import java.util.Set;
+import Entities.Product;
+
+public class Program {
+    public static void main(String[] args) {
+        Set<Product> set = new HashSet<>();
+
+        set.add(new Product("TV", 900.0));
+        set.add(new Product("Notebook", 1200.0));
+        set.add(new Product("Tablet", 400.0));
+
+        Product prod = new Product("Notebook", 1200.0);
+
+        System.out.println(set.contains(prod)); // false - a classe Product não contém a implementação do hashCode equals
+        // Como não tem, o Set vai utilizar a referência de ponteiro para comparação
+        // A não ser que as operações sejam implementadas na classe
+    }
+}
+```
+
+```java
+package entities;
+
+public class Product {
+
+    private String name;
+    private Double price;
+
+    [Generate Constructor using Fields...]
+
+    [Generate Getters and Setters...]
+
+    [Generate hashCode() and equals()...]
+    
+}
+```
+
+### 6.3. Como TreeSet compara os elementos?
+
+Apenas recordando as principais implementações:
+
+- `HashSet` - mais rápido (operações O(1) em tabela hash) e não ordenado
+- `TreeSet` - mais lento (operações O(log(n)) em árvore rubro-negra) e ordenado pelo compareTo do objeto (ou Comparator)
+- `LinkedHashSet` - velocidade intermediária e elementos na ordem em que são adicionados
+
+Logo, quando utilizar TreeSet, a classe do conjunto deve ser uma implementação do `Comparable`, para que seja possível que ele ordene seus objetos.
+
+**Demonstração**
+
+```java
+package application;
+
+import java.util.HashSet;
+import java.util.Set;
+import Entities.Product;
+
+public class Program {
+    public static void main(String[] args) {
+        Set<Product> set = new HashSet<>();
+
+        set.add(new Product("TV", 900.0));
+        set.add(new Product("Notebook", 1200.0));
+        set.add(new Product("Tablet", 400.0));
+
+        Product prod = new Product("Notebook", 1200.0);
+
+        for (Product p : set) {
+            System.out.println(p);
+        }
+    }
+}
+```
+
+```java
+package entities;
+
+public class Product implements Comparable<Product> {
+
+    private String name;
+    private Double price;
+
+    [Generate Constructor using Fields...]
+
+    [Generate Getters and Setters...]
+
+    [Generate hashCode() and equals()...]
+
+    @Override
+    public String toString() {
+        return "Product [name=" + name + ", price=" + price + "]";
+    }
+    
+    @Override
+    public int compareTo(Product other) {
+
+        return name.toUpperCase().compareTo(other.getName().toUpperCase());
+    }
+    
 }
 ```
 
