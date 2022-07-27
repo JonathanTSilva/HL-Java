@@ -85,6 +85,7 @@
   - [Tratamento de exceções][7]
 - **Intermediário**
   - [Trabalhando com arquivos][8]
+  - [Generics, Set e Map][9]
 - **Avançado**
   - Redes Neurais Artificiais
   - Reconhecimento facial
@@ -147,6 +148,7 @@ Distribuída por **MIT License**. Veja [LICENSE][B] para mais informações.
 [6]: Docs/Articles/avancadoPOO.md
 [7]: Docs/Articles/tratamentoExcecao.md
 [8]: Docs/Articles/arquivos.md
+[9]: Docs/Articles/generics.md
 
 <!-- IMAGENS -->
 [java_roadmap]: Images/java_roadmap.jpeg
