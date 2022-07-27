@@ -964,7 +964,7 @@ Apenas recordando as principais implementações:
 - `TreeSet` - mais lento (operações O(log(n)) em árvore rubro-negra) e ordenado pelo compareTo do objeto (ou Comparator)
 - `LinkedHashSet` - velocidade intermediária e elementos na ordem em que são adicionados
 
-Logo, quando utilizar TreeSet, a classe do conjunto deve ser uma implementação do `Comparable`, para que seja possível que ele ordene seus objetos.
+Logo, quando utilizar TreeSet, a classe do conjunto deve ser uma implementação do `Comparable`, para que seja possível que ele ordene seus
 
 **Demonstração**
 
