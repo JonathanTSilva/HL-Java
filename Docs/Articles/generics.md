@@ -33,6 +33,7 @@
     - [6.1. Alguns métodos importantes](#61-alguns-métodos-importantes)
     - [6.2. Como o Set testa igualdade?](#62-como-o-set-testa-igualdade)
     - [6.3. Como TreeSet compara os elementos?](#63-como-treeset-compara-os-elementos)
+    - [6.4. Problema exemplo](#64-problema-exemplo)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -1017,6 +1018,82 @@ public class Product implements Comparable<Product> {
         return name.toUpperCase().compareTo(other.getName().toUpperCase());
     }
     
+}
+```
+
+### 6.4. Problema exemplo
+
+Um site de internet registra um log de acessos dos usuários. Um
+registro de log consiste no nome de usuário (apenas uma palavra) e o
+instante em que o usuário acessou o site no padrão ISO 8601,
+separados por espaço, conforme exemplo. Fazer um programa que leia
+o log de acessos a partir de um arquivo, e daí informe quantos usuários
+distintos acessaram o site.
+
+<details close="close" align="left">
+    <summary><b>Exemplo</b></summary>
+    <h3>Input file:</h3>
+    <pre>
+        <code>
+amanda 2018-08-26T20:45:08Z
+alex86 2018-08-26T21:49:37Z
+bobbrown 2018-08-27T03:19:13Z
+amanda 2018-08-27T08:11:00Z
+jeniffer3 2018-08-27T09:19:24Z
+alex86 2018-08-27T22:39:52Z
+amanda 2018-08-28T07:42:19Z
+        </code>
+    </pre>
+    <h3>Execution:</h3>
+    <pre>
+        <code>
+Enter file full path: c:\temp\in.txt
+Total users: 4
+        </code>
+    </pre>
+</details>
+
+**src > application > Program.java**
+
+```java
+Scanner sc = new Scanner(System.in);
+
+System.out.print("Enter file full path: ");
+String path = sc.nextLine();
+
+try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+    Set<LogEntry> set = new HashSet<>(); // Mais rápido e nao importa a ordem - simplesmente contar usuários únicos
+    String line = br.readLine();
+    while (line != null) {
+        String[] fields = line.split(" ");
+        String username = fields[0];
+        Date moment = Date.from(Instant.parse(fields[1]));
+        
+        set.add(new LogEntry(username, moment));
+        line = br.readLine();
+    }
+    System.out.println("Total users: " + set.size());
+} catch (IOException e) {
+    System.out.println("Error: " + e.getMessage());
+}
+
+sc.close();
+```
+
+**src > entities > LogEntry.java**
+
+```java
+public class LogEntry {
+
+    private String username;
+    private Date moment;
+
+    [Generate Constructor using Fields...]
+
+    [Generate Getters and Setters...]
+
+    [Generate hashCode() and equals()...]
+
 }
 ```
 
