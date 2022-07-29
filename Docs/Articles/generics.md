@@ -34,6 +34,9 @@
     - [6.2. Como o Set testa igualdade?](#62-como-o-set-testa-igualdade)
     - [6.3. Como TreeSet compara os elementos?](#63-como-treeset-compara-os-elementos)
     - [6.4. Problema exemplo](#64-problema-exemplo)
+  - [7. `Map`](#7-map)
+    - [7.1. Alguns métodos importantes](#71-alguns-métodos-importantes)
+    - [7.2. Problema exemplo](#72-problema-exemplo)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -1087,6 +1090,111 @@ public class LogEntry {
 
     private String username;
     private Date moment;
+
+    [Generate Constructor using Fields...]
+
+    [Generate Getters and Setters...]
+
+    [Generate hashCode() and equals()...]
+
+}
+```
+
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 7. `Map`
+
+- É uma coleção de pares chave / valor (`Map<K,V>`)
+  - Não admite repetições do objeto chave
+  - Os elementos são indexados pelo objeto chave (não possuem posição)
+  - Acesso, inserção e remoção de elementos são rápidos
+- Uso comum: cookies, local storage, qualquer modelo chave-valor
+- Principais implementações:
+  - `HashMap` - mais rápido (operações O(1) em tabela hash) e não ordenado
+  - `TreeMap` - mais lento (operações O(log(n)) em árvore rubro-negra) e  ordenado pelo `compareTo` do objeto (ou Comparator)
+  - `LinkedHashMap` - velocidade intermediária e elementos na ordem em que são adicionados
+
+### 7.1. Alguns métodos importantes
+
+- `put(key, value)`, `remove(key)`, `containsKey(key)`, `get(key)`
+  - Baseado em equals e hashCode
+  - Se equals e hashCode não existir, é usada comparação de ponteiros
+- `clear()`
+- `size()`
+- `keySet()` - retorna um `Set<K>`
+- `values()` - retorna um `Collection<V>`
+
+### 7.2. Problema exemplo
+
+```java
+package application;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+
+import entities.Product;
+
+public class Program {
+    
+    public static void main(String[] args) {
+        
+        System.out.println("-----------------------------------------------------");
+        System.out.println("Exercício 1 - Map");
+        System.out.println("Manipulação das funções do Map.");
+        System.out.println();
+        
+        Map<String, String> cookies = new TreeMap<>();
+        
+        cookies.put("username", "Maria");
+        cookies.put("email", "maria@gmail.com");
+        cookies.put("phone", "998237182");
+        
+        cookies.remove("email");
+        cookies.put("phone", "998237183"); // Sobrescreve o valor anterior
+        
+        System.out.println("Contains 'phone' key: " + cookies.containsKey("phone"));
+        System.out.println("Phone number: " + cookies.get("phone"));
+        System.out.println("Email: " + cookies.get("email")); // null
+        System.out.println("Size: " + cookies.size());
+        
+        System.out.println("ALL COOKIES:");
+        for (String key : cookies.keySet()) {
+            // Como estamos usando o TreeMap, ele ordenara a chave por ordem alfabética
+            System.out.println(key + ": " + cookies.get(key));
+        }
+        
+        System.out.println();
+        System.out.println("-----------------------------------------------------");
+        System.out.println("Exercício 2 - Map");
+        System.out.println("Problema prático com estoque de produtos.");
+        System.out.println();
+        
+        Map<Product, Double> stock = new HashMap<>();
+        
+        Product p1 = new Product("Tv", 900.0);
+        Product p2 = new Product("Notebook", 1200.0);
+        Product p3 = new Product("Tablet", 400.0);
+        
+        stock.put(p1, 10000.0);
+        stock.put(p2, 20000.0);
+        stock.put(p3, 15000.0);
+        
+        Product ps = new Product("Tv", 900.0); // Se não existe o equals e hashCode, ele utiliza comparação de ponteiros e da false
+        
+        System.out.println("Contains 'ps' key: " + stock.containsKey(ps));
+        
+    }
+    
+}
+```
+
+```java
+public class Product {
+
+    private String name;
+    private Date price;
 
     [Generate Constructor using Fields...]
 
