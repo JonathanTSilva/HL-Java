@@ -17,7 +17,7 @@ public class Program {
      * mais de um curso. 
      * 
      * O instrutor Alex possui três cursos A, B e C, e deseja
-     * saber seu número total de alunos. 
+     * saber seu número total de alunos.
      * 
      * Seu programa deve ler os alunos dos cursos
      * A, B e C do instrutor Alex, depois mostrar a quantidade total e alunos dele,
