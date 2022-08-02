@@ -22,6 +22,8 @@
     - [2.5. Expressividade / código consiso](#25-expressividade--código-consiso)
     - [2.6. Tipagem dinâmica / Inferências de tipos](#26-tipagem-dinâmica--inferências-de-tipos)
     - [2.7. O que são expressões lambda?](#27-o-que-são-expressões-lambda)
+  - [3. Interface funcional](#3-interface-funcional)
+    - [3.1. Predicate](#31-predicate)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -257,8 +259,78 @@ public class Program {
     (...)
 ```
 
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 3. Interface funcional
+
+É uma interface que possui um único método abstrato. Suas implementações serão tratadas como expressões lambda.
+
+```java
+public class MyComparator implements Comparator<Product> {
+    @Override
+    public int compare(Product p1, Product p2) {
+        return p1.getName().toUpperCase().compareTo(p2.getName().toUpperCase());
+    }
+}
+```
+
+```java
+public static void main(String[] args) {
+    (...)
+    list.sort(new MyComparator());
+```
+
+Algumas outras interfaces funcionais comuns:
+
+- [Predicate][1]
+- [Function][2]
+- [Consumer][3]
+  - Nota: ao contrário das outras interfaces funcionais, no caso do Consumer, é esperado que ele possa gerar efeitos colaterais.
+
+### 3.1. Predicate
+
+Uma interface funcional generics, parametrizada com o tipo T, e contem apenas um método abstrato `test`, que retornará verdadeiro ou falso.
+
+```java
+public interface Predicate<T> {
+    boolean test(T t);
+}
+```
+
+**Problema exemplo com `removeIf`:**
+
+Fazer um programa que, a partir de uma lista de produtos, remova da lista somente aqueles cujo preço mínimo seja 100.
+
+```java
+List<Product> list = new ArrayList<>();
+list.add(new Product("Tv", 900.00));
+list.add(new Product("Mouse", 50.00));
+list.add(new Product("Tablet", 350.50));
+list.add(new Product("HD Case", 80.90));
+```
+
+Versões:
+
+- Implementação da interface
+  - `ProductPredicate`
+  - `list.removeIf(new ProductPredicate())`
+- Reference method com método estático (trabalha com o argumento)
+  - `public static boolean staticProductPredicate(Product p)`
+  - `list.removeIf(Product::staticProductPredicate)`
+- Reference method com método não estático (trabalha com o próprio objeto)
+  - `public boolean nonStaticProductPredicate()`
+  - `list.removeIf(Product::nonStaticProductPredicate)`
+- Expressão lambda declarada
+  - `Predicate<Product> pred = p -> p.getPrice() >= 100.0`
+  - `list.removeIf(pred)`
+- Expressão lambda inline
+  - `list.removeIf(p -> p.getPrice() >= 100.0)`
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
+[1]: https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html
+[2]: https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html
+[3]: https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html
 
 <!-- IMAGES -->
 [A]: https://www.alura.com.br/artigos/assets/programacao-funcional-o-q-e/imagem1.png
