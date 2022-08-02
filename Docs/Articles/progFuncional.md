@@ -24,6 +24,7 @@
     - [2.7. O que são expressões lambda?](#27-o-que-são-expressões-lambda)
   - [3. Interface funcional](#3-interface-funcional)
     - [3.1. Predicate](#31-predicate)
+    - [3.2. Consumer](#32-consumer)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -290,7 +291,7 @@ Algumas outras interfaces funcionais comuns:
 
 ### 3.1. Predicate
 
-Uma interface funcional generics, parametrizada com o tipo T, e contem apenas um método abstrato `test`, que retornará verdadeiro ou falso.
+Uma interface funcional generics, parametrizada com o tipo T, e contém apenas um método abstrato `test`, que retornará verdadeiro ou falso.
 
 ```java
 public interface Predicate<T> {
@@ -310,7 +311,7 @@ list.add(new Product("Tablet", 350.50));
 list.add(new Product("HD Case", 80.90));
 ```
 
-Versões:
+**Versões:**
 
 - Implementação da interface
   - `ProductPredicate`
@@ -326,6 +327,44 @@ Versões:
   - `list.removeIf(pred)`
 - Expressão lambda inline
   - `list.removeIf(p -> p.getPrice() >= 100.0)`
+
+### 3.2. Consumer
+
+Uma interface funcional generics, parametrizada com o tipo T, e contém apenas um método abstrato `accept`, que é um void.
+
+```java
+public interface Consumer<T> {
+    void accept(T t);
+}
+```
+
+**Problema exemplo com `forEach`**
+
+Fazer um programa que, a partir de uma lista de produtos, aumente o preço dos produtos em 10%.
+
+```java
+List<Product> list = new ArrayList<>();
+list.add(new Product("Tv", 900.00));
+list.add(new Product("Mouse", 50.00));
+list.add(new Product("Tablet", 350.50));
+list.add(new Product("HD Case", 80.90));
+```
+
+- Implementação da interface
+  - `PriceUpdate`
+  - `list.forEach(new PriceUpdate())`
+- Reference method com método estático (trabalha com o argumento)
+  - `public static boolean staticPriceUpdate(Product p)`
+  - `list.removeIf(Product::staticPriceUpdate)`
+- Reference method com método não estático (trabalha com o próprio objeto)
+  - `public boolean nonStaticPriceUpdate()`
+  - `list.removeIf(Product::nonStaticPriceUpdate)`
+- Expressão lambda declarada
+  - `Consumer<Product> cons = p -> p.setPrice(p.getPrice() * 1.1)`
+  - `list.removeIf(cons)`
+- Expressão lambda inline
+  - `list.removeIf(p -> p.setPrice(p.getPrice() * 1.1))`
+
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
 [1]: https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html
