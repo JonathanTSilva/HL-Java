@@ -25,6 +25,8 @@
   - [3. Interface funcional](#3-interface-funcional)
     - [3.1. Predicate](#31-predicate)
     - [3.2. Consumer](#32-consumer)
+    - [3.3. Function](#33-function)
+    - [3.4. Criando funções que recebem funções como parâmetros](#34-criando-funções-que-recebem-funções-como-parâmetros)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -364,6 +366,111 @@ list.add(new Product("HD Case", 80.90));
   - `list.removeIf(cons)`
 - Expressão lambda inline
   - `list.removeIf(p -> p.setPrice(p.getPrice() * 1.1))`
+
+### 3.3. Function
+
+Uma interface funcional generics, parametrizada com o tipo T e tipo R, e contém apenas um método abstrato `apply`, que recebe um T e retorna um R.
+
+```java
+public interface Function<T, R> {
+    R apply(T t);
+}
+```
+
+**Problema exemplo com `map`**
+
+Fazer um programa que, a partir de uma lista de produtos, gere uma nova lista contendo os nomes dos produtos em caixa alta.
+
+```java
+List<Product> list = new ArrayList<>();
+list.add(new Product("Tv", 900.00));
+list.add(new Product("Mouse", 50.00));
+list.add(new Product("Tablet", 350.50));
+list.add(new Product("HD Case", 80.90));
+```
+
+A função "map" (não confunda com a estrutura de dados Map) é uma função que aplica uma função a todos elementos de uma stream.
+
+- Conversões:
+  - List para stream: `.stream()`
+  - Stream para List: `.collect(Collectors.toList())`
+
+- Implementação da interface
+  - `list.stream().map(new UpperCaseName()).collect(Collectors.toList())`
+- Reference method com método estático (trabalha com o argumento)
+  - `list.stream().map(Product::staticUpperCaseName).collect(Collectors.toList())`
+- Reference method com método não estático (trabalha com o próprio objeto)
+  - `list.stream().map(Product::nonStaticUpperCaseName).collect(Collectors.toList())`
+- Expressão lambda declarada
+  - `Function<Product, String> func = p -> p.getName().toUpperCase()`
+  - `list.stream().map(func).collect(Collectors.toList())`
+- Expressão lambda inline
+  - `list.stream().map(p -> p.getName().toUpperCase()).collect(Collectors.toList())`
+
+### 3.4. Criando funções que recebem funções como parâmetros
+
+**Problema exemplo**
+
+Fazer um programa que, a partir de uma lista de produtos, calcule a soma dos preços somente dos produtos cujo nome começa com "T".
+
+```java
+List<Product> list = new ArrayList<>();
+list.add(new Product("Tv", 900.00));
+list.add(new Product("Mouse", 50.00));
+list.add(new Product("Tablet", 350.50));
+list.add(new Product("HD Case", 80.90));
+```
+
+**src > application > Program.java**
+
+```java
+Locale.setDefault(Locale.US);
+List<Product> list = new ArrayList<>();
+
+list.add(new Product("Tv", 900.00));
+list.add(new Product("Mouse", 50.00));
+list.add(new Product("Tablet", 350.50));
+list.add(new Product("HD Case", 80.90));
+
+ProductService ps = new ProductService();
+
+double sum = ps.filteredSum(list, p -> p.getName().charAt(0) == 'T');
+
+System.out.println("Sum = " + String.format("%.2f", sum));
+```
+
+**src > model.entities > Product.java**
+
+```java
+package entities;
+
+public class Product {
+
+    private String name;
+    private Double price;
+
+    [Generate Constructor using Fields...]
+
+    [Generate Getters and Setters...]
+
+    [Generate toString()...]
+
+}
+```
+
+**src > modal.services > ProductService.java**
+
+```java
+public double filteredSum(List<Product> list, Predicate<Product> criteria) {
+    double sum = 0.0;
+    for (Product p : list) {
+        if (criteria.test(p)) {
+            sum += p.getPrice();
+        }
+    }
+    return sum;
+}
+```
 
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
