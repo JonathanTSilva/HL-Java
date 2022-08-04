@@ -27,6 +27,12 @@
     - [3.2. Consumer](#32-consumer)
     - [3.3. Function](#33-function)
     - [3.4. Criando funções que recebem funções como parâmetros](#34-criando-funções-que-recebem-funções-como-parâmetros)
+  - [4. Stream](#4-stream)
+    - [4.1. Características](#41-características)
+    - [4.2. Operações intermediárias e terminais](#42-operações-intermediárias-e-terminais)
+    - [4.3. Criar uma stream](#43-criar-uma-stream)
+      - [4.3.1. Demonstração de stream](#431-demonstração-de-stream)
+      - [4.3.2. Demonstração de pipeline](#432-demonstração-de-pipeline)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -472,11 +478,114 @@ public double filteredSum(List<Product> list, Predicate<Product> criteria) {
 }
 ```
 
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 4. Stream
+
+É uma sequencia de elementos advinda de uma fonte de dados que oferece suporte a "operações agregadas".
+
+Fonte de dados: coleção, array, função de iteração, recurso de E/S.
+
+Leitura complementar: [Java 8: Iniciando o desenvolvimento com a Streams API][4].
+
+### 4.1. Características
+
+- Stream é uma solução para processar sequências de dados de forma:
+  - Declarativa (iteração interna: escondida do programador)
+  - Parallel-friendly (imutável -> thread safe) - paralelizado de forma segura
+  - Sem efeitos colaterais
+  - Sob demanda (lazy evaluation - avaliação tardia - os dados de uma stream serão consumidos apenas quando necessário)
+- Acesso sequencial (não há índices)
+- Single-use: só pode ser "usada" uma vez
+- **Pipeline**: operações em streams retornam novas streams. Então é possível criar uma cadeia de operações (fluxo de processamento).
+
+### 4.2. Operações intermediárias e terminais
+
+- O pipeline é composto por zero ou mais operações intermediárias e uma terminal.
+- Operação intermediária:
+  - Produz uma nova streams (encadeamento)
+  - Só executa quando uma operação terminal é invocada (lazy evaluation)
+  - São operações intermediárias:
+    - `filter`
+    - `map`
+    - `flatmap`
+    - `peek`
+    - `distinct`
+    - `sorted`
+    - `skip`
+    - `limit` (*)
+    - (*) *short-circuit* - param assim que encontrarem o que satisfaz condição.
+- Operação terminal:
+  - Produz um objeto não-stream (coleção ou outro)
+  - Determina o fim do processamento da stream
+  - São operações terminais:
+    - `forEach`
+    - `forEachOrdered`
+    - `toArray`
+    - `reduce`
+    - `collect`
+    - `min`
+    - `max`
+    - `count`
+    - `anyMatch` (*)
+    - `allMatch` (*)
+    - `noneMatch` (*)
+    - `findFirst` (*)
+    - `findAny` (*)
+    - (*) *short-circuit*
+
+### 4.3. Criar uma stream
+
+Basta chamar o método stream() ou parallelStream() a partir de qualquer objeto Collection.
+- Outras formas de se criar uma stream incluem:
+  - Stream.of
+  - Stream.ofNullable
+  - Stream.iterate
+  
+#### 4.3.1. Demonstração de stream
+
+```java
+List<Integer> list = Arrays.asList(3, 4, 5, 10, 7);
+Stream<Integer> st1 = list.stream();
+System.out.println(Arrays.toString(st1.toArray()));
+
+Stream<String> st2 = Stream.of("Maria", "Alex", "Bob");
+System.out.println(Arrays.toString(st2.toArray()));
+
+Stream<Integer> st3 = Stream.iterate(0, x -> x + 2);
+System.out.println(Arrays.toString(st3.limit(10).toArray()));
+
+// Sequencia de Fibonacci
+Stream<Long> st4 = Stream.iterate(new long[]{ 0L, 1L }, p->new long[]{ p[1], p[0]+p[1] }).map(p -> p[0]);
+System.out.println(Arrays.toString(st4.limit(10).toArray()));
+```
+
+#### 4.3.2. Demonstração de pipeline
+
+```java
+List<Integer> list = Arrays.asList(3, 4, 5, 10, 7);
+
+Stream<Integer> st1 = list.stream().map(x -> x * 10);
+System.out.println(Arrays.toString(st1.toArray()));
+
+int sum = list.stream().reduce(0, (x, y) -> x + y);
+System.out.println("Sum = " + sum);
+
+List<Integer> newList = list.stream()
+.filter(x -> x % 2 == 0)
+.map(x -> x * 10)
+.collect(Collectors.toList());
+System.out.println(Arrays.toString(newList.toArray()));
+```
+
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
 [1]: https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html
 [2]: https://docs.oracle.com/javase/8/docs/api/java/util/function/Function.html
 [3]: https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html
+[4]: https://www.oracle.com/br/technical-resources/articles/java-stream-api.html
+[5]: https://docs.oracle.com/javase/10/docs/api/java/util/Collection.html
 
 <!-- IMAGES -->
 [A]: https://www.alura.com.br/artigos/assets/programacao-funcional-o-q-e/imagem1.png

@@ -17,7 +17,6 @@ public class Program {
         list.add(new Product("Tablet", 350.50));
         list.add(new Product("HD Case", 80.90));
         
-        
         // Implementação 1 - implementação da interface
         // A função map aplica uma Function a cada elemento da stream, gerando uma nova stream com os elementos tranformados
         //List<String> names = list.stream().map(new UpperCaseName()).collect(Collectors.toList());
