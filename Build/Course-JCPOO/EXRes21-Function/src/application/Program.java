@@ -36,4 +36,5 @@ public class Program {
         
         names.forEach(System.out::println);
     }
+
 }
