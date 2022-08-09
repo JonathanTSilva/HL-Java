@@ -86,21 +86,12 @@
 - **Intermediário**
   - [Trabalhando com arquivos][8]
   - [Generics, Set e Map][9]
+  - [Programação Funcional][10]
 - **Avançado**
   - Redes Neurais Artificiais
   - Reconhecimento facial
-<!--
-- **Programação orientada a objetos e projeto orientado a objetos**
-  - [][]
-- **Interfaces gráficas Swing e gráficos Java 2D**
-  - [][]
-- **Estruturas de dados, coleções, lambdas e fluxos**
-- **Concorrência; rede**
-- **Interfaces gráficas do usuário, imagens gráficas e multimídia JavaFX**
-- **Área de trabalho voltada a banco de dados e desenvolvimento WEB**
--->
 - **Ferramentas e Frameworks**
-  - [JDBC][]
+  - [Acesso ao banco de dados com JDBC][]
   - [JavaFX][]
   - [Spring Boot][]
   - [JPA / Hibernate][]
@@ -108,7 +99,7 @@
   - [Spring Data JPA][]
   - [Spring Data MongoDB][]
 - **Projetos**
-  - [Sistema de jogo de xadrez][]
+  - [Sistema de jogo de xadrez][11]
   - [Aplicação desktop com JavaFX e banco de dados MySQL com JDBC][]
   - [Web services com Spring Boot e JPA/Hibernate][]
   - [Web services com Spring Boot e NoSQL (MongoDB)][]
@@ -149,6 +140,8 @@ Distribuída por **MIT License**. Veja [LICENSE][B] para mais informações.
 [7]: Docs/Articles/tratamentoExcecao.md
 [8]: Docs/Articles/arquivos.md
 [9]: Docs/Articles/generics.md
+[10]: Docs/Articles/progFuncional.md
+[11]: https://github.com/JonathanTSilva/HL-Java/tree/f9bb06dbc6af45eefbc160d218b81f77cbf383a5
 
 <!-- IMAGENS -->
 [java_roadmap]: Images/java_roadmap.jpeg
