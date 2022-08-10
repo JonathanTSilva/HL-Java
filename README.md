@@ -91,7 +91,7 @@
   - Redes Neurais Artificiais
   - Reconhecimento facial
 - **Ferramentas e Frameworks**
-  - [Acesso ao banco de dados com JDBC][]
+  - [Acesso ao banco de dados com JDBC][12]
   - [JavaFX][]
   - [Spring Boot][]
   - [JPA / Hibernate][]
@@ -142,6 +142,7 @@ Distribuída por **MIT License**. Veja [LICENSE][B] para mais informações.
 [9]: Docs/Articles/generics.md
 [10]: Docs/Articles/progFuncional.md
 [11]: https://github.com/JonathanTSilva/HL-Java/tree/f9bb06dbc6af45eefbc160d218b81f77cbf383a5
+[12]: Docs/Articles/jdbc.md
 
 <!-- IMAGENS -->
 [java_roadmap]: Images/java_roadmap.jpeg
