@@ -99,6 +99,11 @@ WHERE CATEGORY.NAME = 'Computers'
 
 ![H]
 
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 3. Prática com JDBC
+
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
 [1]: https://docs.oracle.com/javase/8/docs/technotes/guides/jdbc/
