@@ -12,8 +12,17 @@
 📚 A base de conhecimento em JDBC, abordando os principais recursos, estrutura básica de um projeto e padrão DAO.
 
 <!-- SUMÁRIO -->
-- [Programação funcional e expressões lambda](#programação-funcional-e-expressões-lambda)
-  - [1.](#1)
+- [Acesso ao banco de dados com JDBC](#acesso-ao-banco-de-dados-com-jdbc)
+  - [1. Visão geral do JDBC](#1-visão-geral-do-jdbc)
+  - [2. Algebra relacional e SQL - Nivelamento](#2-algebra-relacional-e-sql---nivelamento)
+    - [2.1. Operações básicas da álgebra relacional](#21-operações-básicas-da-álgebra-relacional)
+  - [3. Prática com JDBC](#3-prática-com-jdbc)
+    - [3.1. Criar uma base de dados](#31-criar-uma-base-de-dados)
+    - [3.2. Recuperar dados](#32-recuperar-dados)
+    - [3.3. Inserir dados](#33-inserir-dados)
+    - [3.4. Atualizar dados](#34-atualizar-dados)
+    - [3.5. Deletar dados](#35-deletar-dados)
+    - [3.6. Transações](#36-transações)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -104,7 +113,7 @@ WHERE CATEGORY.NAME = 'Computers'
 
 ## 3. Prática com JDBC
 
-### 3.1. Criando uma base de dados
+### 3.1. Criar uma base de dados
 
 - Usando o MySQL Workbench, crie uma base de dados chamada "coursejdbc"
 - Baixar o MySQL Java Connector
@@ -345,7 +354,7 @@ public class DB {
 }
 ```
 
-### 3.3. Inserindo dados
+### 3.3. Inserir dados
 
 - API:
   - PreparedStatement
@@ -415,6 +424,192 @@ public class Program {
             e.printStackTrace();
 //        } catch (ParseException e) {
 //            e.printStackTrace();
+        } finally {
+            DB.closeStatement(st);
+            DB.closeConneciton();
+        }
+        
+    }
+
+}
+```
+
+### 3.4. Atualizar dados
+
+**src > application > Program.java**
+
+```java
+package application;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import db.DB;
+
+public class Program {
+
+    public static void main(String[] args) {
+        
+        Connection conn = null;
+        PreparedStatement st = null;
+        
+        try {
+            conn = DB.getConnection();
+            
+            st = conn.prepareStatement(
+                    "UPDATE seller "
+                    + "SET BaseSalary = BaseSalary + ? "
+                    + "WHERE "
+                    + "(DepartmentId = ?)");
+            st.setDouble(1, 200.0);
+            st.setInt(2, 2);
+            
+            int rowsAffected = st.executeUpdate();
+            System.out.println("Done! Rows affected: " + rowsAffected);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB.closeStatement(st);
+            DB.closeConneciton();
+        }
+        
+    }
+
+}
+```
+
+### 3.5. Deletar dados
+
+- Criar DbIntegrityException
+- Tratar a exceção de integridade referencial
+
+**src > application > Program.java**
+
+```java
+package application;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import db.DB;
+import db.DbIntegrityException;
+
+public class Program {
+
+    public static void main(String[] args) {
+        
+        Connection conn = null;
+        PreparedStatement st = null;
+        
+        try {
+            conn = DB.getConnection();
+            
+            st = conn.prepareStatement(
+                    "DELETE FROM department "
+                    + "WHERE "
+                    + "Id = ?");
+            
+            st.setInt(1, 2);
+            
+            int rowsAffected = st.executeUpdate();
+            System.out.println("Done! Rows affected: " + rowsAffected);
+        } catch (SQLException e) {
+            throw new DbIntegrityException(e.getMessage());
+        } finally {
+            DB.closeStatement(st);
+            DB.closeConneciton();
+        }
+        
+    }
+
+}
+```
+
+**src > db > DbIntegrityException.java**
+
+```java
+package db;
+
+public class DbIntegrityException extends RuntimeException {
+
+    private static final long serialVersionUID = 1L;
+    
+    public DbIntegrityException(String msg) {
+        super(msg);
+    }
+    
+}
+```
+
+### 3.6. Transações
+
+As transações devem ter:
+
+- Atomicidade
+- Consistência
+- Isolação
+- Durabilidade
+
+API:
+- setAutoCommit(false)
+- commit()
+- rollBack -> desfazer o que já foi feito até então
+
+**src > db > DbIntegrityException.java**
+
+```java
+package application;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import db.DB;
+import db.DbException;
+
+public class Program {
+
+    public static void main(String[] args) {
+        
+        Connection conn = null;
+        Statement st = null;
+        
+        try {
+            conn = DB.getConnection();
+            
+            conn.setAutoCommit(false);
+            
+            st = conn.createStatement();
+            
+            int rows1 = st.executeUpdate("UPDATE seller SET BaseSalary = 2090 WHERE DepartmentId = 1");
+            
+            /*
+             * int x = 1; if (x < 2) { throw new SQLException("Fake error!"); }
+             */
+            
+            int rows2 = st.executeUpdate("UPDATE seller SET BaseSalary = 3090 WHERE DepartmentId = 2");
+            
+            conn.commit();
+            
+            System.out.println("rows1 " + rows1);
+            System.out.println("rows2 " + rows2);
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+                throw new DbException("Transaction rolled back! Caused by: " + e.getMessage());
+            } catch (SQLException e1) {
+                throw new DbException("Error trying to rollback! Caused by: " + e.getMessage());
+            }
         } finally {
             DB.closeStatement(st);
             DB.closeConneciton();
