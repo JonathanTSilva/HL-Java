@@ -23,6 +23,7 @@
     - [3.4. Atualizar dados](#34-atualizar-dados)
     - [3.5. Deletar dados](#35-deletar-dados)
     - [3.6. Transações](#36-transações)
+  - [4. Padrão de projeto DAO (Data Access Object)](#4-padrão-de-projeto-dao-data-access-object)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -620,6 +621,22 @@ public class Program {
 }
 ```
 
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 4. Padrão de projeto DAO (Data Access Object)
+
+Ideia geral do padrão DAO:
+
+- Para cada entidade, haverá um objeto responsável por fazer acesso a dados relacionado a esta entidade. Por exemplo:
+  - Cliente: ClienteDao
+  - Produto: ProdutoDao
+  - Pedido: PedidoDao
+- Cada DAO será definido por uma interface, pois a tecnologia específica de acesso a dados pode mudar (de SQL para Oracle, de JDBC para ORM) - flexibilidade
+- A injeção de dependência pode ser feita por meio do padrão de projeto **Factory** (responsável por instanciar as implementações do DAO)
+
+![I]
+
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
 [1]: https://docs.oracle.com/javase/8/docs/technotes/guides/jdbc/
@@ -634,3 +651,4 @@ public class Program {
 [F]: ../../Images/juncao.png
 [G]: ../../Images/restricao.png
 [H]: ../../Images/projecao.png
+[I]: ../../Images/dao.png
