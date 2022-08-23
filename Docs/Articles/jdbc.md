@@ -637,6 +637,8 @@ Ideia geral do padrão DAO:
 
 ![I]
 
+
+
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
 [1]: https://docs.oracle.com/javase/8/docs/technotes/guides/jdbc/
