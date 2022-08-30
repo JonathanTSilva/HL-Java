@@ -15,6 +15,9 @@
 - [Interface gráfica com JavaFX](#interface-gráfica-com-javafx)
   - [1. Visão geral do JavaFx](#1-visão-geral-do-javafx)
   - [2. Preparando ambiente](#2-preparando-ambiente)
+  - [3. Criando novo projeto](#3-criando-novo-projeto)
+    - [3.1. Teste do FXML](#31-teste-do-fxml)
+  - [4. Tratando eventos com JavaFX](#4-tratando-eventos-com-javafx)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -41,7 +44,6 @@
 ## 2. Preparando ambiente
 
 ATENÇÃO: [Eclipse 4.9 ou superior][3]
-Checklist:
 
 - Baixar o [JavaFX SDK][4]
   - Salvar em uma pasta "fácil", de preferência com nome sem espaços
@@ -62,6 +64,112 @@ Checklist:
   - `Window -> Preferences -> Java -> Build Path -> User Libraries -> New`
   - Dê o nome de User Library
   - Add External Jars (aponte para a pasta bin do JavaFX)
+
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 3. Criando novo projeto
+
+- Criação do projeto:
+  - `File -> New -> Other -> JavaFX Project`
+  - Dê um nome ao projeto e clique Next
+  - Na aba Libraries, selecione Modulepath, clique Add Library, e selecione JavaFX
+  - Clique Finish
+  - Module Info: Don't Create
+- Configuração do build:
+  - Botão direito no projeto -> Run As -> Run Configurations -> Arguments -> VM Arguments
+  - Copiar o conteúdo abaixo, adaptando para sua pasta:
+  - `--module-path C:\java-libs\javafx-sdk\lib --add-modules=javafx.fxml,javafx.controls`
+
+**src > application > Main.java**
+
+```java
+package application;
+
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+
+
+public class Main extends Application {
+  @Override
+  public void start(Stage primaryStage) {
+    try {
+      BorderPane root = new BorderPane();
+      Scene scene = new Scene(root,400,400);
+      scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+      primaryStage.setScene(scene);
+      primaryStage.show();
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static void main(String[] args) {
+    launch(args);
+  }
+}
+```
+
+### 3.1. Teste do FXML
+
+- Criar um pacote **gui**
+- Criar um FXML no projeto: Botão direito no pacote `gui -> New -> Other -> New FXML Document`
+  - Nome: `View`
+- Abra o FXML no SceneBuilder: `Botão direito -> Open in SceneBuilder`
+- Observe as guias: **Library**, **Document** e **Inspector**
+  - `Inspector -> Layout`: defina largura e altura, depois salve
+  - `Library -> Control`: acrescente alguns controles (ex: TextField, Button)
+- De volta ao Eclipse, na classe Main, refazer o método start:
+
+**src > application > Main.java**
+
+```java
+package application;
+
+import java.io.IOException;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class Main extends Application {
+    
+    @Override
+    public void start(Stage stage) {
+        try {
+            Parent parent = FXMLLoader.load(getClass().getResource("/gui/View.fxml"));
+            Scene scene = new Scene(parent);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
+```
+
+>**Nota:** se estiver utilizando algum `module-info.java`, é necessário acrescentar a os requires corretos lá, como: `requires javafx.controls; requires javafx.fxml;`
+
+## 4. Tratando eventos com JavaFX
+
+- Crie uma classe controladora da sua view (ex: **ViewController.java**)
+- No controlador:
+  - Criar um atributo correspondente ao controle desejado e anotá-lo com @FXML
+  - Criar um método para tratar o evento desejado do controle e anotá-lo com @FXML
+- Na view (Scene Builder):
+  - Associar a view ao controller (aba **Controller**)
+  - Selecione o controle e associe a ele o id (aba **Code**)
+  - Selecione o controle e associe o método ao evento desejado (aba **Code**)
+
+>**Dica:** quando mudar algo no SceneBuilder, use `Project -> Clean` no Eclipse para forçar a atualização do projeto
 
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
