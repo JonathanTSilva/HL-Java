@@ -19,6 +19,7 @@
     - [3.1. Teste do FXML](#31-teste-do-fxml)
   - [4. Tratando eventos com JavaFX](#4-tratando-eventos-com-javafx)
   - [5. Mostrar alerta](#5-mostrar-alerta)
+  - [5. App básico para calcular soma](#5-app-básico-para-calcular-soma)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -196,6 +197,19 @@ public class Alerts {
     }
 }
 ```
+
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 5. App básico para calcular soma
+
+- Desenhar tela no SceneBuilder (usar um label para resultado)
+  - Propriedade "promptText"
+- Criar um controller e implementar código para mostrar a soma
+  - Tratar exceção NumberFormatException
+- De volta ao Scene Builder, fazer as associações de id e evento
+
+> **DICA:** quando mudar algo no SceneBuilder, use Project -> Clean no Eclipse para forçar a atualização do projeto
 
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
