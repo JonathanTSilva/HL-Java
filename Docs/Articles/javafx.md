@@ -20,6 +20,7 @@
   - [4. Tratando eventos com JavaFX](#4-tratando-eventos-com-javafx)
   - [5. Mostrar alerta](#5-mostrar-alerta)
   - [5. App básico para calcular soma](#5-app-básico-para-calcular-soma)
+    - [5.1. Limitações para TextField e Initializable](#51-limitações-para-textfield-e-initializable)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -210,6 +211,57 @@ public class Alerts {
 - De volta ao Scene Builder, fazer as associações de id e evento
 
 > **DICA:** quando mudar algo no SceneBuilder, use Project -> Clean no Eclipse para forçar a atualização do projeto
+
+### 5.1. Limitações para TextField e Initializable
+
+- Criar classe utilitária Constraints
+- Fazer o controlador implementar a interface Initializable
+
+**src > gui.util > Constraints.java**
+
+```java
+package gui.util;
+
+import javafx.scene.control.TextField;
+
+public class Constraints {
+    public static void setTextFieldInteger(TextField txt) {
+        txt.textProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null && !newValue.matches("\\d*")) {
+                txt.setText(oldValue);
+            }
+        });
+    }
+
+    public static void setTextFieldMaxLength(TextField txt, int max) {
+        txt.textProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null && newValue.length() > max) {
+                txt.setText(oldValue);
+            }
+        });
+    }
+
+    public static void setTextFieldDouble(TextField txt) {
+        txt.textProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null && !newValue.matches("\\d*([\\.]\\d*)?")) {
+                txt.setText(oldValue);
+            }
+        });
+    }
+}
+```
+
+**src > gui > ViewController.java**
+
+```java
+@Override
+public void initialize(URL url, ResourceBundle rb) {
+    Constraints.setTextFieldDouble(txtNumber1);
+    Constraints.setTextFieldDouble(txtNumber2);
+    Constraints.setTextFieldMaxLength(txtNumber1, 12);
+    Constraints.setTextFieldMaxLength(txtNumber2, 12);
+}
+```
 
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->

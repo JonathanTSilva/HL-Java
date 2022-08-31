@@ -1,15 +1,19 @@
 package gui;
 
+import java.net.URL;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import gui.util.Alerts;
+import gui.util.Constraints;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class ViewController {
+public class ViewController implements Initializable {
 
     @FXML private TextField txtNumber1;
     @FXML private TextField txtNumber2;
@@ -28,6 +32,15 @@ public class ViewController {
             Alerts.showAlert("Error", "Parse error", e.getMessage(), AlertType.ERROR);
         }
         
+    }
+
+    // Deixa digitar somente números, com o número máximo de digitos = 12,
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        Constraints.setTextFieldDouble(txtNumber1);
+        Constraints.setTextFieldDouble(txtNumber2);
+        Constraints.setTextFieldMaxLength(txtNumber1, 12);
+        Constraints.setTextFieldMaxLength(txtNumber2, 12);
     }
     
 }
