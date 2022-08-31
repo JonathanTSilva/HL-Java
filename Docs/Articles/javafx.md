@@ -18,6 +18,7 @@
   - [3. Criando novo projeto](#3-criando-novo-projeto)
     - [3.1. Teste do FXML](#31-teste-do-fxml)
   - [4. Tratando eventos com JavaFX](#4-tratando-eventos-com-javafx)
+  - [5. Mostrar alerta](#5-mostrar-alerta)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -158,6 +159,9 @@ public class Main extends Application {
 
 >**Nota:** se estiver utilizando algum `module-info.java`, é necessário acrescentar a os requires corretos lá, como: `requires javafx.controls; requires javafx.fxml;`
 
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
 ## 4. Tratando eventos com JavaFX
 
 - Crie uma classe controladora da sua view (ex: **ViewController.java**)
@@ -170,6 +174,28 @@ public class Main extends Application {
   - Selecione o controle e associe o método ao evento desejado (aba **Code**)
 
 >**Dica:** quando mudar algo no SceneBuilder, use `Project -> Clean` no Eclipse para forçar a atualização do projeto
+
+<!-- VOLTAR AO INÍCIO -->
+<a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
+
+## 5. Mostrar alerta
+
+```java
+package gui.util;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
+public class Alerts {
+    public static void showAlert(String title, String header, String content, AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.show();
+    }
+}
+```
 
 <!-- MARKDOWN LINKS -->
 <!-- SITES -->
