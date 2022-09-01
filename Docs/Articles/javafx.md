@@ -21,6 +21,7 @@
   - [5. Mostrar alerta](#5-mostrar-alerta)
   - [5. App básico para calcular soma](#5-app-básico-para-calcular-soma)
     - [5.1. Limitações para TextField e Initializable](#51-limitações-para-textfield-e-initializable)
+    - [5.2. ComboBox](#52-combobox)
 
 <!-- VOLTAR AO INÍCIO -->
 <a href="#"><img width="40px" src="https://github.com/JonathanTSilva/JonathanTSilva/blob/main/Images/back-to-top.png" align="right" /></a>
@@ -261,6 +262,32 @@ public void initialize(URL url, ResourceBundle rb) {
     Constraints.setTextFieldMaxLength(txtNumber1, 12);
     Constraints.setTextFieldMaxLength(txtNumber2, 12);
 }
+```
+
+### 5.2. ComboBox
+
+- Propriedade Prompt Text
+- Usar tipo genérico, por exemplo: ComboBox<Person>
+- ObservableList<Person>, ObservableSet<Person>, ObservableMap<Person>
+  - Para criar um ObservableList: FXCollections.observableList(list)
+- ComboBox.setItems(observableList)
+
+> **Nota:** o combo box, por padrão, mostra o toString do objeto
+
+- Para obter o elemento selecionado: comboBox.getSelectionModel().getSelectedItem()
+- Para acessar a coleção: comboBox.getItems()
+- Para definir o que mostrar na comboBox:
+
+```java
+Callback<ListView<Person>, ListCell<Person>> factory = lv -> new ListCell<Person>() {
+    @Override
+    protected void updateItem(Person item, boolean empty) {
+        super.updateItem(item, empty);
+        setText(empty ? "" : item.getName());
+    }
+};
+comboBoxPerson.setCellFactory(factory);
+comboBoxPerson.setButtonCell(factory.call(null));
 ```
 
 <!-- MARKDOWN LINKS -->
