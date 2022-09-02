@@ -92,7 +92,7 @@
   - Reconhecimento facial
 - **Ferramentas e Frameworks**
   - [Acesso ao banco de dados com JDBC][12]
-  - [JavaFX][]
+  - [JavaFX][13]
   - [Spring Boot][]
   - [JPA / Hibernate][]
   - [Maven][]
@@ -143,6 +143,7 @@ Distribuída por **MIT License**. Veja [LICENSE][B] para mais informações.
 [10]: Docs/Articles/progFuncional.md
 [11]: https://github.com/JonathanTSilva/HL-Java/tree/f9bb06dbc6af45eefbc160d218b81f77cbf383a5
 [12]: Docs/Articles/jdbc.md
+[13]: Docs/Articles/javafx.md
 
 <!-- IMAGENS -->
 [java_roadmap]: Images/java_roadmap.jpeg
