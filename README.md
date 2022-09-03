@@ -93,16 +93,16 @@
 - **Ferramentas e Frameworks**
   - [Acesso ao banco de dados com JDBC][12]
   - [JavaFX][13]
-  - [Spring Boot][]
+  <!-- - [Spring Boot][]
   - [JPA / Hibernate][]
   - [Maven][]
   - [Spring Data JPA][]
-  - [Spring Data MongoDB][]
+  - [Spring Data MongoDB][] -->
 - **Projetos**
   - [Sistema de jogo de xadrez][11]
-  - [Aplicação desktop com JavaFX e banco de dados MySQL com JDBC][]
+  <!-- - [Aplicação desktop com JavaFX e banco de dados MySQL com JDBC][]
   - [Web services com Spring Boot e JPA/Hibernate][]
-  - [Web services com Spring Boot e NoSQL (MongoDB)][]
+  - [Web services com Spring Boot e NoSQL (MongoDB)][] -->
 
 ## 📚 Bibliografia
 
