@@ -1,20 +1,26 @@
 package com.smar.webapp.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Table(name="\"user\"")
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-public class User implements Serializable { 
-	// Objetos possam ser tranformados em cadeias de bytes para trafegar na rede, gravado em arquivos... 
+@Table(name = "tb_user")
+public class User implements Serializable {
+	// Objetos possam ser tranformados em cadeias de bytes para trafegar na rede,
+	// gravado em arquivos...
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -22,10 +28,16 @@ public class User implements Serializable {
 	private String email;
 	private String phone;
 	private String password;
-	
-	public User() {}
 
-	public User(Long id, String name, String email,String phone, String password) {
+	// Associação: 1 User - Muitos Pedidos
+	@JsonIgnore
+	@OneToMany(mappedBy = "client")
+	private List<Order> orders = new ArrayList<>();
+
+	public User() {
+	}
+
+	public User(Long id, String name, String email, String phone, String password) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -49,7 +61,7 @@ public class User implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
@@ -72,6 +84,10 @@ public class User implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
 	}
 
 	@Override
