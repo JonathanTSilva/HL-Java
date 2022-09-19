@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.smar.webapp.entities.Category;
 import com.smar.webapp.entities.Order;
 import com.smar.webapp.entities.OrderItem;
+import com.smar.webapp.entities.Payment;
 import com.smar.webapp.entities.Product;
 import com.smar.webapp.entities.User;
 import com.smar.webapp.entities.enums.OrderStatus;
@@ -77,6 +78,10 @@ public class TestConfig implements CommandLineRunner {
 		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+		
+		Payment pay1 = new Payment(null, Instant.parse("2022-06-20T21:53:07Z"), o1);
+		o1.setPayment(pay1);
+		orderRepository.save(o1);
 	}
 	
 }
