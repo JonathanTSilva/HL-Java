@@ -108,6 +108,8 @@
 
 ALVES, N. **Java COMPLETO - Programação Orientada a Objetos + Projetos**. Curso da Udemy. Disponível em: https://www.udemy.com/course/java-curso-completo/. Acesso em: 20 fevereiro 2022.
 
+DEITEL, Paul J. **Java: how to program**. Pearson Education India, 2002.
+
 ## 🤝 Contribuindo
 
 Se você quer contribuir com este projeto e aprimorá-lo, sua ajuda é sempre bem vinda! Por favor, leia as [diretrizes de contribuição][A] para contribuir corretamente. :tada:
