@@ -87,9 +87,10 @@
   - [Trabalhando com arquivos][8]
   - [Generics, Set e Map][9]
   - [Programação Funcional][10]
-<!-- - **Avançado**
-  - Redes Neurais Artificiais
-  - Reconhecimento facial -->
+  - [Multiplataforma]
+- **Avançado**
+  - [Redes Neurais Artificiais]
+  - [Reconhecimento facial]
 - **Ferramentas e Frameworks**
   - [Acesso ao banco de dados com JDBC][12]
   - [JavaFX][13]
